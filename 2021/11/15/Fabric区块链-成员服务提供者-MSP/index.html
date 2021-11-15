@@ -20,18 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="为什么需要MSP?  Fabric是一个认证性的网络, 所以区块链参与者需要一种向网络中的其他参与者证实自己身份的机制从而在网络中进行交易。    证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。  Identities类">
+  <meta name="description" content="为什么需要MSP?  Fabric是一个认证性的网络, 所以区块链参与者需要一种向网络中的其他参与者证实自己身份的机制从而在网络中进行交易。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fabric区块链--成员服务提供者(MSP)">
 <meta property="og:url" content="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/index.html">
 <meta property="og:site_name" content="PeterZ">
-<meta property="og:description" content="为什么需要MSP?  Fabric是一个认证性的网络, 所以区块链参与者需要一种向网络中的其他参与者证实自己身份的机制从而在网络中进行交易。    证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。  Identities类">
+<meta property="og:description" content="为什么需要MSP?  Fabric是一个认证性的网络, 所以区块链参与者需要一种向网络中的其他参与者证实自己身份的机制从而在网络中进行交易。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.diagram.6.png">
 <meta property="article:published_time" content="2021-11-15T11:04:52.000Z">
-<meta property="article:modified_time" content="2021-11-15T11:07:01.065Z">
+<meta property="article:modified_time" content="2021-11-15T12:28:09.925Z">
 <meta property="article:author" content="PeterZ">
+<meta property="article:tag" content="Hyperledger Fabric区块链">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png">
 
@@ -199,7 +200,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-15 19:04:52 / 修改时间：19:07:01" itemprop="dateCreated datePublished" datetime="2021-11-15T19:04:52+08:00">2021-11-15</time>
+              <time title="创建时间：2021-11-15 19:04:52 / 修改时间：20:28:09" itemprop="dateCreated datePublished" datetime="2021-11-15T19:04:52+08:00">2021-11-15</time>
             </span>
 
           
@@ -214,15 +215,17 @@
 
       
         <h2 id="为什么需要MSP"><a href="#为什么需要MSP" class="headerlink" title="为什么需要MSP?"></a>为什么需要MSP?</h2><ul>
-<li> Fabric是一个<strong>认证性</strong>的网络, 所以区块链参与者需要一种<strong>向网络中的其他参与者证实自己身份的机制</strong>从而在网络中进行交易。</li>
-</ul>
-<ul>
-<li> 证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。</li>
+<li><p> Fabric是一个<strong>认证性</strong>的网络, 所以区块链参与者需要一种<strong>向网络中的其他参与者证实自己身份的机制</strong>从而在网络中进行交易。</p>
+<span id="more"></span></li>
+<li><p> 证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。</p>
+</li>
 </ul>
 <p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png"><br><em>Identities类似于你的信用卡，用来证明你可以支付。MSP类似于被商店接受的信用卡清单。</em></p>
 <ul>
-<li>此时你想要加入一个现有的网络，你需要一种方法——MSP来将你的身份转换为可以被网络识别的东西</li>
-<li>要想加入区块链网络，在Fabric网络上交易，需要：<ol>
+<li><p>此时你想要加入一个现有的网络，你需要一种方法——MSP来将你的身份转换为可以被网络识别的东西</p>
+</li>
+<li><p>要想加入区块链网络，在Fabric网络上交易，需要：</p>
+<ol>
 <li>拥有一个由网络信任的CA颁发的<strong>身份</strong></li>
 <li>成为一个被认可的成员（成员资格是通过将该成员的公钥添加到组织的MSP来实现的）</li>
 <li>将MSP添加到网络上的一个<strong>联盟</strong>或者通道</li>
@@ -266,7 +269,31 @@
     
     
 
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>PeterZ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/" title="Fabric区块链--成员服务提供者(MSP)">http://example.com/2021/11/15/Fabric区块链-成员服务提供者-MSP/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hyperledger-Fabric%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag"># Hyperledger Fabric区块链</a>
+          </div>
 
         
 
@@ -274,8 +301,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/" rel="prev" title="Fabric区块链-身份">
-      <i class="fa fa-chevron-left"></i> Fabric区块链-身份
+    <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/" rel="prev" title="Fabric区块链--身份">
+      <i class="fa fa-chevron-left"></i> Fabric区块链--身份
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -356,8 +383,17 @@
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
   </nav>
 </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
