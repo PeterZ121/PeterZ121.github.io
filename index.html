@@ -167,6 +167,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="PeterZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeterZ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Fabric区块链关键概念总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-15 16:27:50 / 修改时间：16:28:37" itemprop="dateCreated datePublished" datetime="2021-11-15T16:27:50+08:00">2021-11-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-简记"><a href="#1-简记" class="headerlink" title="1. 简记"></a>1. 简记</h2><p>第一个广为人知的区块链应用是<em>比特币</em>，<em>以太坊</em>是另一种加密货币，采用不同的办法，新增了<em>智能合约</em>为分布式应用创建了一个平台。比特不和以太坊属于同一类区块链：<strong>公共非许可区块链技术</strong>，允许任何人在上面<strong>匿名互动</strong></p>
+<br>
+
+
+<br>
+
+<h2 id="2-Hyperledger-Fabric"><a href="#2-Hyperledger-Fabric" class="headerlink" title="2. Hyperledger Fabric"></a>2. Hyperledger Fabric</h2><p>Hyperledger Fabric是开源的企业级许可分布式账本技术平台</p>
+<ol>
+<li>具有<strong>模块化</strong>和<strong>可配置</strong>的架构</li>
+<li>第一个支持<strong>通用编程语言编写智能合约</strong>（如Java Go Node.js)</li>
+<li>Fabric平台参与者彼此了解而非匿名（与<strong>公共非许可网络</strong>的不同）</li>
+<li>支持<strong>可插拔的共识协议</strong>，使平台能够更有效地进行定制<br></li>
+</ol>
+<br>
+
+<h2 id="3-为什么说Fabric是模块化架构"><a href="#3-为什么说Fabric是模块化架构" class="headerlink" title="3. 为什么说Fabric是模块化架构"></a>3. 为什么说Fabric是模块化架构</h2><p>Fabric由以下模块化的组件组成：</p>
+<ul>
+<li>可插拔的<em>排序服务</em>——对交易顺序建立共识，然后向节点广播区块；</li>
+<li>可插拔的<em>成员服务提供者</em>——将网络中的实体与加密身份相关联</li>
+<li>可选的<em>P2P gossip 服务</em>——将区块发送到其他结点（通过排序服务实现）</li>
+<li><em>智能合约</em>（链码）——隔离运行在容器环境中（例如在Docker中）</li>
+<li><em>账本</em>——可以通过配置支持多种DBMS</li>
+<li>可插拔的<em>背书</em>和<em>验证策略</em>——每个应用程序可以独立配置。</li>
+</ul>
+<p>没有“可以一统天下的链（one blockchain to rule them all）”。Hyperledger Fabric 可以通过多种方式进行配置，以满足不同行业应用的需求。<br><br><br><br></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/21/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -301,7 +384,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
