@@ -167,6 +167,347 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="PeterZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeterZ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/" class="post-title-link" itemprop="url">Fabric区块链--成员服务提供者(MSP)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-15 19:04:52 / 修改时间：19:07:01" itemprop="dateCreated datePublished" datetime="2021-11-15T19:04:52+08:00">2021-11-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="为什么需要MSP"><a href="#为什么需要MSP" class="headerlink" title="为什么需要MSP?"></a>为什么需要MSP?</h2><ul>
+<li> Fabric是一个<strong>认证性</strong>的网络, 所以区块链参与者需要一种<strong>向网络中的其他参与者证实自己身份的机制</strong>从而在网络中进行交易。</li>
+</ul>
+<ul>
+<li> 证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。</li>
+</ul>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png"><br><em>Identities类似于你的信用卡，用来证明你可以支付。MSP类似于被商店接受的信用卡清单。</em></p>
+<ul>
+<li>此时你想要加入一个现有的网络，你需要一种方法——MSP来将你的身份转换为可以被网络识别的东西</li>
+<li>要想加入区块链网络，在Fabric网络上交易，需要：<ol>
+<li>拥有一个由网络信任的CA颁发的<strong>身份</strong></li>
+<li>成为一个被认可的成员（成员资格是通过将该成员的公钥添加到组织的MSP来实现的）</li>
+<li>将MSP添加到网络上的一个<strong>联盟</strong>或者通道</li>
+<li>确保MSP包括在网络中的策略定义</li>
+</ol>
+</li>
+</ul>
+<br>
+
+<h2 id="MSP的功能"><a href="#MSP的功能" class="headerlink" title="MSP的功能"></a>MSP的功能</h2><ul>
+<li>MSP通过<strong>列出其成员的身份</strong>，或通过确定哪些是为其成员授权颁发有效身份的ca，来识别和确定接受来自这些根ca和中间ca所定义的<strong>信任域的成员</strong>。</li>
+</ul>
+<ul>
+<li>MSP通过<strong>标识</strong>参与者在节点或通道上拥有的<strong>特定特权</strong>，将身份转换为<strong>角色</strong></li>
+<li>MSP可以识别<strong>被撤销</strong>的身份列表。</li>
+</ul>
+<br>
+
+<h2 id="MSP域"><a href="#MSP域" class="headerlink" title="MSP域"></a>MSP域</h2><h3 id="分为"><a href="#分为" class="headerlink" title="分为"></a>分为</h3><ul>
+<li>本地MSP：在参与者节点本地</li>
+<li>通道MSP：在通道配置中</li>
+</ul>
+<p>共同点：都是将身份转化为角色<br>区别：它们的范围<br><br></p>
+<h2 id="组织与MSP"><a href="#组织与MSP" class="headerlink" title="组织与MSP"></a><strong>组织</strong>与MSP</h2><ul>
+<li>是一个逻辑上成员们的管理组</li>
+</ul>
+<ul>
+<li>在单个MSP下管理其成员</li>
+</ul>
+<ul>
+<li>一个组织可以被划分为多个**组织单元(ou)**。如果不使用偶，MSP中的所有身份（由根CA和中间CA文件夹认定的)都将被视为组织的成员。</li>
+</ul>
+<br>
+
+
+<h2 id="MSP结构"><a href="#MSP结构" class="headerlink" title="MSP结构"></a><strong>MSP结构</strong></h2><p>本地MSP文件夹包含以下子文件夹:<img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.diagram.6.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="PeterZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeterZ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/" class="post-title-link" itemprop="url">Fabric区块链-身份</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-15 18:55:06 / 修改时间：19:01:57" itemprop="dateCreated datePublished" datetime="2021-11-15T18:55:06+08:00">2021-11-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="重点掌握什么是PKI"><a href="#重点掌握什么是PKI" class="headerlink" title="重点掌握什么是PKI"></a>重点掌握什么是PKI</h2><h2 id="什么是身份？"><a href="#什么是身份？" class="headerlink" title="什么是身份？"></a>什么是身份？</h2><ul>
+<li>区块链网络中的不同参与者都具有封装在 <strong>X.509数字证书</strong> 中的 <strong>数字身份</strong> 。它们确定了 <strong>对资源的确切权限</strong> 以及对参与者在区块链网络中拥有的信息的<strong>访问权限</strong> </li>
+</ul>
+<ul>
+<li><strong>主体——决定身份权限的属性</strong> 包含了参与者的身份的各种属性，如参与者的组织、组织单位，角色甚至是参与者的特定身份。</li>
+</ul>
+<ul>
+<li><strong>身份验证</strong></li>
+</ul>
+<br>
+
+<h2 id="什么是PKI？"><a href="#什么是PKI？" class="headerlink" title="什么是PKI？"></a>什么是PKI？</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.7.png" alt="pki"></p>
+<ul>
+<li><em><strong>公钥基础结构</strong></em>（PKI）是一组互联网技术，可在网络中提供安全通信。如：PKI使HTTP变成HTTPS.</li>
+</ul>
+<ul>
+<li>区块链网络依赖于PKI标准<strong>来确保各个网路参与者之间的安全通信，并确保在区块链上发布的信息得到适当的认证</strong></li>
+<li>四个关键要素<ol>
+<li>数字证书</li>
+<li>公钥和私钥</li>
+<li>证书授权中心</li>
+<li>证书撤销列表</li>
+</ol>
+</li>
+</ul>
+<br>
+
+<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.8.png" alt="数字证书"> </p>
+<ul>
+<li>如一个人的身份证（提供了本人信息），其公钥是在证书中分发的，签名密钥则保密。</li>
+</ul>
+<ul>
+<li>若被篡改则会使证书无效</li>
+</ul>
+<br>
+
+<h2 id="授权，公钥和私钥"><a href="#授权，公钥和私钥" class="headerlink" title="授权，公钥和私钥"></a>授权，公钥和私钥</h2><ul>
+<li>密钥之间唯一的数学关系使得私钥在消息上的签名，只有对应公钥在<strong>相同的消息</strong>上才可以与之匹配。</li>
+</ul>
+<ul>
+<li>签名及验证流程如下</li>
+</ul>
+<p>  <img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.9.png" alt="验证"></p>
+<br>
+
+<h2 id="证书授权中心-CA"><a href="#证书授权中心-CA" class="headerlink" title="证书授权中心(CA)"></a>证书授权中心(CA)</h2><ul>
+<li>人员或节点能够通过由系统信任的机构为其发布的<strong>数字身份</strong>参与区块链网络。</li>
+</ul>
+<ul>
+<li>最常见的身份形式：符合X.509标准 并 由CA颁发的经加密验证的数字证书<h3 id="根CA-中间CA和信任链"><a href="#根CA-中间CA和信任链" class="headerlink" title="根CA,中间CA和信任链"></a>根CA,中间CA和信任链</h3><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.1.png"><h3 id="Fabric-CA"><a href="#Fabric-CA" class="headerlink" title="Fabric CA"></a>Fabric CA</h3></li>
+<li>Fabric提供了一个内置的CA组件——<strong>Fabric CA</strong>，允许在自己的区块链网络中创建CA</li>
+</ul>
+<h3 id="证书撤销列表（CRL）"><a href="#证书撤销列表（CRL）" class="headerlink" title="证书撤销列表（CRL）"></a>证书撤销列表（CRL）</h3><ul>
+<li>是 CA 知道由于某些原因而被撤销的证书的引用列表。抽象为：商店场景中的被盗信用卡列表</li>
+</ul>
+<ul>
+<li>用CPL检查证书是否有效：如果模仿者试图将无效的数字证书传递给验证者，则可以首先检查颁发证书的 CA 的 CRL，以确保其未被列为无效。</li>
+</ul>
+<p>  <img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.12.png" alt="验证是否有效"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="PeterZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeterZ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/" class="post-title-link" itemprop="url">区块链网络</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-15 17:11:55 / 修改时间：18:48:46" itemprop="dateCreated datePublished" datetime="2021-11-15T17:11:55+08:00">2021-11-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>接下来会在<strong>概念</strong>层面上描述 Hyperledger Fabric 是如何让组织间以区块链网络的形式进行合作的。<br><br></p>
+<h2 id="什么是区块链网络"><a href="#什么是区块链网络" class="headerlink" title="什么是区块链网络"></a>什么是区块链网络</h2><p>区块链网络是一个为应用程序提供账本和智能合约服务的技术基础设施。<br>首先，智能合约被用来生成交易，接下来这些交易会被分发给<strong>网络中的每个节点</strong>，这些交易会被记录在他们的账本副本上且<strong>不可篡改</strong>。<br>一般多个组织聚集在一起作为一个联盟来形成一个网络。<br><br></p>
+<h2 id="示例网络"><a href="#示例网络" class="headerlink" title="示例网络"></a>示例网络</h2><p>这是示例网络的最终状态<br><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.1.png" alt="示例网络"><br><br></p>
+<h2 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h2><p>让我们从头开始创建网络的基础吧！<br><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.png"><br>图中有四个元素：</p>
+<ul>
+<li>排序服务O4</li>
+<li>网络配置NC4</li>
+<li>组织R4</li>
+<li>证书颁发机构CA4</li>
+</ul>
+<p>当一个<strong>排序服务</strong>启动后就形成了如图的网络N。其中排序服务o4由一个单独的节点组成，是根据一个网络配置NC4来进行配置的。证书颁发机构CA4被用来向管理员和组织R4的网络节点分配<strong>身份信息</strong>（具体后面会讲到）</p>
+<p>可以看到定义网络N的时候，<strong>第一件事就是定义一个排序服务</strong>。O4 最初被配置并且由组织 R4 的一个管理员来启动，并且由 R4 管理，配置 NC4 包含了描述网络管理能力初始集合的规则。最初在网络中集合仅赋予了 R4 这个权利。<br>目前 R4 是这个网络中唯一的一个成员<br><br></p>
+<h2 id="添加网络管理员"><a href="#添加网络管理员" class="headerlink" title="添加网络管理员"></a>添加网络管理员</h2><p>目前 NC4 最初被配置为仅仅允许 R4 用户在网络中具有管理的权限,接下来，允许R1用户也具有管理的权限。<img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.1.png"></p>
+<p>新增元素： 组织R1即它的证书颁发机构CA1</p>
+<p> <strong>组织 R4 更新了网络配置</strong>来使组织 R1 也成为了管理员。现在 R1 和 R4 在网络配置中便具有了相同的权限。<br> 证书颁发机构 CA1 也被添加进来了，他用来<strong>标识 R1 组织的用户</strong>。现在从 R1 和 R4 来的用户就已经是网络的管理员了。<br><br></p>
+<h2 id="定义联盟"><a href="#定义联盟" class="headerlink" title="定义联盟"></a>定义联盟</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.3.png"></p>
+<p>新增元素：联盟X1即其中的联盟成员——组织R1,R2、对应CA</p>
+<ul>
+<li>网络管理员定义了一个包含两个成员的联盟 <strong>X1</strong>，包含组织R1 和 R2 ,CA1 和 CA2 是这两个组织对应的证书颁发机构。</li>
+<li>这个联盟的定义被存储在了<strong>网络配置 NC4</strong> 中，会在接下来的网络开发中被使用。<br>为什么联盟这么重要？我们能够看到联盟定义了网络中的一部分组织，他们共享了彼此能够交易的需求，在这个示例中就是 R1 和 R2 <strong>能够进行交易</strong>。</li>
+</ul>
+<br>
+
+<h2 id="为联盟创建通道"><a href="#为联盟创建通道" class="headerlink" title="为联盟创建通道"></a>为联盟创建通道</h2><p>通道——联盟中的成员<strong>彼此进行通信的主要机制</strong>。在一个网络中可能会有多个通道。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.4.png"></p>
+<p>新增元素：通道C1，通道配置CC1</p>
+<p>第一个通道是如何被添加到这个网络中的呢？</p>
+<ul>
+<li><strong>通道C1</strong>——联盟X1为R1和R2创建</li>
+<li><strong>通道配置CC1</strong>——控制管理通道C1，且完全独立于网络配置</li>
+<li>CC1 是由 R1 和 R2 管理的，他们在 C1 上具有同等的权利。<strong>R4 在 CC1 中是没有任何权利的。</strong>因为他不是联盟成员</li>
+<li>该通道仅能处理在 R1 和 R2 之间进行的交易</li>
+<li>一个通道可以包含任意数量的组织，目前只包含了两个组织R1,R2</li>
+</ul>
+<h3 id="通道的重要性"><a href="#通道的重要性" class="headerlink" title="通道的重要性"></a>通道的重要性</h3><ul>
+<li>提供了一个<strong>联盟成员之间</strong>进行私有通信和私有数据的机制。实现了Fabric允许组织间共享基础设施的同时又保持了私有性。好比QQ应用（区块链网络）中的一个群聊（联盟），不同群聊间信息隐蔽不可见。</li>
+<li>通道实现了“从网络中解放出来”——网络配置 NC4 的任何改动都不会对通道配置 CC1 造成任何直接的影响，只有<strong>通道配置中指定的组织</strong>(QQ群聊认定的管理员)才能控制它</li>
+</ul>
+<br>
+
+<h2 id="节点和账本"><a href="#节点和账本" class="headerlink" title="节点和账本"></a>节点和账本</h2><p>接下来使用通道将区块链网络以及组织的组件关联到一起</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.5.png"></p>
+<p>新增元素：节点P1，账本L1</p>
+<ul>
+<li>Peer节点P1加入了通道C1。</li>
+<li>P1存储账本L1的副本</li>
+<li>P1和O4使用通道C1进行通信</li>
+</ul>
+<p>可以发现P1与CA1同为紫色，表明是CA1为P1颁发的身份信息，他将P1和组织R1关联起来。P1启动后，它就向排序服务O4发出请求<strong>加入通道C1</strong>。O4收到加入请求，就会使用通道配置CC1来<strong>决定P1在这个通道的权限</strong>，比如：CC1 决定 P1 是否能够向账本 L1 中读取或写入信息。<br><br></p>
+<h2 id="应用程序和智能合约链码"><a href="#应用程序和智能合约链码" class="headerlink" title="应用程序和智能合约链码"></a>应用程序和智能合约链码</h2><p>现在通道C1拥有了一个账本，我们可以<strong>连接客户端应用</strong>来使用由 Peer 节点提供的服务了。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.6.png"></p>
+<p>新增元素：智能合约S5，客户端应用A1</p>
+<ul>
+<li><strong>智能合约S5</strong>被安装在P1</li>
+<li>在组织R1中的客户端应用A1可以通过P1使用S5来<strong>访问账本</strong></li>
+<li>A1、P1、O4都加入了通道C1，<strong>他们都可以使用这个通道提供的通信设备</strong></li>
+<li>尽管客户端应用处在Fabric区块链网络的外边，但它是可以<strong>通过通道C1跟网络相连的</strong></li>
+</ul>
+<p>就像Peer节点和排序节点一样，客户端应用也会有一个是它和组织相关联的<strong>身份信息</strong></p>
+<h3 id="安装链码包"><a href="#安装链码包" class="headerlink" title="安装链码包"></a>安装链码包</h3><pre><code>智能合约会被打包进一个链码中，这个链码会被部署到一个区块链网络中。可以把智能合约想象为管理交易，链码则管理着智能合约应该如何被打包部署。
+</code></pre>
+<p>在智能合约S5被开发完后，组织 R1 中的管理员必须要把它安装到节点 P1 上，当完成之后，P1 就完全了解了 S5。<br>当一个组织在一个通道中有多个 Peer 节点时，可以选择在哪个节点安装智能合约，而不需要每个 Peer 节点上都安装。</p>
+<h3 id="定义链码"><a href="#定义链码" class="headerlink" title="定义链码"></a>定义链码</h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -192,7 +533,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-15 16:27:50 / 修改时间：16:31:21" itemprop="dateCreated datePublished" datetime="2021-11-15T16:27:50+08:00">2021-11-15</time>
+              <time title="创建时间：2021-11-15 16:27:50 / 修改时间：17:07:03" itemprop="dateCreated datePublished" datetime="2021-11-15T16:27:50+08:00">2021-11-15</time>
             </span>
 
           
@@ -209,7 +550,7 @@
           <h2 id="1-简记"><a href="#1-简记" class="headerlink" title="1. 简记"></a>1. 简记</h2><p>第一个广为人知的区块链应用是<em>比特币</em>，<em>以太坊</em>是另一种加密货币，采用不同的办法，新增了<em>智能合约</em>为分布式应用创建了一个平台。比特不和以太坊属于同一类区块链：<strong>公共非许可区块链技术</strong>，允许任何人在上面<strong>匿名互动</strong></p>
 <br>
 
-<h2 id="2-Hyperledger-Fabric"><a href="#2-Hyperledger-Fabric" class="headerlink" title="2. Hyperledger Fabric"></a>2. Hyperledger Fabric</h2><p>Hyperledger Fabric是开源的企业级许可分布式账本技术平台</p>
+<h2 id="2-Hyperledger-Fabric"><a href="#2-Hyperledger-Fabric" class="headerlink" title="2. Hyperledger Fabric"></a>2. Hyperledger Fabric</h2><p>Hyperledger(超级账本) Fabric是开源的企业级许可分布式账本技术平台</p>
 <ol>
 <li>具有<strong>模块化</strong>和<strong>可配置</strong>的架构</li>
 <li>第一个支持<strong>通用编程语言编写智能合约</strong>（如Java Go Node.js)</li>
@@ -220,14 +561,22 @@
 
 <h2 id="3-为什么说Fabric是模块化架构"><a href="#3-为什么说Fabric是模块化架构" class="headerlink" title="3. 为什么说Fabric是模块化架构"></a>3. 为什么说Fabric是模块化架构</h2><p>Fabric由以下模块化的组件组成：</p>
 <ul>
-<li>可插拔的<em>排序服务</em>——对交易顺序建立共识，然后向节点广播区块；</li>
-<li>可插拔的<em>成员服务提供者</em>——将网络中的实体与加密身份相关联</li>
-<li>可选的<em>P2P gossip 服务</em>——将区块发送到其他结点（通过排序服务实现）</li>
-<li><em>智能合约</em>（链码）——隔离运行在容器环境中（例如在Docker中）</li>
-<li><em>账本</em>——可以通过配置支持多种DBMS</li>
-<li>可插拔的<em>背书</em>和<em>验证策略</em>——每个应用程序可以独立配置。</li>
+<li>可插拔的<strong>排序服务</strong>——对交易顺序建立共识，然后向节点广播区块；</li>
+<li>可插拔的**成员服务提供者(MSP)**——将网络中的实体与加密身份相关联</li>
+<li>可选的<strong>P2P gossip 服务</strong>——将区块发送到其他结点（通过排序服务实现）</li>
+<li><strong>智能合约</strong>（链码）——隔离运行在容器环境中（例如在Docker中）</li>
+<li><strong>账本</strong>——可以通过配置支持多种DBMS</li>
+<li>可插拔的<strong>背书</strong>和<strong>验证策略</strong>——每个应用程序可以独立配置。</li>
 </ul>
 <p>没有“可以一统天下的链（one blockchain to rule them all）”。Hyperledger Fabric 可以通过多种方式进行配置，以满足不同行业应用的需求。<br><br></p>
+<h2 id="4-学习Fabric前需要知道的概念"><a href="#4-学习Fabric前需要知道的概念" class="headerlink" title="4. 学习Fabric前需要知道的概念"></a>4. 学习Fabric前需要知道的概念</h2><ol>
+<li><h3 id="共享账本"><a href="#共享账本" class="headerlink" title="共享账本"></a>共享账本</h3><p>Hyperledger Fabric 有一个账本子系统，包括两个组件： <strong>世界状态</strong>和<strong>交易日志</strong>。<br><strong>世界状态</strong>组件是账本的数据库，<strong>交易日志</strong>组件记录产生世界状态中当前值的所有交易。账本包括世界状态数据库和交易日志历史记录。</p>
+</li>
+<li><h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><p>Hyperledger Fabric 智能合约用于实现一整套账本功能（交易、查询等），例如，可以编写智能合约以规定运输物品的成本，其中运费根据物品到达的速度而变化。<strong>根据双方同意</strong>并写入账本的条款，当收到物品时，相应的资金会自动转手。<br>智能合约用<strong>链码</strong>编写，链码支持Go、Nose.js、Java编写</p>
+</li>
+<li><h3 id="共识"><a href="#共识" class="headerlink" title="共识"></a>共识</h3><p>保持账本在整个网络中<strong>同步</strong>的过程称为 共识 。该过程确保账本仅在交易被相应参与者批准时更新，并且当账本更新时，它们以相同的顺序更新相同的交易。</p>
+</li>
+</ol>
 
       
     </div>
@@ -381,7 +730,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

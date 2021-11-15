@@ -20,19 +20,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="1. 简记第一个广为人知的区块链应用是比特币，以太坊是另一种加密货币，采用不同的办法，新增了智能合约为分布式应用创建了一个平台。比特不和以太坊属于同一类区块链：公共非许可区块链技术，允许任何人在上面匿名互动   2. Hyperledger FabricHyperledger(超级账本) Fabric是开源的企业级许可分布式账本技术平台  具有模块化和可配置的架构 第一个支持通用编程语言编写智能合">
+  <meta name="description" content="重点掌握什么是PKI什么是身份？ 区块链网络中的不同参与者都具有封装在 X.509数字证书 中的 数字身份 。它们确定了 对资源的确切权限 以及对参与者在区块链网络中拥有的信息的访问权限    主体——决定身份权限的属性 包含了参与者的身份的各种属性，如参与者的组织、组织单位，角色甚至是参与者的特定身份。   身份验证    什么是PKI？  公钥基础结构（PKI）是一组互联网技术，可在网络中提供">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fabric区块链关键概念总结">
-<meta property="og:url" content="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="Fabric区块链-身份">
+<meta property="og:url" content="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/index.html">
 <meta property="og:site_name" content="PeterZ">
-<meta property="og:description" content="1. 简记第一个广为人知的区块链应用是比特币，以太坊是另一种加密货币，采用不同的办法，新增了智能合约为分布式应用创建了一个平台。比特不和以太坊属于同一类区块链：公共非许可区块链技术，允许任何人在上面匿名互动   2. Hyperledger FabricHyperledger(超级账本) Fabric是开源的企业级许可分布式账本技术平台  具有模块化和可配置的架构 第一个支持通用编程语言编写智能合">
+<meta property="og:description" content="重点掌握什么是PKI什么是身份？ 区块链网络中的不同参与者都具有封装在 X.509数字证书 中的 数字身份 。它们确定了 对资源的确切权限 以及对参与者在区块链网络中拥有的信息的访问权限    主体——决定身份权限的属性 包含了参与者的身份的各种属性，如参与者的组织、组织单位，角色甚至是参与者的特定身份。   身份验证    什么是PKI？  公钥基础结构（PKI）是一组互联网技术，可在网络中提供">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-11-15T08:27:50.000Z">
-<meta property="article:modified_time" content="2021-11-15T09:07:03.993Z">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.7.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.8.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.9.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.1.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.12.png">
+<meta property="article:published_time" content="2021-11-15T10:55:06.000Z">
+<meta property="article:modified_time" content="2021-11-15T11:01:57.945Z">
 <meta property="article:author" content="PeterZ">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.7.png">
 
-<link rel="canonical" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/">
+<link rel="canonical" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/">
 
 
 <script id="page-configurations">
@@ -45,7 +51,7 @@
   };
 </script>
 
-  <title>Fabric区块链关键概念总结 | PeterZ</title>
+  <title>Fabric区块链-身份 | PeterZ</title>
   
 
 
@@ -172,7 +178,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -185,7 +191,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Fabric区块链关键概念总结
+          Fabric区块链-身份
         </h1>
 
         <div class="post-meta">
@@ -196,7 +202,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-15 16:27:50 / 修改时间：17:07:03" itemprop="dateCreated datePublished" datetime="2021-11-15T16:27:50+08:00">2021-11-15</time>
+              <time title="创建时间：2021-11-15 18:55:06 / 修改时间：19:01:57" itemprop="dateCreated datePublished" datetime="2021-11-15T18:55:06+08:00">2021-11-15</time>
             </span>
 
           
@@ -210,36 +216,65 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="1-简记"><a href="#1-简记" class="headerlink" title="1. 简记"></a>1. 简记</h2><p>第一个广为人知的区块链应用是<em>比特币</em>，<em>以太坊</em>是另一种加密货币，采用不同的办法，新增了<em>智能合约</em>为分布式应用创建了一个平台。比特不和以太坊属于同一类区块链：<strong>公共非许可区块链技术</strong>，允许任何人在上面<strong>匿名互动</strong></p>
-<br>
-
-<h2 id="2-Hyperledger-Fabric"><a href="#2-Hyperledger-Fabric" class="headerlink" title="2. Hyperledger Fabric"></a>2. Hyperledger Fabric</h2><p>Hyperledger(超级账本) Fabric是开源的企业级许可分布式账本技术平台</p>
-<ol>
-<li>具有<strong>模块化</strong>和<strong>可配置</strong>的架构</li>
-<li>第一个支持<strong>通用编程语言编写智能合约</strong>（如Java Go Node.js)</li>
-<li>Fabric平台参与者彼此了解而非匿名（与<strong>公共非许可网络</strong>的不同）</li>
-<li>支持<strong>可插拔的共识协议</strong>，使平台能够更有效地进行定制</li>
-</ol>
-<br>
-
-<h2 id="3-为什么说Fabric是模块化架构"><a href="#3-为什么说Fabric是模块化架构" class="headerlink" title="3. 为什么说Fabric是模块化架构"></a>3. 为什么说Fabric是模块化架构</h2><p>Fabric由以下模块化的组件组成：</p>
-<ul>
-<li>可插拔的<strong>排序服务</strong>——对交易顺序建立共识，然后向节点广播区块；</li>
-<li>可插拔的**成员服务提供者(MSP)**——将网络中的实体与加密身份相关联</li>
-<li>可选的<strong>P2P gossip 服务</strong>——将区块发送到其他结点（通过排序服务实现）</li>
-<li><strong>智能合约</strong>（链码）——隔离运行在容器环境中（例如在Docker中）</li>
-<li><strong>账本</strong>——可以通过配置支持多种DBMS</li>
-<li>可插拔的<strong>背书</strong>和<strong>验证策略</strong>——每个应用程序可以独立配置。</li>
+        <h2 id="重点掌握什么是PKI"><a href="#重点掌握什么是PKI" class="headerlink" title="重点掌握什么是PKI"></a>重点掌握什么是PKI</h2><h2 id="什么是身份？"><a href="#什么是身份？" class="headerlink" title="什么是身份？"></a>什么是身份？</h2><ul>
+<li>区块链网络中的不同参与者都具有封装在 <strong>X.509数字证书</strong> 中的 <strong>数字身份</strong> 。它们确定了 <strong>对资源的确切权限</strong> 以及对参与者在区块链网络中拥有的信息的<strong>访问权限</strong> </li>
 </ul>
-<p>没有“可以一统天下的链（one blockchain to rule them all）”。Hyperledger Fabric 可以通过多种方式进行配置，以满足不同行业应用的需求。<br><br></p>
-<h2 id="4-学习Fabric前需要知道的概念"><a href="#4-学习Fabric前需要知道的概念" class="headerlink" title="4. 学习Fabric前需要知道的概念"></a>4. 学习Fabric前需要知道的概念</h2><ol>
-<li><h3 id="共享账本"><a href="#共享账本" class="headerlink" title="共享账本"></a>共享账本</h3><p>Hyperledger Fabric 有一个账本子系统，包括两个组件： <strong>世界状态</strong>和<strong>交易日志</strong>。<br><strong>世界状态</strong>组件是账本的数据库，<strong>交易日志</strong>组件记录产生世界状态中当前值的所有交易。账本包括世界状态数据库和交易日志历史记录。</p>
-</li>
-<li><h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><p>Hyperledger Fabric 智能合约用于实现一整套账本功能（交易、查询等），例如，可以编写智能合约以规定运输物品的成本，其中运费根据物品到达的速度而变化。<strong>根据双方同意</strong>并写入账本的条款，当收到物品时，相应的资金会自动转手。<br>智能合约用<strong>链码</strong>编写，链码支持Go、Nose.js、Java编写</p>
-</li>
-<li><h3 id="共识"><a href="#共识" class="headerlink" title="共识"></a>共识</h3><p>保持账本在整个网络中<strong>同步</strong>的过程称为 共识 。该过程确保账本仅在交易被相应参与者批准时更新，并且当账本更新时，它们以相同的顺序更新相同的交易。</p>
-</li>
+<ul>
+<li><strong>主体——决定身份权限的属性</strong> 包含了参与者的身份的各种属性，如参与者的组织、组织单位，角色甚至是参与者的特定身份。</li>
+</ul>
+<ul>
+<li><strong>身份验证</strong></li>
+</ul>
+<br>
+
+<h2 id="什么是PKI？"><a href="#什么是PKI？" class="headerlink" title="什么是PKI？"></a>什么是PKI？</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.7.png" alt="pki"></p>
+<ul>
+<li><em><strong>公钥基础结构</strong></em>（PKI）是一组互联网技术，可在网络中提供安全通信。如：PKI使HTTP变成HTTPS.</li>
+</ul>
+<ul>
+<li>区块链网络依赖于PKI标准<strong>来确保各个网路参与者之间的安全通信，并确保在区块链上发布的信息得到适当的认证</strong></li>
+<li>四个关键要素<ol>
+<li>数字证书</li>
+<li>公钥和私钥</li>
+<li>证书授权中心</li>
+<li>证书撤销列表</li>
 </ol>
+</li>
+</ul>
+<br>
+
+<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.8.png" alt="数字证书"> </p>
+<ul>
+<li>如一个人的身份证（提供了本人信息），其公钥是在证书中分发的，签名密钥则保密。</li>
+</ul>
+<ul>
+<li>若被篡改则会使证书无效</li>
+</ul>
+<br>
+
+<h2 id="授权，公钥和私钥"><a href="#授权，公钥和私钥" class="headerlink" title="授权，公钥和私钥"></a>授权，公钥和私钥</h2><ul>
+<li>密钥之间唯一的数学关系使得私钥在消息上的签名，只有对应公钥在<strong>相同的消息</strong>上才可以与之匹配。</li>
+</ul>
+<ul>
+<li>签名及验证流程如下</li>
+</ul>
+<p>  <img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.9.png" alt="验证"></p>
+<br>
+
+<h2 id="证书授权中心-CA"><a href="#证书授权中心-CA" class="headerlink" title="证书授权中心(CA)"></a>证书授权中心(CA)</h2><ul>
+<li>人员或节点能够通过由系统信任的机构为其发布的<strong>数字身份</strong>参与区块链网络。</li>
+</ul>
+<ul>
+<li>最常见的身份形式：符合X.509标准 并 由CA颁发的经加密验证的数字证书<h3 id="根CA-中间CA和信任链"><a href="#根CA-中间CA和信任链" class="headerlink" title="根CA,中间CA和信任链"></a>根CA,中间CA和信任链</h3><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.1.png"><h3 id="Fabric-CA"><a href="#Fabric-CA" class="headerlink" title="Fabric CA"></a>Fabric CA</h3></li>
+<li>Fabric提供了一个内置的CA组件——<strong>Fabric CA</strong>，允许在自己的区块链网络中创建CA</li>
+</ul>
+<h3 id="证书撤销列表（CRL）"><a href="#证书撤销列表（CRL）" class="headerlink" title="证书撤销列表（CRL）"></a>证书撤销列表（CRL）</h3><ul>
+<li>是 CA 知道由于某些原因而被撤销的证书的引用列表。抽象为：商店场景中的被盗信用卡列表</li>
+</ul>
+<ul>
+<li>用CPL检查证书是否有效：如果模仿者试图将无效的数字证书传递给验证者，则可以首先检查颁发证书的 CA 的 CRL，以确保其未被列为无效。</li>
+</ul>
+<p>  <img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/identity.diagram.12.png" alt="验证是否有效"></p>
 
     </div>
 
@@ -255,12 +290,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/09/21/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
+    <a href="/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/" rel="prev" title="区块链网络">
+      <i class="fa fa-chevron-left"></i> 区块链网络
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/" rel="next" title="区块链网络">
-      区块链网络 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/" rel="next" title="Fabric区块链--成员服务提供者(MSP)">
+      Fabric区块链--成员服务提供者(MSP) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -320,7 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AE%80%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">1. 简记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Hyperledger-Fabric"><span class="nav-number">2.</span> <span class="nav-text">2. Hyperledger Fabric</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4Fabric%E6%98%AF%E6%A8%A1%E5%9D%97%E5%8C%96%E6%9E%B6%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">3. 为什么说Fabric是模块化架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AD%A6%E4%B9%A0Fabric%E5%89%8D%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">4. 学习Fabric前需要知道的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E8%B4%A6%E6%9C%AC"><span class="nav-number">4.1.</span> <span class="nav-text">共享账本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="nav-number">4.2.</span> <span class="nav-text">智能合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E8%AF%86"><span class="nav-number">4.3.</span> <span class="nav-text">共识</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%E4%BB%80%E4%B9%88%E6%98%AFPKI"><span class="nav-number">1.</span> <span class="nav-text">重点掌握什么是PKI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%BA%AB%E4%BB%BD%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">什么是身份？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFPKI%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">什么是PKI？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="nav-number">4.</span> <span class="nav-text">数字证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%88%E6%9D%83%EF%BC%8C%E5%85%AC%E9%92%A5%E5%92%8C%E7%A7%81%E9%92%A5"><span class="nav-number">5.</span> <span class="nav-text">授权，公钥和私钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E6%8E%88%E6%9D%83%E4%B8%AD%E5%BF%83-CA"><span class="nav-number">6.</span> <span class="nav-text">证书授权中心(CA)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9CA-%E4%B8%AD%E9%97%B4CA%E5%92%8C%E4%BF%A1%E4%BB%BB%E9%93%BE"><span class="nav-number">6.1.</span> <span class="nav-text">根CA,中间CA和信任链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fabric-CA"><span class="nav-number">6.2.</span> <span class="nav-text">Fabric CA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E6%92%A4%E9%94%80%E5%88%97%E8%A1%A8%EF%BC%88CRL%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">证书撤销列表（CRL）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

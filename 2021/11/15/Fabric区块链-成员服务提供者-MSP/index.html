@@ -20,17 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://example.com/about/index.html">
+  <meta name="description" content="为什么需要MSP?  Fabric是一个认证性的网络, 所以区块链参与者需要一种向网络中的其他参与者证实自己身份的机制从而在网络中进行交易。    证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。  Identities类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fabric区块链--成员服务提供者(MSP)">
+<meta property="og:url" content="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/index.html">
 <meta property="og:site_name" content="PeterZ">
+<meta property="og:description" content="为什么需要MSP?  Fabric是一个认证性的网络, 所以区块链参与者需要一种向网络中的其他参与者证实自己身份的机制从而在网络中进行交易。    证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。  Identities类">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-10-10T02:48:10.000Z">
-<meta property="article:modified_time" content="2021-10-10T02:50:57.558Z">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.diagram.6.png">
+<meta property="article:published_time" content="2021-11-15T11:04:52.000Z">
+<meta property="article:modified_time" content="2021-11-15T11:07:01.065Z">
 <meta property="article:author" content="PeterZ">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png">
 
-<link rel="canonical" href="http://example.com/about/">
+<link rel="canonical" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/">
 
 
 <script id="page-configurations">
@@ -38,13 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>关于 | PeterZ
-</title>
+  <title>Fabric区块链--成员服务提供者(MSP) | PeterZ</title>
   
 
 
@@ -163,43 +167,125 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE-%E6%88%90%E5%91%98%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-MSP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="PeterZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PeterZ">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Fabric区块链--成员服务提供者(MSP)
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">关于
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2021-11-15 19:04:52 / 修改时间：19:07:01" itemprop="dateCreated datePublished" datetime="2021-11-15T19:04:52+08:00">2021-11-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="为什么需要MSP"><a href="#为什么需要MSP" class="headerlink" title="为什么需要MSP?"></a>为什么需要MSP?</h2><ul>
+<li> Fabric是一个<strong>认证性</strong>的网络, 所以区块链参与者需要一种<strong>向网络中的其他参与者证实自己身份的机制</strong>从而在网络中进行交易。</li>
+</ul>
+<ul>
+<li> 证书颁发机构就像一个信用卡提供商(CA)，它分发许多不同类型的可验证的身份(数字证书)。另一方面，MSP确定商店接受哪些信用卡提供商(哪些CA)。通过这种方式，MSP将一个身份(信用卡)转换为一个角色(在商店购买东西的能力)。</li>
+</ul>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.msp.diagram.png"><br><em>Identities类似于你的信用卡，用来证明你可以支付。MSP类似于被商店接受的信用卡清单。</em></p>
+<ul>
+<li>此时你想要加入一个现有的网络，你需要一种方法——MSP来将你的身份转换为可以被网络识别的东西</li>
+<li>要想加入区块链网络，在Fabric网络上交易，需要：<ol>
+<li>拥有一个由网络信任的CA颁发的<strong>身份</strong></li>
+<li>成为一个被认可的成员（成员资格是通过将该成员的公钥添加到组织的MSP来实现的）</li>
+<li>将MSP添加到网络上的一个<strong>联盟</strong>或者通道</li>
+<li>确保MSP包括在网络中的策略定义</li>
+</ol>
+</li>
+</ul>
+<br>
+
+<h2 id="MSP的功能"><a href="#MSP的功能" class="headerlink" title="MSP的功能"></a>MSP的功能</h2><ul>
+<li>MSP通过<strong>列出其成员的身份</strong>，或通过确定哪些是为其成员授权颁发有效身份的ca，来识别和确定接受来自这些根ca和中间ca所定义的<strong>信任域的成员</strong>。</li>
+</ul>
+<ul>
+<li>MSP通过<strong>标识</strong>参与者在节点或通道上拥有的<strong>特定特权</strong>，将身份转换为<strong>角色</strong></li>
+<li>MSP可以识别<strong>被撤销</strong>的身份列表。</li>
+</ul>
+<br>
+
+<h2 id="MSP域"><a href="#MSP域" class="headerlink" title="MSP域"></a>MSP域</h2><h3 id="分为"><a href="#分为" class="headerlink" title="分为"></a>分为</h3><ul>
+<li>本地MSP：在参与者节点本地</li>
+<li>通道MSP：在通道配置中</li>
+</ul>
+<p>共同点：都是将身份转化为角色<br>区别：它们的范围<br><br></p>
+<h2 id="组织与MSP"><a href="#组织与MSP" class="headerlink" title="组织与MSP"></a><strong>组织</strong>与MSP</h2><ul>
+<li>是一个逻辑上成员们的管理组</li>
+</ul>
+<ul>
+<li>在单个MSP下管理其成员</li>
+</ul>
+<ul>
+<li>一个组织可以被划分为多个**组织单元(ou)**。如果不使用偶，MSP中的所有身份（由根CA和中间CA文件夹认定的)都将被视为组织的成员。</li>
+</ul>
+<br>
+
+
+<h2 id="MSP结构"><a href="#MSP结构" class="headerlink" title="MSP结构"></a><strong>MSP结构</strong></h2><p>本地MSP文件夹包含以下子文件夹:<img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/membership.diagram.6.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/" rel="prev" title="Fabric区块链-身份">
+      <i class="fa fa-chevron-left"></i> Fabric区块链-身份
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -250,6 +336,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81MSP"><span class="nav-number">1.</span> <span class="nav-text">为什么需要MSP?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSP%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">MSP的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSP%E5%9F%9F"><span class="nav-number">3.</span> <span class="nav-text">MSP域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%B8%BA"><span class="nav-number">3.1.</span> <span class="nav-text">分为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E7%BB%87%E4%B8%8EMSP"><span class="nav-number">4.</span> <span class="nav-text">组织与MSP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSP%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">MSP结构</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
