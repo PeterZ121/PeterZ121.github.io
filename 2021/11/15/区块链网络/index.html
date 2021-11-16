@@ -34,8 +34,12 @@
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.4.png">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.5.png">
 <meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.6.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.7.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.8.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.9.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.10.png">
 <meta property="article:published_time" content="2021-11-15T09:11:55.000Z">
-<meta property="article:modified_time" content="2021-11-15T12:48:01.839Z">
+<meta property="article:modified_time" content="2021-11-16T07:57:21.031Z">
 <meta property="article:author" content="南浔">
 <meta property="article:tag" content="Hyperledger Fabric区块链">
 <meta name="twitter:card" content="summary">
@@ -203,10 +207,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-11-15 17:11:55 / 修改时间：20:48:01" itemprop="dateCreated datePublished" datetime="2021-11-15T17:11:55+08:00">2021-11-15</time>
+              <time title="创建时间：2021-11-15 17:11:55" itemprop="dateCreated datePublished" datetime="2021-11-15T17:11:55+08:00">2021-11-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-16 15:57:21" itemprop="dateModified" datetime="2021-11-16T15:57:21+08:00">2021-11-16</time>
+              </span>
 
           
 
@@ -231,13 +241,13 @@
 <li>组织R4</li>
 <li>证书颁发机构CA4</li>
 </ul>
-<p>当一个<strong>排序服务</strong>启动后就形成了如图的网络N。其中排序服务o4由一个单独的节点组成，是根据一个网络配置NC4来进行配置的。证书颁发机构CA4被用来向管理员和组织R4的网络节点分配<strong>身份信息</strong>（具体后面会讲到）</p>
-<p>可以看到定义网络N的时候，<strong>第一件事就是定义一个排序服务</strong>。O4 最初被配置并且由组织 R4 的一个管理员来启动，并且由 R4 管理，配置 NC4 包含了描述网络管理能力初始集合的规则。最初在网络中集合仅赋予了 R4 这个权利。<br>目前 R4 是这个网络中唯一的一个成员<br><br></p>
+<p>当一个<strong>排序服务</strong>启动后就形成了如图的网络N。其中排序服务o4由一个单独的节点组成，<strong>是根据网络配置NC4来进行配置的</strong>。证书颁发机构CA4被用来向管理员和组织R4的网络节点分配<strong>身份信息</strong>（具体后面会讲到）</p>
+<p>可以看到定义网络N的时候，<strong>第一件事就是定义一个排序服务</strong>。O4 最初被配置并且由组织 R4 的一个管理员来启动，并且由 R4 管理，配置 NC4 包含了描述<strong>网络管理能力初始集合的规则</strong>。最初在网络中集合仅赋予了 R4 这个权利。<br>目前 R4 是这个网络中唯一的一个成员<br><br></p>
 <h2 id="添加网络管理员"><a href="#添加网络管理员" class="headerlink" title="添加网络管理员"></a>添加网络管理员</h2><p>目前 NC4 最初被配置为仅仅允许 R4 用户在网络中具有管理的权限,接下来，允许R1用户也具有管理的权限。<img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.1.png"></p>
-<p>新增元素： 组织R1即它的证书颁发机构CA1</p>
+<p>新增元素： 组织R1和它的证书颁发机构CA1</p>
 <p> <strong>组织 R4 更新了网络配置</strong>来使组织 R1 也成为了管理员。现在 R1 和 R4 在网络配置中便具有了相同的权限。<br> 证书颁发机构 CA1 也被添加进来了，他用来<strong>标识 R1 组织的用户</strong>。现在从 R1 和 R4 来的用户就已经是网络的管理员了。<br><br></p>
 <h2 id="定义联盟"><a href="#定义联盟" class="headerlink" title="定义联盟"></a>定义联盟</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.3.png"></p>
-<p>新增元素：联盟X1即其中的联盟成员——组织R1,R2、对应CA</p>
+<p>新增元素：联盟X1和其中的联盟成员——组织R1,R2、对应CA</p>
 <ul>
 <li>网络管理员定义了一个包含两个成员的联盟 <strong>X1</strong>，包含组织R1 和 R2 ,CA1 和 CA2 是这两个组织对应的证书颁发机构。</li>
 <li>这个联盟的定义被存储在了<strong>网络配置 NC4</strong> 中，会在接下来的网络开发中被使用。<br>为什么联盟这么重要？我们能够看到联盟定义了网络中的一部分组织，他们共享了彼此能够交易的需求，在这个示例中就是 R1 和 R2 <strong>能够进行交易</strong>。</li>
@@ -251,7 +261,7 @@
 <ul>
 <li><strong>通道C1</strong>——联盟X1为R1和R2创建</li>
 <li><strong>通道配置CC1</strong>——控制管理通道C1，且完全独立于网络配置</li>
-<li>CC1 是由 R1 和 R2 管理的，他们在 C1 上具有同等的权利。<strong>R4 在 CC1 中是没有任何权利的。</strong>因为他不是联盟成员</li>
+<li>CC1 是由 R1 和 R2 管理的，他们在 C1 上具有同等的权利。<strong>R4 在 CC1 中是没有任何权利的</strong>。因为他不是联盟成员</li>
 <li>该通道仅能处理在 R1 和 R2 之间进行的交易</li>
 <li>一个通道可以包含任意数量的组织，目前只包含了两个组织R1,R2</li>
 </ul>
@@ -281,7 +291,76 @@
 </ul>
 <p>就像Peer节点和排序节点一样，客户端应用也会有一个是它和组织相关联的<strong>身份信息</strong></p>
 <h3 id="安装链码包"><a href="#安装链码包" class="headerlink" title="安装链码包"></a>安装链码包</h3><p>智能合约会被打包进一个链码中，这个链码会被部署到一个区块链网络中。可以把智能合约想象为管理交易，链码则管理着智能合约应该如何被打包部署。<br>在智能合约S5被开发完后，组织 R1 中的管理员必须要把它安装到节点 P1 上，当完成之后，P1 就完全了解了 S5。<br>当一个组织在一个通道中有多个 Peer 节点时，可以选择在哪个节点安装智能合约，而不需要每个 Peer 节点上都安装。</p>
-<h3 id="定义链码"><a href="#定义链码" class="headerlink" title="定义链码"></a>定义链码</h3>
+<h3 id="定义链码"><a href="#定义链码" class="headerlink" title="定义链码"></a>定义链码</h3><ul>
+<li>链码被安装在Peer节点上</li>
+<li>链码在一个<strong>通道</strong>范围内被管理和维护</li>
+<li>一个组织必须要批准一个<strong>链码定义</strong>才能使用<strong>已经安装的智能合约</strong>来查询账本和为交易<br>因此在这里，管理员R1必须要批准S5的链码定义（即将链码定义提交到通道上），提交后，S5就可以被客户端应用A1调用了。</li>
+<li>智能合约具有<strong>封装性</strong>：通道C1上每个组件都可以访问S5，但不能访问其程序</li>
+</ul>
+<h3 id="背书策略"><a href="#背书策略" class="headerlink" title="背书策略"></a>背书策略</h3><ul>
+<li>背书策略在链码定义提供的信息中</li>
+<li>描述了在交易被其他组织存储在<strong>账本副本</strong>之前，<strong>哪些组织</strong>必须要同意此交易<br>此处只有R1和R2对<strong>交易进行背书后</strong>，交易才能被存储到账本L1中</li>
+<li><strong>链码定义提交到通道</strong>的同时，<strong>背书策略也被放置在通道账本上</strong>，，，，通道中的每个成员都可访问该策略</li>
+</ul>
+<h3 id="调用智能合约"><a href="#调用智能合约" class="headerlink" title="调用智能合约"></a>调用智能合约</h3><p>智能合约能够被客户端应用<strong>调用</strong>的条件：</p>
+<ul>
+<li>被安装在Peer节点上</li>
+<li>在通道上被定义（即将链码定义提交到通道上）（即批准链码定义）<pre><code>  问：链码定义是怎么被批准的？
+  答：在联盟中，有效数量的组织都将链码定义提交到通道C1上
+</code></pre>
+</li>
+<li>（待完成）</li>
+</ul>
+<br>
+
+<h2 id="完成网络"><a href="#完成网络" class="headerlink" title="完成网络"></a>完成网络</h2><p>网络开发的下一个阶段是将组织R2的<strong>基础设备</strong>添加到网络中</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.7.png"></p>
+<p>新增元素：P2节点、账本L1的一个副本、智能合约S5、客户端应用A2</p>
+<ul>
+<li>R2添加了Peer节点P2</li>
+<li>P2存有账本L1的一个副本，和链码S5</li>
+<li>R2像R1一样批准了相同的链码定义</li>
+<li> A1 和 A2 能够使用 Peer 节点 P1 或者 P2 来调用在 C1 上的 S5<br>现在A1和A2就能够使用在通道C1上的智能合约S5和账本L1来生成交易了（组织R1和R2进行交易）</li>
+</ul>
+<h3 id="生成并接受交易"><a href="#生成并接受交易" class="headerlink" title="生成并接受交易"></a>生成并接受交易</h3><ul>
+<li><strong>节点只有安装了智能合约才能够运行</strong></li>
+<li>在一个大网络中，不是所有Peer节点都有存储智能合约的副本，因此可以通过连接到通道来<strong>获取一个智能合约的接口信息</strong></li>
+<li>所有Peer节点都可以<strong>验证</strong>并<strong>接受</strong>或者<strong>拒绝</strong>交易存入他们的账本 L1 的副本中，但只有安装了智能合约的Peer节点才能够参与<strong>交易背书</strong>的流程。这是生成一笔有效交易的核心。</li>
+</ul>
+<h3 id="Peer节点的类型"><a href="#Peer节点的类型" class="headerlink" title="Peer节点的类型"></a>Peer节点的类型</h3><ul>
+<li><p>提交节点——<strong>通道中的每一个Peer节点</strong>都是提交节点。</p>
+<p>  作用：接受生成的区块，并在<strong>区块被验证之后</strong>附加到该节点的账本副本中</p>
+</li>
+<li><p>背书节点——每个<strong>安装了智能合约</strong>并且<strong>该智能合约被客户端应用使用，来生成一个被签名的交易响应</strong>的Peer节点都是一个背书节点<br><em>智能合约的背书策略明确了在交易被接受并且记录到提交节点的账本之前，需要哪些组织的 Peer 节点为交易签名。</em></p>
+</li>
+<li><p>主节点与锚节点（待完成）</p>
+</li>
+</ul>
+<h3 id="向通道中添加组合和节点"><a href="#向通道中添加组合和节点" class="headerlink" title="向通道中添加组合和节点"></a>向通道中添加组合和节点</h3><ul>
+<li>通道中<strong>新的组织</strong>批准了通道中其他成员已经同意的链码参数之后就可以使用链码了。</li>
+<li>如果 R2 想<strong>改变链码的定义</strong>，那么 R1 和 R2 需要为他们的组织<strong>批准一个新的定义</strong>，然后其中的一个组织需要将定义提交到通道。</li>
+<li>网络及通道的策略在描绘去中心化网络中的自主和管控之间创建了平衡。</li>
+</ul>
+<br>
+
+<h2 id="简化视觉词汇表"><a href="#简化视觉词汇表" class="headerlink" title="简化视觉词汇表"></a>简化视觉词汇表</h2><p>随着网络的增长，之前帮助我们理解通道的连线将会变得越发笨拙。<br>让我们来一起简化一下视觉词汇表吧。下边是我们目前开发的网络的简图：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.8.png"></p>
+<p><em>这个图表展示了在网络 N 中和通道 C1 的相关内容：客户端应用 A1 和 A2 能够通过节点 P1 和 P2 以及排序节点 O4 使用通道 C1 来进行通信。Peer 节点 P1 和 P2 可以使用通道 C1 的通信服务。排序服务 O4 可以使用通道 C1 的通信服务。通道配置 CC1 应用于通道 C1。</em></p>
+<p>注意，这个网络的图表通过将通道连线替换成了<strong>连接点</strong>的方式进行了简化，连接点显示为一个蓝色的圆圈，里边包含了通道数字</p>
+<br>
+
+<h2 id="添加另外一个联盟定义"><a href="#添加另外一个联盟定义" class="headerlink" title="添加另外一个联盟定义"></a>添加另外一个联盟定义</h2><p>下一阶段，我们引入组织R3，R2和R3作为新联盟X2，我们将为其建立一个新的独立的应用通道以进行交易。<strong>这个通道和之前的C1通道完全分离</strong></p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.9.png"></p>
+<p>新增元素：联盟X2</p>
+<ul>
+<li>由<strong>网络管理员</strong>R1和R4添加新联盟定义</li>
+</ul>
+<br>
+
+<h2 id="添加一个新的通道"><a href="#添加一个新的通道" class="headerlink" title="添加一个新的通道"></a>添加一个新的通道</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.10.png"></p>
+<p>新增元素：通道C2、通道配置CC2<br>    问：联盟将各组织统一到一起的方式是什么？<br>    答：通过建立通道</p>
+<p>注意，通道配置 CC1 和 CC2 以及网络配置 NC4 是彼此完全分离的。我们也看到了一个 Hyperledger Fabric 网络的<strong>去中心化</strong>的特质</p>
+<h3 id="网路和通道配置"><a href="#网路和通道配置" class="headerlink" title="网路和通道配置"></a>网路和通道配置</h3>
     </div>
 
     
@@ -386,7 +465,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">什么是区块链网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">示例网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">3.</span> <span class="nav-text">创建网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">4.</span> <span class="nav-text">添加网络管理员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E8%81%94%E7%9B%9F"><span class="nav-number">5.</span> <span class="nav-text">定义联盟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E8%81%94%E7%9B%9F%E5%88%9B%E5%BB%BA%E9%80%9A%E9%81%93"><span class="nav-number">6.</span> <span class="nav-text">为联盟创建通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E9%81%93%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">6.1.</span> <span class="nav-text">通道的重要性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E5%92%8C%E8%B4%A6%E6%9C%AC"><span class="nav-number">7.</span> <span class="nav-text">节点和账本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%93%BE%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">应用程序和智能合约链码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85"><span class="nav-number">8.1.</span> <span class="nav-text">安装链码包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%93%BE%E7%A0%81"><span class="nav-number">8.2.</span> <span class="nav-text">定义链码</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">什么是区块链网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">示例网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">3.</span> <span class="nav-text">创建网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">4.</span> <span class="nav-text">添加网络管理员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E8%81%94%E7%9B%9F"><span class="nav-number">5.</span> <span class="nav-text">定义联盟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E8%81%94%E7%9B%9F%E5%88%9B%E5%BB%BA%E9%80%9A%E9%81%93"><span class="nav-number">6.</span> <span class="nav-text">为联盟创建通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E9%81%93%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">6.1.</span> <span class="nav-text">通道的重要性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E5%92%8C%E8%B4%A6%E6%9C%AC"><span class="nav-number">7.</span> <span class="nav-text">节点和账本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%93%BE%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">应用程序和智能合约链码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85"><span class="nav-number">8.1.</span> <span class="nav-text">安装链码包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%93%BE%E7%A0%81"><span class="nav-number">8.2.</span> <span class="nav-text">定义链码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5"><span class="nav-number">8.3.</span> <span class="nav-text">背书策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="nav-number">8.4.</span> <span class="nav-text">调用智能合约</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%E7%BD%91%E7%BB%9C"><span class="nav-number">9.</span> <span class="nav-text">完成网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%B9%B6%E6%8E%A5%E5%8F%97%E4%BA%A4%E6%98%93"><span class="nav-number">9.1.</span> <span class="nav-text">生成并接受交易</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Peer%E8%8A%82%E7%82%B9%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">9.2.</span> <span class="nav-text">Peer节点的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%80%9A%E9%81%93%E4%B8%AD%E6%B7%BB%E5%8A%A0%E7%BB%84%E5%90%88%E5%92%8C%E8%8A%82%E7%82%B9"><span class="nav-number">9.3.</span> <span class="nav-text">向通道中添加组合和节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8C%96%E8%A7%86%E8%A7%89%E8%AF%8D%E6%B1%87%E8%A1%A8"><span class="nav-number">10.</span> <span class="nav-text">简化视觉词汇表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA%E8%81%94%E7%9B%9F%E5%AE%9A%E4%B9%89"><span class="nav-number">11.</span> <span class="nav-text">添加另外一个联盟定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E9%80%9A%E9%81%93"><span class="nav-number">12.</span> <span class="nav-text">添加一个新的通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E8%B7%AF%E5%92%8C%E9%80%9A%E9%81%93%E9%85%8D%E7%BD%AE"><span class="nav-number">12.1.</span> <span class="nav-text">网路和通道配置</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
