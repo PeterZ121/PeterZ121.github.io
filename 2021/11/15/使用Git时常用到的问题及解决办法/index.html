@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/11/23/9KWQlJL1Nu643TA.png">
 <meta property="og:image" content="https://i.loli.net/2021/11/23/JY7StRyMK5hUbV6.png">
 <meta property="article:published_time" content="2021-11-15T12:53:42.000Z">
-<meta property="article:modified_time" content="2021-11-23T15:06:07.140Z">
+<meta property="article:modified_time" content="2022-03-16T11:52:48.991Z">
 <meta property="article:author" content="南浔">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2021/11/23/cwhmTq2QOpukLij.png">
@@ -208,7 +208,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-23 23:06:07" itemprop="dateModified" datetime="2021-11-23T23:06:07+08:00">2021-11-23</time>
+                <time title="修改时间：2022-03-16 19:52:48" itemprop="dateModified" datetime="2022-03-16T19:52:48+08:00">2022-03-16</time>
               </span>
 
           
@@ -224,17 +224,25 @@
       
         <p>仅以本文记录自己使用Git时遇到的问题，并记录解决办法，避免再被坑。</p>
 <span id="more"></span>
-<h3 id="errno-10054"><a href="#errno-10054" class="headerlink" title="errno 10054"></a>errno 10054</h3><p>出现问题：fatal: unable to access ‘…’: OpenSSL SSL_read: Connection was reset, errno 10054</p>
-<p>问题原因：服务器的SSL证书没有经过第三方机构的签署</p>
+<h3 id="OpenSSL-SSL-read-Connection-was-reset-errno-10054FATAL-err-Error-Spawn-failed"><a href="#OpenSSL-SSL-read-Connection-was-reset-errno-10054FATAL-err-Error-Spawn-failed" class="headerlink" title="OpenSSL SSL_read: Connection was reset, errno 10054FATAL {  err: Error: Spawn failed"></a>OpenSSL SSL_read: Connection was reset, errno 10054FATAL {  err: Error: Spawn failed</h3><p>问题原因：服务器的SSL证书没有经过第三方机构的签署</p>
 <p>解决办法：输入</p>
 <pre><code>$ git config --global http.sslVerify &quot;false&quot;
 </code></pre>
-<br>
- 
 <h3 id="error-spawn-failed…"><a href="#error-spawn-failed…" class="headerlink" title="error: spawn failed…"></a>error: spawn failed…</h3><p>出现原因： 大多是因为git进行push或者hexo d的时候改变了一些.deploy_git 文件下的内容。</p>
 <p>解决办法：删除.deploy_git文件夹</p>
 <pre><code>$ git config --global core.autocrlf false
 </code></pre>
+<h3 id="解决报错：Failed-to-connect-to-github-com-port-443-after-21098-ms-Timed-out"><a href="#解决报错：Failed-to-connect-to-github-com-port-443-after-21098-ms-Timed-out" class="headerlink" title="解决报错：Failed to connect to github.com port 443 after 21098 ms: Timed out"></a>解决报错：Failed to connect to github.com port 443 after 21098 ms: Timed out</h3><p><strong>原因：</strong> 这样的问题往往是由于网络慢访问超时，这时候我们可以在终端选择使用设置代理和取消代理的命令解决。</p>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>先设置代理</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>再取消代理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure></li>
+</ol>
 <h3 id="常用的git命令"><a href="#常用的git命令" class="headerlink" title="常用的git命令"></a>常用的git命令</h3><p><img src="https://i.loli.net/2021/11/23/cwhmTq2QOpukLij.png" alt="git3.png"><br><img src="https://i.loli.net/2021/11/23/yh7ou9GaIEQXSc5.png" alt="git2.png"><br><img src="https://i.loli.net/2021/11/23/1XFQc692shk3oRi.png" alt="git3.png"><br><img src="https://i.loli.net/2021/11/23/9KWQlJL1Nu643TA.png" alt="git3.png"><br><img src="https://i.loli.net/2021/11/23/JY7StRyMK5hUbV6.png" alt="git1.png"></p>
 
     </div>
@@ -337,7 +345,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#errno-10054"><span class="nav-number">1.</span> <span class="nav-text">errno 10054</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#error-spawn-failed%E2%80%A6"><span class="nav-number">2.</span> <span class="nav-text">error: spawn failed…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84git%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">常用的git命令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenSSL-SSL-read-Connection-was-reset-errno-10054FATAL-err-Error-Spawn-failed"><span class="nav-number">1.</span> <span class="nav-text">OpenSSL SSL_read: Connection was reset, errno 10054FATAL {  err: Error: Spawn failed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#error-spawn-failed%E2%80%A6"><span class="nav-number">2.</span> <span class="nav-text">error: spawn failed…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99%EF%BC%9AFailed-to-connect-to-github-com-port-443-after-21098-ms-Timed-out"><span class="nav-number">3.</span> <span class="nav-text">解决报错：Failed to connect to github.com port 443 after 21098 ms: Timed out</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84git%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">常用的git命令</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -353,14 +361,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
