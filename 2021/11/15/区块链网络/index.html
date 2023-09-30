@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="接下来会在概念层面上描述 Hyperledger Fabric 是如何让组织间以区块链网络的形式进行合作的。 什么是区块链网络区块链网络是一个为应用程序提供账本和智能合约服务的技术基础设施。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链网络">
+<meta property="og:url" content="http://example.com/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="接下来会在概念层面上描述 Hyperledger Fabric 是如何让组织间以区块链网络的形式进行合作的。 什么是区块链网络区块链网络是一个为应用程序提供账本和智能合约服务的技术基础设施。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.1.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.1.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.3.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.4.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.5.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.6.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.7.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.8.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.9.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.10.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.11.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.12.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.15.png">
+<meta property="og:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.14.png">
+<meta property="article:published_time" content="2021-11-15T09:11:55.000Z">
+<meta property="article:modified_time" content="2021-11-16T13:02:58.000Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="Hyperledger Fabric区块链">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.1.png">
+
+<link rel="canonical" href="http://example.com/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>区块链网络 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          区块链网络
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-15 17:11:55" itemprop="dateCreated datePublished" datetime="2021-11-15T17:11:55+08:00">2021-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-16 21:02:58" itemprop="dateModified" datetime="2021-11-16T21:02:58+08:00">2021-11-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>接下来会在<strong>概念</strong>层面上描述 Hyperledger Fabric 是如何让组织间以区块链网络的形式进行合作的。</p>
+<h2 id="什么是区块链网络"><a href="#什么是区块链网络" class="headerlink" title="什么是区块链网络"></a>什么是区块链网络</h2><p>区块链网络是一个为应用程序提供账本和智能合约服务的技术基础设施。<br><span id="more"></span><br>首先，智能合约被用来生成交易，接下来这些交易会被分发给<strong>网络中的每个节点</strong>，这些交易会被记录在他们的账本副本上且<strong>不可篡改</strong>。<br>一般多个组织聚集在一起作为一个联盟来形成一个网络。<br><br></p>
+<h2 id="示例网络"><a href="#示例网络" class="headerlink" title="示例网络"></a>示例网络</h2><p>这是示例网络的最终状态<br><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.1.png" alt="示例网络"><br><br></p>
+<h2 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h2><p><span id="jump1">让我们从头开始创建网络的基础吧！</span><br><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.png" alt><br>图中有四个元素：</p>
+<ul>
+<li>排序服务O4</li>
+<li>网络配置NC4</li>
+<li>组织R4</li>
+<li>证书颁发机构CA4</li>
+</ul>
+<p><a href="#jump2">往下</a><br>当一个<strong>排序服务</strong>启动后就形成了如图的网络N。其中排序服务o4由一个单独的节点组成，<strong>是根据网络配置NC4来进行配置的</strong>。证书颁发机构CA4被用来向管理员和组织R4的网络节点分配<strong>身份信息</strong>（具体后面会讲到）</p>
+<p>可以看到定义网络N的时候，<strong>第一件事就是定义一个排序服务</strong>。O4 最初被配置并且由组织 R4 的一个管理员来启动，并且由 R4 管理，配置 NC4 包含了描述<strong>网络管理能力初始集合的规则</strong>。最初在网络中集合仅赋予了 R4 这个权利。<br>目前 R4 是这个网络中唯一的一个成员<br><br></p>
+<h2 id="添加网络管理员"><a href="#添加网络管理员" class="headerlink" title="添加网络管理员"></a>添加网络管理员</h2><p>目前 NC4 最初被配置为仅仅允许 R4 用户在网络中具有管理的权限,接下来，允许R1用户也具有管理的权限。<img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.2.1.png" alt></p>
+<p>新增元素： 组织R1和它的证书颁发机构CA1</p>
+<p> <strong>组织 R4 更新了网络配置</strong>来使组织 R1 也成为了管理员。现在 R1 和 R4 在网络配置中便具有了相同的权限。<br> 证书颁发机构 CA1 也被添加进来了，他用来<strong>标识 R1 组织的用户</strong>。现在从 R1 和 R4 来的用户就已经是网络的管理员了。<br><br></p>
+<h2 id="定义联盟"><a href="#定义联盟" class="headerlink" title="定义联盟"></a>定义联盟</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.3.png" alt></p>
+<p>新增元素：联盟X1和其中的联盟成员——组织R1,R2、对应CA</p>
+<ul>
+<li>网络管理员定义了一个包含两个成员的联盟 <strong>X1</strong>，包含组织R1 和 R2 ,CA1 和 CA2 是这两个组织对应的证书颁发机构。</li>
+<li>这个联盟的定义被存储在了<strong>网络配置 NC4</strong> 中，会在接下来的网络开发中被使用。<br>为什么联盟这么重要？我们能够看到联盟定义了网络中的一部分组织，他们共享了彼此能够交易的需求，在这个示例中就是 R1 和 R2 <strong>能够进行交易</strong>。</li>
+</ul>
+<p><br></p>
+<h2 id="为联盟创建通道"><a href="#为联盟创建通道" class="headerlink" title="为联盟创建通道"></a>为联盟创建通道</h2><p>通道——联盟中的成员<strong>彼此进行通信的主要机制</strong>。在一个网络中可能会有多个通道。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.4.png" alt></p>
+<p>新增元素：通道C1，通道配置CC1</p>
+<p>第一个通道是如何被添加到这个网络中的呢？</p>
+<ul>
+<li><strong>通道C1</strong>——联盟X1为R1和R2创建</li>
+<li><strong>通道配置CC1</strong>——控制管理通道C1，且完全独立于网络配置</li>
+<li>CC1 是由 R1 和 R2 管理的，他们在 C1 上具有同等的权利。<strong>R4 在 CC1 中是没有任何权利的</strong>。因为他不是联盟成员</li>
+<li>该通道仅能处理在 R1 和 R2 之间进行的交易</li>
+<li>一个通道可以包含任意数量的组织，目前只包含了两个组织R1,R2</li>
+</ul>
+<h3 id="通道的重要性"><a href="#通道的重要性" class="headerlink" title="通道的重要性"></a>通道的重要性</h3><ul>
+<li>提供了一个<strong>联盟成员之间</strong>进行私有通信和私有数据的机制。实现了Fabric允许组织间共享基础设施的同时又保持了私有性。好比QQ应用（区块链网络）中的一个群聊（联盟），不同群聊间信息隐蔽不可见。</li>
+<li>通道实现了“从网络中解放出来”——网络配置 NC4 的任何改动都不会对通道配置 CC1 造成任何直接的影响，只有<strong>通道配置中指定的组织</strong>(QQ群聊认定的管理员)才能控制它</li>
+</ul>
+<p><br></p>
+<h2 id="节点和账本"><a href="#节点和账本" class="headerlink" title="节点和账本"></a>节点和账本</h2><p>接下来使用通道将区块链网络以及组织的组件关联到一起</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.5.png" alt></p>
+<p>新增元素：节点P1，账本L1</p>
+<ul>
+<li>Peer节点P1加入了通道C1。</li>
+<li>P1存储账本L1的副本</li>
+<li>P1和O4使用通道C1进行通信</li>
+</ul>
+<p>可以发现P1与CA1同为紫色，表明是CA1为P1颁发的身份信息，他将P1和组织R1关联起来。P1启动后，它就向排序服务O4发出请求<strong>加入通道C1</strong>。O4收到加入请求，就会使用通道配置CC1来<strong>决定P1在这个通道的权限</strong>，比如：CC1 决定 P1 是否能够向账本 L1 中读取或写入信息。<br><br></p>
+<h2 id="应用程序和智能合约链码"><a href="#应用程序和智能合约链码" class="headerlink" title="应用程序和智能合约链码"></a>应用程序和智能合约链码</h2><p>现在通道C1拥有了一个账本，我们可以<strong>连接客户端应用</strong>来使用由 Peer 节点提供的服务了。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.6.png" alt></p>
+<p>新增元素：智能合约S5，客户端应用A1</p>
+<ul>
+<li><strong>智能合约S5</strong>被安装在P1</li>
+<li>在组织R1中的客户端应用A1可以通过P1使用S5来<strong>访问账本</strong></li>
+<li>A1、P1、O4都加入了通道C1，<strong>他们都可以使用这个通道提供的通信设备</strong></li>
+<li>尽管客户端应用处在Fabric区块链网络的外边，但它是可以<strong>通过通道C1跟网络相连的</strong></li>
+</ul>
+<p>就像Peer节点和排序节点一样，客户端应用也会有一个是它和组织相关联的<strong>身份信息</strong></p>
+<h3 id="安装链码包"><a href="#安装链码包" class="headerlink" title="安装链码包"></a>安装链码包</h3><p>智能合约会被打包进一个链码中，这个链码会被部署到一个区块链网络中。可以把智能合约想象为管理交易，链码则管理着智能合约应该如何被打包部署。<br>在智能合约S5被开发完后，组织 R1 中的管理员必须要把它安装到节点 P1 上，当完成之后，P1 就完全了解了 S5。<br>当一个组织在一个通道中有多个 Peer 节点时，可以选择在哪个节点安装智能合约，而不需要每个 Peer 节点上都安装。</p>
+<h3 id="定义链码"><a href="#定义链码" class="headerlink" title="定义链码"></a>定义链码</h3><ul>
+<li>链码被安装在Peer节点上</li>
+<li>链码在一个<strong>通道</strong>范围内被管理和维护</li>
+<li>一个组织必须要批准一个<strong>链码定义</strong>才能使用<strong>已经安装的智能合约</strong>来查询账本和为交易<br>因此在这里，管理员R1必须要批准S5的链码定义（即将链码定义提交到通道上），提交后，S5就可以被客户端应用A1调用了。</li>
+<li>智能合约具有<strong>封装性</strong>：通道C1上每个组件都可以访问S5，但不能访问其程序</li>
+</ul>
+<h3 id="背书策略"><a href="#背书策略" class="headerlink" title="背书策略"></a>背书策略</h3><ul>
+<li>背书策略在链码定义提供的信息中</li>
+<li>描述了在交易被其他组织存储在<strong>账本副本</strong>之前，<strong>哪些组织</strong>必须要同意此交易<br>此处只有R1和R2对<strong>交易进行背书后</strong>，交易才能被存储到账本L1中</li>
+<li><strong>链码定义提交到通道</strong>的同时，<strong>背书策略也被放置在通道账本上</strong>，，，，通道中的每个成员都可访问该策略</li>
+</ul>
+<h3 id="调用智能合约"><a href="#调用智能合约" class="headerlink" title="调用智能合约"></a>调用智能合约</h3><p>智能合约能够被客户端应用<strong>调用</strong>的条件：</p>
+<ul>
+<li>被安装在Peer节点上</li>
+<li><p>在通道上被定义（即将链码定义提交到通道上）（即批准链码定义）</p>
+<pre><code>  问：链码定义是怎么被批准的？
+  答：在联盟中，有效数量的组织都将链码定义提交到通道C1上
+</code></pre></li>
+<li>（待完成）</li>
+</ul>
+<p><br></p>
+<h2 id="完成网络"><a href="#完成网络" class="headerlink" title="完成网络"></a>完成网络</h2><p>网络开发的下一个阶段是将组织R2的<strong>基础设备</strong>添加到网络中</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.7.png" alt></p>
+<p>新增元素：P2节点、账本L1的一个副本、智能合约S5、客户端应用A2</p>
+<ul>
+<li>R2添加了Peer节点P2</li>
+<li>P2存有账本L1的一个副本，和链码S5</li>
+<li>R2像R1一样批准了相同的链码定义</li>
+<li>A1 和 A2 能够使用 Peer 节点 P1 或者 P2 来调用在 C1 上的 S5<br>现在A1和A2就能够使用在通道C1上的智能合约S5和账本L1来生成交易了（组织R1和R2进行交易）</li>
+</ul>
+<h3 id="生成并接受交易"><a href="#生成并接受交易" class="headerlink" title="生成并接受交易"></a>生成并接受交易</h3><ul>
+<li><strong>节点只有安装了智能合约才能够运行</strong></li>
+<li>在一个大网络中，不是所有Peer节点都有存储智能合约的副本，因此可以通过连接到通道来<strong>获取一个智能合约的接口信息</strong></li>
+<li>所有Peer节点都可以<strong>验证</strong>并<strong>接受</strong>或者<strong>拒绝</strong>交易存入他们的账本 L1 的副本中，但只有安装了智能合约的Peer节点才能够参与<strong>交易背书</strong>的流程。这是生成一笔有效交易的核心。</li>
+</ul>
+<h3 id="Peer节点的类型"><a href="#Peer节点的类型" class="headerlink" title="Peer节点的类型"></a>Peer节点的类型</h3><ul>
+<li><p>提交节点——<strong>通道中的每一个Peer节点</strong>都是提交节点。</p>
+<p>  作用：接受生成的区块，并在<strong>区块被验证之后</strong>附加到该节点的账本副本中</p>
+</li>
+<li><p>背书节点——每个<strong>安装了智能合约</strong>并且<strong>该智能合约被客户端应用使用，来生成一个被签名的交易响应</strong>的Peer节点都是一个背书节点<br><em>智能合约的背书策略明确了在交易被接受并且记录到提交节点的账本之前，需要哪些组织的 Peer 节点为交易签名。</em></p>
+</li>
+<li><p>主节点与锚节点（待完成）</p>
+</li>
+</ul>
+<h3 id="向通道中添加组合和节点"><a href="#向通道中添加组合和节点" class="headerlink" title="向通道中添加组合和节点"></a>向通道中添加组合和节点</h3><ul>
+<li>通道中<strong>新的组织</strong>批准了通道中其他成员已经同意的链码参数之后就可以使用链码了。</li>
+<li>如果 R2 想<strong>改变链码的定义</strong>，那么 R1 和 R2 需要为他们的组织<strong>批准一个新的定义</strong>，然后其中的一个组织需要将定义提交到通道。</li>
+<li>网络及通道的策略在描绘去中心化网络中的自主和管控之间创建了平衡。</li>
+</ul>
+<p><br></p>
+<h2 id="简化视觉词汇表"><a href="#简化视觉词汇表" class="headerlink" title="简化视觉词汇表"></a>简化视觉词汇表</h2><p>随着网络的增长，之前帮助我们理解通道的连线将会变得越发笨拙。<br>让我们来一起简化一下视觉词汇表吧。下边是我们目前开发的网络的简图：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.8.png" alt></p>
+<p><em>这个图表展示了在网络 N 中和通道 C1 的相关内容：客户端应用 A1 和 A2 能够通过节点 P1 和 P2 以及排序节点 O4 使用通道 C1 来进行通信。Peer 节点 P1 和 P2 可以使用通道 C1 的通信服务。排序服务 O4 可以使用通道 C1 的通信服务。通道配置 CC1 应用于通道 C1。</em></p>
+<p>注意，这个网络的图表通过将通道连线替换成了<strong>连接点</strong>的方式进行了简化，连接点显示为一个蓝色的圆圈，里边包含了通道数字</p>
+<p><br></p>
+<h2 id="添加另外一个联盟定义"><a href="#添加另外一个联盟定义" class="headerlink" title="添加另外一个联盟定义"></a>添加另外一个联盟定义</h2><p>下一阶段，我们引入组织R3，R2和R3作为新联盟X2，我们将为其建立一个新的独立的应用通道以进行交易。<strong>这个通道和之前的C1通道完全分离</strong></p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.9.png" alt></p>
+<p>新增元素：联盟X2</p>
+<ul>
+<li>由<strong>网络管理员</strong>R1和R4添加新联盟定义</li>
+</ul>
+<p><br></p>
+<h2 id="添加一个新的通道"><a href="#添加一个新的通道" class="headerlink" title="添加一个新的通道"></a>添加一个新的通道</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.10.png" alt></p>
+<p>新增元素：通道C2、通道配置CC2<br>    问：联盟将各组织统一到一起的方式是什么？<br>    答：通过建立通道</p>
+<p>注意，通道配置 CC1 和 CC2 以及网络配置 NC4 是彼此完全分离的。我们也看到了一个 Hyperledger Fabric 网络的<strong>去中心化</strong>的特质</p>
+<h3 id="网路和通道配置"><a href="#网路和通道配置" class="headerlink" title="网路和通道配置"></a>网路和通道配置</h3><p>（待完成）</p>
+<p><br></p>
+<h2 id="添加另外一个Peer节点"><a href="#添加另外一个Peer节点" class="headerlink" title="添加另外一个Peer节点"></a>添加另外一个Peer节点</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.11.png" alt></p>
+<p><em>客户端应用程序A3能够使用C2,同节点P3和排序服务O4进行通信</em></p>
+<ul>
+<li>L1和L2是完全相互独立的，被分别<strong>限制在各自的通道内</strong></li>
+<li>目前，我们有一个独立的网络其中定义了两个完全。这些通道为组织提供了独立的管理设施来彼此交易。体现了去中心化的特点</li>
+</ul>
+<p><br></p>
+<h2 id="把一个Peer节点添加到多个通道中"><a href="#把一个Peer节点添加到多个通道中" class="headerlink" title="把一个Peer节点添加到多个通道中"></a>把一个Peer节点添加到多个通道中</h2><p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.12.png" alt></p>
+<ul>
+<li>客户端应用程序 A1 能够使用通道 C1 与节点 P1 和 P2 以及排序服务 O4 进行通信。</li>
+<li>客户端应用程序 A2 可以使用通道 C1 与节点 P1 和 P2 进行通信，以及使用通道 C2 与节点 P2 和 P3 以及排序服务 O4 进行通信。</li>
+<li>客户端应用程序 A3 能够使用通道 C2 与节点 P3 和 P2 和排序服务 O4 进行通信。</li>
+<li>排序服务 O4 能够使用通道 C1 和 C2 的通信服务。</li>
+<li>通道配置 CC1 应用在了通道 C1 中，CC2 应用在了通道 C2 中</li>
+</ul>
+<p>节点P2同时是两个通道的成员，并且通过不同的智能合约来处理不同的账本</p>
+<p><strong>需要注意的是</strong>，在通道配置CC1中包含的策略决定了P2在通道C1中进行交易的操作，通道配置CC2中的策略约束了P2在通道C2中的控制</p>
+<p><br></p>
+<h3 id="排序服务"><a href="#排序服务" class="headerlink" title="排序服务"></a>排序服务</h3><p>通过前面的学习，我们发现<strong>排序服务O4</strong>在整个网络创建中发挥着十分强的中心作用，它最初被用来<strong>创建这个网络</strong>，然后连接到<strong>网络中的每个通道</strong>。<br>这样似乎违背了区块链去中心化的初衷<br>不过，排序服务本身是可以完全去中心化的！<br>让我们看一个更加真实的排序服务节点配置：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.15.png" alt></p>
+<ul>
+<li>含有排序服务O1和O4</li>
+<li>O1由R1提供，O4由R4提供</li>
+<li>网络配置NC4中定义了来自R1和R4的操作者的<strong>网络资源权限</strong></li>
+</ul>
+<p>可以看到这个排序服务和 Hyperledger Fabric 中的其他组件一样，是完全去中心化的，它们分别在组织 R1 和 R4 中运行。</p>
+<h3 id="去中心化的交易分发"><a href="#去中心化的交易分发" class="headerlink" title="去中心化的交易分发"></a>去中心化的交易分发</h3><p>排序服务还提供了另外一个关键的设施——<strong>交易的分发点</strong><br>排序服务从应用程序中搜集背书过的交易，然后把这些交易<strong>进行排序并放进区块中</strong>，这些区块被分发到通道中的每一个Peer节点。在每个这样的节点中，交易不管是有效还是无效，都会被记录下来，并且本地账本副本也会更新。<br>注意此处排序服务节点O4扮演者两个不同角色</p>
+<ol>
+<li>通道C1中——O4搜集交易（背书过）、排序交易、在通道中分发区块。</li>
+<li>在网络N中——提供对<strong>网络资源的管理</strong></li>
+</ol>
+<p><br></p>
+<h3 id="修改策略-mod-policy"><a href="#修改策略-mod-policy" class="headerlink" title="修改策略(mod_policy)"></a>修改策略(mod_policy)</h3><p>一个策略的变化是有策略中的策略来管理的，即修改策略(mod_policy)。</p>
+<p>我们此前以及使用了mod_policy来管理网络中的变化。例如：</p>
+<p> <a href="#jump1">创建网络初始时</a>， <span id="jump2">这时候，</span>只有组织R4被允许管理网络（这是通过在网络配置NC4中把R4定义为唯一一个有权限来管理网络资源的组织来实现的）（R4在mod_policy中）。R4通过将R1添加到<strong>通道创建</strong>和<strong>联盟创建</strong>的策略中来实现<strong>允许R1来管理网络</strong></p>
+<p>  R4甚至可以通过网络配置来给R1更大的权限！——例如将R1直接添加到mod_policy,这样R1就同样可以管理这个网络中的变更了,甚至<font color="red">移除R4的管理权限！！</font></p>
+<p>  <font color="red">需要注意：</font>mod_policy的所有演进，都需要<strong>所有</strong>被引入组织的统一</p>
+<p>  <br></p>
+<h2 id="网络已经完全形成了"><a href="#网络已经完全形成了" class="headerlink" title="网络已经完全形成了"></a>网络已经完全形成了</h2><p>我们使用更加紧凑的视觉语法来稍微重新组织一下这个网络，因为它能够更好地适应更大的一个拓扑结构：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/_images/network.diagram.14.png" alt></p>
+<ul>
+<li>Fabric区块链网络包括了两个应用程序通道以及一个排序通道</li>
+<li>R1 R4负责排序通道</li>
+<li>R1 R2负责蓝色的应用程序通道</li>
+<li>R2 R3负责红色的应用程序通道</li>
+<li>客户端应用程序 A1 是组织 R1 的元素，CA1 是它的证书颁发机构</li>
+<li>组织 R2 的节点 P2 可以使用蓝色的通信设施，也可以使用红色的应用程序通道。</li>
+<li>每个应用程序通道具有它自己的通道配置，这里是 CC1 和 CC2。</li>
+<li>系统通道的通道配置是网络配置 NC4 的一部分。</li>
+</ul>
+<p>我们已经在概念上构建了一个 Hyperledger Fabric 区块链网络实例的最后一部分了。我们创建了一个有四个组织的网络，带有两个通道和三个 Peer 节点，两个智能合约和一个排序服务。并由四个证书颁发机构来支撑。它为三个客户端应用程序提供了账本及智能合约服务，这些应用程序可以通过两个通道与账本和智能合约进行交互。</p>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/11/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C/" title="区块链网络">http://example.com/2021/11/15/区块链网络/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Hyperledger-Fabric%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag"><i class="fa fa-tag"></i> Hyperledger Fabric区块链</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/" rel="prev" title="Fabric区块链关键概念总结">
+      <i class="fa fa-chevron-left"></i> Fabric区块链关键概念总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/15/Fabric%E5%8C%BA%E5%9D%97%E9%93%BE%E2%80%94%E8%BA%AB%E4%BB%BD/" rel="next" title="Fabric区块链--身份">
+      Fabric区块链--身份 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">什么是区块链网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">示例网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">3.</span> <span class="nav-text">创建网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">4.</span> <span class="nav-text">添加网络管理员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E8%81%94%E7%9B%9F"><span class="nav-number">5.</span> <span class="nav-text">定义联盟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E8%81%94%E7%9B%9F%E5%88%9B%E5%BB%BA%E9%80%9A%E9%81%93"><span class="nav-number">6.</span> <span class="nav-text">为联盟创建通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E9%81%93%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">6.1.</span> <span class="nav-text">通道的重要性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E5%92%8C%E8%B4%A6%E6%9C%AC"><span class="nav-number">7.</span> <span class="nav-text">节点和账本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%93%BE%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">应用程序和智能合约链码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%93%BE%E7%A0%81%E5%8C%85"><span class="nav-number">8.1.</span> <span class="nav-text">安装链码包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%93%BE%E7%A0%81"><span class="nav-number">8.2.</span> <span class="nav-text">定义链码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E4%B9%A6%E7%AD%96%E7%95%A5"><span class="nav-number">8.3.</span> <span class="nav-text">背书策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="nav-number">8.4.</span> <span class="nav-text">调用智能合约</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%E7%BD%91%E7%BB%9C"><span class="nav-number">9.</span> <span class="nav-text">完成网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%B9%B6%E6%8E%A5%E5%8F%97%E4%BA%A4%E6%98%93"><span class="nav-number">9.1.</span> <span class="nav-text">生成并接受交易</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Peer%E8%8A%82%E7%82%B9%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">9.2.</span> <span class="nav-text">Peer节点的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%80%9A%E9%81%93%E4%B8%AD%E6%B7%BB%E5%8A%A0%E7%BB%84%E5%90%88%E5%92%8C%E8%8A%82%E7%82%B9"><span class="nav-number">9.3.</span> <span class="nav-text">向通道中添加组合和节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8C%96%E8%A7%86%E8%A7%89%E8%AF%8D%E6%B1%87%E8%A1%A8"><span class="nav-number">10.</span> <span class="nav-text">简化视觉词汇表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA%E8%81%94%E7%9B%9F%E5%AE%9A%E4%B9%89"><span class="nav-number">11.</span> <span class="nav-text">添加另外一个联盟定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E9%80%9A%E9%81%93"><span class="nav-number">12.</span> <span class="nav-text">添加一个新的通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E8%B7%AF%E5%92%8C%E9%80%9A%E9%81%93%E9%85%8D%E7%BD%AE"><span class="nav-number">12.1.</span> <span class="nav-text">网路和通道配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AAPeer%E8%8A%82%E7%82%B9"><span class="nav-number">13.</span> <span class="nav-text">添加另外一个Peer节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8A%E4%B8%80%E4%B8%AAPeer%E8%8A%82%E7%82%B9%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%A4%9A%E4%B8%AA%E9%80%9A%E9%81%93%E4%B8%AD"><span class="nav-number">14.</span> <span class="nav-text">把一个Peer节点添加到多个通道中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E6%9C%8D%E5%8A%A1"><span class="nav-number">14.1.</span> <span class="nav-text">排序服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%E7%9A%84%E4%BA%A4%E6%98%93%E5%88%86%E5%8F%91"><span class="nav-number">14.2.</span> <span class="nav-text">去中心化的交易分发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%AD%96%E7%95%A5-mod-policy"><span class="nav-number">14.3.</span> <span class="nav-text">修改策略(mod_policy)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B7%B2%E7%BB%8F%E5%AE%8C%E5%85%A8%E5%BD%A2%E6%88%90%E4%BA%86"><span class="nav-number">15.</span> <span class="nav-text">网络已经完全形成了</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

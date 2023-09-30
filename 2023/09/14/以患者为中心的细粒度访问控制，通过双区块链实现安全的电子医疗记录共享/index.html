@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Learn电子病历（Electronic Medical Records, EMRs） 方便存储、共享能力  电子病历共享——医生可从不同医院访问患者的历史 EMRs。有助于医生做出更精确的诊断，并帮助研究人员开发新药或疫苗">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享">
+<meta property="og:url" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="Learn电子病历（Electronic Medical Records, EMRs） 方便存储、共享能力  电子病历共享——医生可从不同医院访问患者的历史 EMRs。有助于医生做出更精确的诊断，并帮助研究人员开发新药或疫苗">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/IEGWbdacMoefx1xkY4DcQg9Nn9J.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/EGnkbt2a9oexDlx2m1mc49AKnNc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/A2eobORBJob3WUxe9khc5UfmnUg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/GcHZbYXRPo1KZKxRdWwc74gcnGc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/AehRbH691oqxijx9XK6cZpj2nde.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/MCMdbvTdtoXUJwx6ovUchWS6nYe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/K49wbSS0Po8ieHxM6FVcWapYnBZ.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/LDfxbwagtoZ5WRxnAzKcxyhunse.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/UC0TbfL94oM13mxualCcTPHjnje.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/VVuTbbbVxoSkjexaaoXcHVi9nCe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/L9fUbTkOioMKUHx3slacrhfEnCb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/RZDybKDrRosehBxOWl1cAiP9nGd.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/BYhfbzCZEoXGmdxLNYHczcCinGc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/YmFobetLuoQtsvxMsRkcXAAtngJ.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/DvSjbX6zkoImpexLMrXcK0JgnTg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/Ffn9bO0Mjoc9x9xYvIvcdB0WnQg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/Eg5kbbCYtooZwcxTFffcheNanUe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/C1PYb1eMGoDksHxLXIecorhbnCd.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/VfSxbiFvooGCnZxXukvcug8Bnog.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/Y80lbAskbo7960xaoMZcQV8onHb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/HnYDbOLQmojOgcxComzc81uxnyh.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/NO2XbflLton2O3xRnPdcklrXnVg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/EfS1bCduaojj50xQcsKcsk28nDD.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/ToatbVYFQoDDqkxaDl7cjWglnPc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/JEPhbi1ldoWqSMxRCh4c930Dnof.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/QZvnb7wf9oNYy2x3gEicn5nlnEe.png">
+<meta property="article:published_time" content="2023-09-14T06:42:00.000Z">
+<meta property="article:modified_time" content="2023-09-14T11:46:52.000Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="区块链物联网">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/IEGWbdacMoefx1xkY4DcQg9Nn9J.png">
+
+<link rel="canonical" href="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-14 14:42:00 / 修改时间：19:46:52" itemprop="dateCreated datePublished" datetime="2023-09-14T14:42:00+08:00">2023-09-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Learn"><a href="#Learn" class="headerlink" title="Learn"></a>Learn</h2><h3 id="电子病历（Electronic-Medical-Records-EMRs）"><a href="#电子病历（Electronic-Medical-Records-EMRs）" class="headerlink" title="电子病历（Electronic Medical Records, EMRs）"></a>电子病历<strong>（Electronic Medical Records, EMRs）</strong></h3><ul>
+<li><p>方便存储、共享能力</p>
+</li>
+<li><p>电子病历共享——医生可从不同医院访问患者的历史 EMRs。有助于医生做出更精确的诊断，并帮助研究人员开发新药或疫苗</p>
+</li>
+</ul>
+<span id="more"></span>
+<h3 id="中间人攻击（Man-in-the-Middle-Attack，MITM-攻击）"><a href="#中间人攻击（Man-in-the-Middle-Attack，MITM-攻击）" class="headerlink" title="中间人攻击（Man-in-the-Middle Attack，MITM 攻击）"></a>中间人攻击（Man-in-the-Middle Attack，MITM 攻击）</h3><p>中间人攻击是一种网络安全攻击，攻击者在<strong>通信的两端</strong>之间插入自己，从而能够监视、篡改或劫持通信流量。这种攻击通常在用户和目标服务器之间进行，攻击者能够获取敏感信息、窃取凭据，或者干扰通信内容。中间人攻击通常包括以下步骤：</p>
+<ol>
+<li>拦截通信：攻击者在通信路径上插入自己，可能是通过劫持公共 Wi-Fi 网络、DNS 欺骗、ARP 欺骗等方式。</li>
+<li>监视流量：一旦攻击者成功插入中间，他们就可以监视通信双方之间的数据流量，获取敏感信息，如登录凭据、信用卡信息等。</li>
+<li>篡改数据：攻击者可以修改传输的数据，导致通信双方接收到被篡改的信息，这可能会引发误解、混淆，甚至是恶意操作。</li>
+<li>劫持连接：攻击者可能冒充通信双方之一，与另一方建立连接。这使得他们能够操纵通信并传递虚假信息。</li>
+</ol>
+<p>为了防范中间人攻击，可以采取以下措施：</p>
+<ol>
+<li>使用加密通信：通过使用 SSL/TLS 等加密协议，可以确保通信内容在传输过程中是加密的，攻击者无法轻易获取明文信息。</li>
+<li>验证证书：在使用 HTTPS 等加密连接时，确保浏览器或应用程序验证服务器的数字证书，以防止受到伪造证书的攻击。</li>
+<li>公共网络谨慎使用：避免在公共 Wi-Fi 网络上传输敏感信息，因为这些网络容易受到中间人攻击。</li>
+<li>使用虚拟专用网络（VPN）：通过使用 VPN 可以加密你的互联网连接，提供额外的安全保障。</li>
+<li>定期更改密码：定期更改账户密码，即使信息被攻击者获取，他们也不能长时间使用。</li>
+</ol>
+<h3 id="双线性映射-建立认证密钥协议"><a href="#双线性映射-建立认证密钥协议" class="headerlink" title="双线性映射-建立认证密钥协议"></a>双线性映射-建立认证密钥协议</h3><p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/IEGWbdacMoefx1xkY4DcQg9Nn9J.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/EGnkbt2a9oexDlx2m1mc49AKnNc.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/A2eobORBJob3WUxe9khc5UfmnUg.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/GcHZbYXRPo1KZKxRdWwc74gcnGc.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/AehRbH691oqxijx9XK6cZpj2nde.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/MCMdbvTdtoXUJwx6ovUchWS6nYe.png" alt></p>
+<p>双线性映射</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/K49wbSS0Po8ieHxM6FVcWapYnBZ.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/LDfxbwagtoZ5WRxnAzKcxyhunse.png" alt></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/UC0TbfL94oM13mxualCcTPHjnje.png" alt></p>
+<ul>
+<li>双线性映射函数是一种特殊的映射函数，可以将<strong>两个向量映射到一个标量值</strong>。</li>
+<li><p>用途：</p>
+<ol>
+<li>加密和解密：将明文和密钥映射到一个标量值，实现对数据的加密和解密操作。</li>
+<li>签名和验证：通过将消息和私钥映射到一个标量值，可以生成数字签名。而将消息、公钥和签名映射到一个标量值，可以验证数字签名的有效性。</li>
+<li>身份验证：通过将用户的身份信息和私钥映射到一个标量值，可以生成身份证明。而将用户的身份信息、公钥和身份证明映射到一个标量值，可以验证用户的身份。</li>
+<li>零知识证明：通过将证明者的证明和验证者的挑战映射到一个标量值，可以实现零知识证明的过程。</li>
+</ol>
+</li>
+</ul>
+<h3 id="Merkle-tree"><a href="#Merkle-tree" class="headerlink" title="Merkle tree"></a>Merkle tree</h3><p><strong>Merkle tree</strong></p>
+<p>下图是一个简单的 Merkle tree，可以看到除最底层的数据外，其他节点都是左右两个子节点的 hash 值组成。（注：红线代表左右顺序）</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/VVuTbbbVxoSkjexaaoXcHVi9nCe.png" alt></p>
+<p><strong>Hash 链表</strong></p>
+<p>传统链表是使用下一个节点地址作为指向（上一个节点知道下一个节点地址，因此能指向下一个节点），但是 Merkle tree 中的链表和区块链中的链表一样，使用上一个节点的 hash 值作为指向（下一个节点知道上一个节点的 hash 值？），如图：</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/L9fUbTkOioMKUHx3slacrhfEnCb.png" alt></p>
+<p><strong>Hash 链表 +Merkle tree=防篡改</strong></p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/RZDybKDrRosehBxOWl1cAiP9nGd.png" alt></p>
+<p>假设我们更改了左边虚框内那一批已经存在的事务数据，例如 data1，那区块 1 的<strong>Merkle tree </strong>root 值就一定会改变，区块 1 的 hash 值也一定会变，这种变化会产生新的链，当发现这条新链在区块 1 后的所有区块值与各个节点原本记录的值不一致，就会认为有人修改了链上的旧数据。</p>
+<p>而且我们使用的是 hash 值作为指向，只要大家手上的最后一个值没问题，在回溯时必然无法回溯到被篡改的数据，甚至回溯对比后还可以知道哪里发生了篡改。</p>
+<p>既然无法指向我们篡改的数据，那我们把后面的所有区块以及其数据也篡改了行不行？可以的，但是区块有无数个，而且并不是简单的遍历修改本地数据就 ok 了，还需要所有节点的共识，你能黑光所有的节点，让他们都直接放弃手中的数据，认可你这新的链吗？</p>
+<p>所以在对账时，就很容易知道账目是否正确，由于是直接比较 hash 值，使用 <strong>Merkle tree</strong> 去判断内容是否被篡改是很快的！</p>
+<p><strong>判断某个事务是否被记录（是否存在）</strong></p>
+<p>你怎么保证你手中的数据和链上一致？怎么证明你的数据在链上呢？</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/BYhfbzCZEoXGmdxLNYHczcCinGc.png" alt></p>
+<p>例子：你在银行存了 50 万，银行怎么证明它给你存了 50 万呢？</p>
+<p>假设要判断红色框 data1 的数据是否是 A=“我在银行存了 50 万”</p>
+<ol>
+<li>首先向信任节点获取蓝色框和黄色框的值。</li>
+<li>然后假定我们要判断的数据的已经被记为 A，假定值 A 与 B 进行 hash,得到 C</li>
+<li>将 C 与 D 进行 hash，得到 E</li>
+<li><p>判断 E 是否等于 F</p>
+<ul>
+<li>等于，说明 data1 存储的数据确实是 A，事务已被记录</li>
+<li>不等于，说明 data1 存储的数据不是 A，事务没有被记录。</li>
+</ul>
+</li>
+</ol>
+<p><strong>常见应用</strong></p>
+<p>git</p>
+<p>我们切换 commit 时，git 是怎么实现不同 commit 文件数量和文件内容的切换的？</p>
+<p>git 会记录所有版本的文件，例如文件 a 在第一个 commit 中内容是 1，第二次 commit 中内容是 2，此时 git 本地仓库中会分别有：内容为 1 的文件 a，内容为 2 的文件 a。</p>
+<p>git 中每一个 commit 就相当于一个区块，这个区块有对应的 Merkle tree，而 Merkle tree 的 hash 值又指向了对应的文件，所以切换一个 commit 其实就相当于将当前区块切换，如下图</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/YmFobetLuoQtsvxMsRkcXAAtngJ.png" alt></p>
+<p>分布式数据存储的数据校验</p>
+<p>我们将成千上万个文件存在互联网上的任意服务器，任何一个能上网的终端都可以作为我们的存储器。假设我们为了保证性能，不通过中介服务器，直接 p2p 连接，并且不校验这些存储器的身份。那如何保证我们从这些不受信任的存储器中下载的数据，是我们存入时的样子（没有被篡改）？</p>
+<p>步骤：</p>
+<ol>
+<li>这些任意的服务器都要拥有其存储文件的 Merkle tree。</li>
+<li>终端下载这个服务器中存储的 Merkle tree，向值得信任的服务器取得这个 Merkle tree 对应区块的值，计算并判断 Merkle tree 顶部的 hash 值是否等于区块记录的值，等于说明这个服务器记录的 Merkle tree 没有问题。</li>
+</ol>
+<h3 id="Hotstuff-共识机制"><a href="#Hotstuff-共识机制" class="headerlink" title="Hotstuff 共识机制"></a>Hotstuff 共识机制</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ganzr/article/details/110879463">https://blog.csdn.net/ganzr/article/details/110879463</a></p>
+<p>算法复杂度为 O(n)</p>
+<p>优化点：</p>
+<ol>
+<li>将<strong>节点广播投票</strong>改成 <strong>leader 节点收集投票然后再广播</strong>，从而将$O(n^2)$的复杂度降低为$O(n)$</li>
+</ol>
+<blockquote>
+<p>在 PBFT 中，由于每个节点都会广播自己的投票并收集其他人的投票（因为有拜占庭节点的存在，节点只相信自己所获取到的关于某个节点的投票信息），导致每一个节点都做了大量重复的工作。<br>HotStuff 只需要一个节点负责收集，将收集到的结果广播给每一个节点，避免其他节点重复收集</p>
+</blockquote>
+<ol>
+<li>每一个轮的投票除了是对本轮的请求的共识，<strong>也是对上一轮请求的共识</strong>。</li>
+</ol>
+<blockquote>
+<p>pbft 预准备、准备、提交<strong>三个阶段</strong>的内容都有<strong>收集投票</strong>：</p>
+<ul>
+<li>preprepare：收集 leader 的提议</li>
+<li>prepare：收集所有节点对于该提议的投票信息；</li>
+<li>commit：收集所有节点对于 prepare 阶段中“自身节点收集到 2/3 的其他节点的反对/赞成投票”的信息；<br>将提议的不同阶段重合，实现<strong>并行处理</strong>提议的投票<br><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/DvSjbX6zkoImpexLMrXcK0JgnTg.png" alt></li>
+</ul>
+</blockquote>
+<ol>
+<li><strong>每一轮投票更换一次 leader 节点</strong>，尽可能减少 leader 出错时更换 leader 所需要的时间。</li>
+</ol>
+<blockquote>
+<p>在 pbft 中，有一个专门的 <strong>view-change</strong> 阶段来更换出问题的 leader，但是这个 view-change 实质上就是一个特殊的 proposal，这个 proposal 不需要 leader 来发出，而是节点本身在判断当前 leader 出问题时，就会直接广播一个针对这个特殊的 proposal 的投票。那么这里的 leader 更换就需要走至少一轮完整的共识。<strong>耗费了一个共识的时间</strong><br>在 HotStuff 中，为了减少更换 leader 所需要的走的流程，主动在每次发送完 proposal 之后就更换 leader。</p>
+</blockquote>
+<p>非流水线 HotStuff 算法流程：</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/Ffn9bO0Mjoc9x9xYvIvcdB0WnQg.png" alt></p>
+<p>leader 做收集投票的事情：</p>
+<ol>
+<li>收集至少 2/3 节点的投票，即 leader 节点<strong>发生了</strong>事件 A——收到至少 2/3 个投票，此时 leader 节点把这个时间的证据保留下来，广播给其他节点，那么其他节点也就相当于发生了事件 A；但是还是不知道其他节点是否有<strong>接收到</strong> leader 广播的事件 A</li>
+<li>此时<strong>接收到</strong>事件 A 的节点会广播一个投票给 leader；leader 会收集这些投票，即 leader 发生了事件 B——至少 2/3 的节点收到至少 2/3 个投票，同理，将这个事件 B 广播给其他节点，其他的节点在收到时也相当于发生了事件 B，但是还是不知道其他节点是否有<strong>收到</strong> leader 广播的事件 B</li>
+<li>跟第 2 步一样，收到事件 B 的节点也会广播一个投票给 leader，leader 收集，此时 leader 节点上发生了事件 C，同理，将这个事件广播给其他节点，其他节点受到后，就确认了共识已经达成。</li>
+</ol>
+<p>流水线 HotStuff 算法流程</p>
+<p>在非流水线的 hotstuff 中，节点的步骤有 4 个，分别是 pre-prepare，prepare，pre-commit，commit，在<strong>每一阶段中都会有一次广播</strong>，因此，可以将<strong>不同的 proposal 的不同的阶段重合</strong>，然后复用每一轮的广播来完成这些重叠的 proposal 的阶段的变换。</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/Eg5kbbCYtooZwcxTFffcheNanUe.png" alt></p>
+<p>QC 即上述的事件发生的“证据”——至少 2/3 节点的投票</p>
+<ol>
+<li>每一个 cmd（即 proposal）在 prepare 被提出，经历后续三个阶段后达成共识；</li>
+<li>每一个 QC，既是所指向的 cmd 达到下一个阶段的证明，也是上一个 cmd 的的证明，同时还是上上个 cmd 的证明，且分别表示不同的 cmd 到达了不同阶段的证明。</li>
+</ol>
+<p>总结</p>
+<ul>
+<li><strong>leader 完成</strong>本来每个节点都需要重复做的事情——收集投票</li>
+<li>将整个共识的阶段抽象成<strong>流水线</strong>模型，每一个 QC 同时证明三个 cmd 状态</li>
+<li>每一个 leader 在广播完一个（QC，cmd）之后就会<strong>更换另一个 leader</strong></li>
+</ul>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p><strong>问题</strong></p>
+<ul>
+<li>无法保证<strong>安全性</strong>：EMR 共享存在未经授权访问、数据泄漏风险——无法维护患者病历隐私</li>
+<li>无法保证<strong>不可篡改性</strong>：不完整、或被篡改的 EMR 会误导医生的治疗</li>
+<li>无法保证<strong>隐私性</strong>：患者需要对 EMR 进行细粒度的访问控制，防止医生访问不相关的 EMR</li>
+</ul>
+<p><strong>目前基于云、结合多种密码算法的方案问题</strong></p>
+<p>提高了效率，确保了数据安全</p>
+<ul>
+<li>容易出现单点故障</li>
+<li>无法在医院之间建立信任</li>
+</ul>
+<p><strong>目前基于区块链的方案问题</strong></p>
+<p>实现医院间的信任、跨医院的 EMR 不变存储、允许每个实体验证 EMR 的真实性(无篡改)、完整性(无损失)</p>
+<ul>
+<li>恶意的医生可能滥用病人的授权，查阅不相关的电子病历，损害病人的隐私</li>
+<li>昏迷患者没有能力授权医生访问自己先前的 EMR</li>
+<li>对区块链共识机制的某些攻击可能会篡改上传的事务，从而破坏实体之间的信任。</li>
+</ul>
+<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/C1PYb1eMGoDksHxLXIecorhbnCd.png" alt></p>
+<h3 id="双区块链架构"><a href="#双区块链架构" class="headerlink" title="双区块链架构"></a>双区块链架构</h3><p>MED 医疗区块链（公有链）：</p>
+<ul>
+<li>使用<strong>工作量证明机制</strong>（以建立实体间的信任关系）生成新的医疗区块 Mblocks</li>
+<li>存储：时间不敏感的 EMR 相关事务（$tx_{mr}$）</li>
+<li>Mblock 不存储事务的单个签名，而是保留最终的聚合签名——节省 MED 存储空间</li>
+<li>其他实体通过验证聚合签名，从而轻松验证 Mblock 中所有事务的真实性——降低计算开销</li>
+<li><p>Mblock 中的<strong>事务</strong>记录在两层结构中：</p>
+<ul>
+<li>HN 从 DNs 收集事务，然后继续验证、聚合 DNs 各自的签名——形成底层</li>
+<li>矿工节点从 HNs 获得这些事务，对 HNs 的签名进行进一步验证和<strong>第二次聚合</strong>——形成顶层</li>
+</ul>
+</li>
+</ul>
+<p>SUP 监管区块链（联盟链）：</p>
+<ul>
+<li>使用 <strong>Hotstuff 共识机制</strong>（以快速生成）生成监管区块（Sblock）</li>
+<li>存储：时间敏感的事务（如<strong>紧急 EMR 请求</strong>$tx_{ur}$、<strong>医生许可操作请求</strong>$tx_{qr}$-监管医生资格、<strong>Mblock 的哈希</strong>-使患者昏迷时可紧急访问 EMR）、医生撤销列表 Merkle 树的根节点</li>
+<li>专门在<strong>医院之间</strong>运行</li>
+<li>采用 Merkle Patricia Trie，MRT 在每个 HN 的本地存储中维护一致的医生撤销列表。该列表可随着医生证书的改变，动态扩展或收缩</li>
+<li>实现聚合签名方案——提高事务验证的效率</li>
+<li>监督公有链-医疗区块链，以防止自私挖矿攻击</li>
+<li>监管身份过期的医生</li>
+</ul>
+<h3 id="三类型节点"><a href="#三类型节点" class="headerlink" title="三类型节点"></a><strong>三类型节点</strong></h3><ul>
+<li><p>医院节点 HN：</p>
+<ul>
+<li>同时参与 MED 链、SUP 链，<strong>维护 MED 链、SUP 链</strong></li>
+<li>职责：<ul>
+<li>存储 EMR</li>
+<li>验证请求真实性</li>
+<li>参与合法医生节点 DN 的协商，以共享 EMR</li>
+<li>聚合事务签名，以节省区块链存储资源</li>
+<li>维护医生撤销列表</li>
+<li>通过 SUP 链监管 MED 链</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>医生节点 DN：</p>
+<ul>
+<li>同时参与 MED 链、SUP 链</li>
+<li>视为 HN 的代理，并持有其颁发的许可证</li>
+<li>职责：<ul>
+<li>代表 HN 向其他机构请求 EMR（通常使用 TAKA 协议获得 EMR）</li>
+<li>生成 EMR</li>
+<li>在 MED 链上发布 EMR 相关事务</li>
+<li>在紧急情况下，在 MED 链上查询 EMR <strong>关键字</strong>，并在 SUP 链发出紧急请求，以实现可追溯、安全的 EMR 共享</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>患者节点 PN：</p>
+<ul>
+<li>仅维护 MED 链，可以从 SUP 链读取数据</li>
+<li>作为 EMR 访问控制器</li>
+<li>作为 MED 链中的<strong>轻量级节点</strong>，可自由加入或退出系统</li>
+<li>职责：<ul>
+<li>基于 TAKA 协议，授权 DN 访问存储在其他 HN 中的特定 EMR</li>
+<li>利用生物特征信息加密 EMR 关键字，存储在 MED 链上</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="时间敏感性事务"><a href="#时间敏感性事务" class="headerlink" title="时间敏感性事务"></a>时间敏感性事务</h3><ul>
+<li><p>基于时间及时性的事务分类，有助于在紧急情况下对紧急电子病历做出迅速反应</p>
+</li>
+<li><p>时间敏感：存储在 SUP 链中</p>
+</li>
+</ul>
+<ul>
+<li><ul>
+<li>紧急 EMR 请求 $tx_{ur}$</li>
+<li>医生资格撤销$tx_{qr}$</li>
+</ul>
+</li>
+<li><p>时间不敏感：存储在 MED 链中</p>
+<ul>
+<li>EMR 相关事务$tx_{mr}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="实体与链的关系"><a href="#实体与链的关系" class="headerlink" title="实体与链的关系"></a>实体与链的关系</h3><ul>
+<li>如果一个实体只维护 MED 链，则必须进行 MED 链事务池相关操作</li>
+<li>如果一个实体只维护 SUP 链，则需要向 SUP 链事务池添加新 Mblock、和添加事务</li>
+<li>如果一个实体同时维护 MED、SUP，则除以上操作外，还必须识别、分类来自其他实体的事务</li>
+</ul>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/VfSxbiFvooGCnZxXukvcug8Bnog.png" alt></p>
+<h3 id="TAKA-协议"><a href="#TAKA-协议" class="headerlink" title="TAKA 协议"></a>TAKA 协议</h3><p>基于身份的三方认证密钥协议（Tripartite Authentication Key Agreement, TAKA）：现患者对自己 EMR 的细粒度访问控制</p>
+<ul>
+<li>TAKA 为不同 EMR 生成唯一的会话密钥——防止医生访问不相关的 EMR</li>
+<li>TAKA 可以扩展为一次共享多个 EMR</li>
+</ul>
+<h3 id="以患者为中心"><a href="#以患者为中心" class="headerlink" title="以患者为中心"></a>以患者为中心</h3><p>让病人对他们 EMR 访问有细颗粒度的控制</p>
+<ul>
+<li>患者精确控制其他人对自己的 EMR 访问权限</li>
+<li>患者授权特定医生访问特定的 EMR——根据个人偏好</li>
+<li>即使患者处于无意识状态，紧急 EMR 共享也需要患者的生物识别信息</li>
+</ul>
+<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h3><h4 id="基于区块链的-EMR-共享"><a href="#基于区块链的-EMR-共享" class="headerlink" title="基于区块链的 EMR 共享"></a>基于区块链的 EMR 共享</h4><ul>
+<li>Yu [3]设计了一个基于联盟区块链的 EMR 共享平台，并引入假名机制保护患者隐私</li>
+<li>Amofa [16]提出了一种区块链架构，将智能合约与预先指定的策略相匹配，以保证 EMR 共享的安全性。</li>
+<li>Zhuang [17]允许患者控制授权请求者列表，隐藏他们不想共享的 EMR。特别地，如果患者无意识，则以患者为中心的医疗保健系统可以安全地共享 EMR</li>
+<li>Xu [18]创新性地提出了双区块链结构，将患者健康数据和医生诊断分开管理，减少了通信和计算开销。</li>
+<li>Yazdinejad [19]提出了一种基于区块链的医院网络的有效分散身份验证方案。但该方案要求患者将其公钥和私钥发送给参与转移的医院，这增加了医疗数据泄露的风险。</li>
+<li>Chen [20]提出了医院之间的安全 EMR 共享系统，以避免医疗资源的浪费，使用智能合约的程序化授权来确保 EMR 的安全性。</li>
+<li>Liu [21]提出了一种基于医院私有区块链的 EMR 共享方案，医生能够在保护患者隐私的同时存储或访问 EMR。该方案允许实体生成自己的公钥和私钥，以确保数据的机密性。然而，参与者和系统管理之间的频繁通信可能导致单点故障漏洞。</li>
+<li>Sun [22]采用基于属性的加密（ABE）来实现 EMR 的细粒度访问控制，其中患者和医生共同制定 EMR 访问策略。医生对数据请求者进行身份验证，降低患者操作难度。然而，该方案依赖于安全信道来发送密钥，这降低了可用性。</li>
+<li>an [23]提出了一种基于区块链的 EMR 共享方案，基于密文策略属性加密（CP-ABE），可以跟踪并直接撤销满足属性集的恶意用户。</li>
+<li>Wu [24]提出了一种具有 DiffieHellman 密钥交换的细粒度 EMR 访问控制解决方案。它引入区块链来提高 EMR 存储和共享的效率。然而，密钥交换机制不能认证身份并且容易受到中间人攻击。</li>
+</ul>
+<p>上述相关工作缺陷：</p>
+<ul>
+<li>没有以患者为中心的细粒度 EMR 访问控制</li>
+<li>某些方案需要部署访问策略、与分发密钥，从而限制了患者调整 EMR 请求者许可的灵活性</li>
+</ul>
+<h4 id="认证密钥协议"><a href="#认证密钥协议" class="headerlink" title="认证密钥协议"></a>认证密钥协议</h4><ul>
+<li>Zhang [11]提出了云与用户之间的匿名认证，以防止用户的身份在认证过程中被暴露。</li>
+<li>Feng [26]提出了一种基于双方计算的协作认证协议，恶意实体无法使用该协议通过仅使用其中一个部分私钥对医疗服务器的验证。</li>
+</ul>
+<p>这两种方案都不是基于区块链架构，都有传统集中式 EMR 共享的弊端。</p>
+<p>本文设计了一个基于身份的三方认证密钥协议：</p>
+<ul>
+<li>允许医生在患者的授权下，与另一家医院安全地协商特定的会话密钥以进行 EMR 共享。</li>
+<li>使用两个<strong>反向哈希链</strong>来生成加密因子。再将加密因子集成到会话密钥中，实现患者对 EMR 精确的访问控制</li>
+</ul>
+<h3 id="系统框架"><a href="#系统框架" class="headerlink" title="系统框架"></a>系统框架</h3><p>见上</p>
+<h3 id="威胁模型"><a href="#威胁模型" class="headerlink" title="威胁模型"></a>威胁模型</h3><ul>
+<li>恶意医生会滥用、伪造患者的授权，访问不相关的 EMRs</li>
+<li>每个实体都有动机操纵双区块链的数据以谋私利</li>
+<li>不到三分之一的医院会恶意串通</li>
+</ul>
+<h3 id="安全目标"><a href="#安全目标" class="headerlink" title="安全目标"></a>安全目标</h3><ul>
+<li>授权安全性：患者生成访问许可，供医生访问患者在其他医院存储的 EMRs。攻击者应该无法伪造患者的授权书，无法通过医院验证</li>
+<li>数据保密性：未经授权的实体不得访问 EMR，或不得解密任何 EMR 密文</li>
+<li><p>身份验证密钥协商：医生与医院之间的身份认证应该</p>
+<ul>
+<li>仅在患者的授权下完成</li>
+<li>在协商会话密钥时完成</li>
+</ul>
+</li>
+<li>前向和后向保密：过去和未来，共享 EMR 应该一直保持安全，即使参与者不知道被泄漏的长期密钥和当前会话密钥</li>
+<li>抵抗自私挖矿攻击：在 MED 链中，恶意矿工可能会使用高计算能力设备篡改 MED 链的原始数据，本系统应该可以抵御自私挖矿攻击</li>
+</ul>
+<h3 id="方案细节"><a href="#方案细节" class="headerlink" title="方案细节"></a>方案细节</h3><h4 id="方案概览"><a href="#方案概览" class="headerlink" title="方案概览"></a>方案概览</h4><ul>
+<li><p>当医生需要查看患者在其他医院的 EMRs 时，患者给该医生授权</p>
+<ul>
+<li>如果患者清醒，使用 <strong>TAKA 方案</strong>直接给医生授权，MED 链用于验证 EMR 完整性</li>
+<li>如果患者昏迷，医生<strong>在 SUP 链发布紧急请求</strong>，以安全访问患者 EMR</li>
+</ul>
+</li>
+<li><p>医院管理医生许可证</p>
+<ul>
+<li>医院为雇佣的医生发放许可证，并设定有效期</li>
+<li>利用 <strong>SUP 链</strong>维护被撤销医生列表</li>
+</ul>
+</li>
+<li>SUP 链监督 MED 链，防止发生自私挖矿攻击</li>
+</ul>
+<h4 id="系统初始化"><a href="#系统初始化" class="headerlink" title="系统初始化"></a>系统初始化</h4><p>全局可信的 PKG(私钥生成器)初始化协议所需系统参数：</p>
+<ul>
+<li><p>初始化双线性映射参数：</p>
+<ol>
+<li>选择加法群 G1 和乘法群 G2，两者具有<strong>相同素数阶</strong> q 的。P 是 G1 的生成元。</li>
+<li>选择一个双线性映射 G1 × G1 →G2，设置 $g = \hat{e}(P, P)$。</li>
+<li>选择随机数$s ∈Z^<em>_q$作为<em>*主私钥</em></em>，输出$P_{pub}=sP$作为主公钥，在 G1 中</li>
+</ol>
+</li>
+<li><p>选择安全哈希函数：</p>
+<ul>
+<li><script type="math/tex; mode=display">
+H_0：\{0，1\}^* → Z^ *_ q</script></li>
+<li><script type="math/tex; mode=display">
+H_1：\{0，1\}^* → G^ *_ 1</script></li>
+<li><script type="math/tex; mode=display">
+H_2：\{0，1\}^* × G^ *_ 1 × G^ * _1 × G^ * _1 → Z ^* _q</script></li>
+<li><script type="math/tex; mode=display">
+H_3：G_2→\{0，1\}^*</script></li>
+<li><script type="math/tex; mode=display">
+H_4：G^ *_ 1 → Z^ *_ q</script></li>
+<li><script type="math/tex; mode=display">
+H_5：Z ^*_ q → Z^ *_ q</script></li>
+<li><script type="math/tex; mode=display">
+H_6：\{0，1\}^* → \{0，1\}^*</script></li>
+<li><script type="math/tex; mode=display">
+H_7：\{0，1\}^* × G^ *_ 1 × G^ *_ 1 → Z^ *_ q</script></li>
+<li>$H_{sk}：\{0，1\}^* → \{0，1\}^k$（sk 表示会话密钥，k =|sk|）.</li>
+</ul>
+</li>
+<li>发布系统参数：params = $(G_1,G_2, \hat{e}, q, g, P,P_{pub},H_0,H_1,H_2,H_3,H_4,H_5,H_6,H_7,H_{sk})$</li>
+</ul>
+<h4 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h4><p><strong>总述：</strong></p>
+<ol>
+<li>每个实体通过安全信道向 PKG 发送注册请求</li>
+<li>PKG 为每个实体提取两个密钥：一个用于签名消息；一个用于协商会话密钥</li>
+<li>每个实体在双区块链中注册一个系统账户</li>
+</ol>
+<p><strong>详细步骤：</strong></p>
+<p>假设实体 U 进行登记</p>
+<ol>
+<li><p>U 向 PKG 发出登记请求：U 选择随机值$x_U∈ Z^∗_q$，$ID_U$为 U 已有的唯一标识</p>
+<ol>
+<li>$L_{U1} = x_UP$，在 G1 中</li>
+<li>$Q_U = H_0(ID_U)$，$\hat{Q}_U = H_1(ID_U)$，将两者存于本地（$H_0：\{0，1\}^<em> → Z^ </em>_ q$，$H_1：\{0，1\}^<em> → G^ </em>_ 1$）<br>发送$ID_U和L_{U1}$给 PKG——登记请求</li>
+</ol>
+</li>
+<li><p>PKG 提取密钥，响应 U：选择随机数$y_U∈z^*_p$</p>
+<ol>
+<li>$L_{U2} = y_UP$，在 G1 中</li>
+<li>$L_U<br>= L_{U1}</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>L_{U2}$，由群的封闭性可知，在 G1 中<ol>
+<li>$f = H_7(ID, P_{pub}, L_U<br>)$，（$H_7：\{0，1\}^<em> × G^ </em>_ 1 × G^ <em>_ 1 → Z^ </em>_ q$）</li>
+<li>$d_U= (y_U+ sf) mod\ q$，s 是 PKG 的主私钥，结果在$z^*_q$中</li>
+<li>$\hat{Q}_U=H_1(ID_U),\hat{S}_U=s \hat{Q}_U$，两者都在 G1 中<br>发送$(L_U,d_U,\hat{S}_U)$给 U</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li><p>U 安全存放$x_U,L_U,d_U,\hat{S}_U$</p>
+<ul>
+<li>可以使用$(x_U,L_U,d_U)$签名消息</li>
+<li>可以使用$Q_U$授权或验证授权</li>
+<li>可以使用$(\hat{Q}_U ,\hat{S}_U)$与其他实体协商会话密钥</li>
+<li>协议采用 Gentry[30]的聚合签名方案，来对双区块链上的事务进行签名</li>
+</ul>
+</li>
+<li><p>医生实体在 PKG 注册后，还要在医院注册<br>当医院雇佣医生时，医院在$ρ=(ID_{HN},ID_{DN},EXP）$中指定医生许可证的到期日期 EXP，使用 DU[32]的方案签名 ρ，并签发给医生</p>
+</li>
+</ol>
+<h4 id="EMR-管理"><a href="#EMR-管理" class="headerlink" title="EMR 管理"></a>EMR 管理</h4><p>使用 HNs 管理 PNs 的 EMR——HNs 总是在线的</p>
+<h5 id="协商密钥、生成初始因子"><a href="#协商密钥、生成初始因子" class="headerlink" title="协商密钥、生成初始因子"></a>协商密钥、生成初始因子</h5><p>当患者（PN C）第一次访问医院（HN A）时，C 和 A 协商会话密钥，并生成两个初始因子$S_α和S_β$（初始因子生成加密因子，用于 C 的 EMR 细粒度访问控制）</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/Y80lbAskbo7960xaoMZcQV8onHb.png" alt></p>
+<p><strong>详细步骤：</strong></p>
+<ol>
+<li><p>C</p>
+<ol>
+<li>计算$K_{CA}=e(\hat{S}_C，\hat{Q}_A)$</li>
+<li>选择两个随机数$c_1,c_2∈Z^*_q$，计算$T_{c1} = c_1P,T_{c2}=c_2P$</li>
+<li>发送$T_{c1}, T_{c2}$给 A</li>
+</ol>
+</li>
+<li><p>A</p>
+<ol>
+<li>计算$K_{AC}=e(\hat{S}_A，\hat{Q}_C)$</li>
+<li>选择两个随机数$a_1,a_2∈Z^*_q$，计算$T_{a1} = a_1P,T_{a2}=a_2P$</li>
+<li>发送$T_{a1}, T_{a2}$给 C</li>
+<li>生成对称会话密钥$sk_{AC} = H_{sk}(ID_C||ID_A||a_1T_{c1}||a_2T_{c2}||K_{AC}||T_{c1}||T_{c2}||T_{a1}||T_{a2})$</li>
+</ol>
+</li>
+<li><p>C</p>
+<ol>
+<li>生成对称会话密钥$sk_{CA} = H_{sk}(ID_C||ID_A||c_1T_{a1}||c_2T_{a2}||K_{CA}||T_{c1}||T_{c2}||T_{a1}||T_{a2})$</li>
+</ol>
+</li>
+<li>A C<br>根据$T_{a1}, T_{a2}, T_{c1}, T_{c2}$，A C 都产生两个相同的初始因子 $s_α =c_1T_{a2} =a_2T_{c1}=a_2c_1P, s_β =<br>c_2T_{a1}=a_1T_{c2}=a_1c_2P$</li>
+</ol>
+<h5 id="EMR-和相关事务-tx-mr-的生成、上链"><a href="#EMR-和相关事务-tx-mr-的生成、上链" class="headerlink" title="EMR 和相关事务$tx_{mr}$的生成、上链"></a>EMR 和相关事务$tx_{mr}$的生成、上链</h5><ol>
+<li>生成：就诊医生（DN $\bar{A}$）对患者进行诊断后，生成 C 的 EMR、包含 C 的 EMR 哈希值的医疗记录事务 $tx_{mr}$</li>
+</ol>
+<script type="math/tex; mode=display">
+tx_{mr} = \{λ_0, ID_{\bar{A}}, hEMR, ts_1, htxM, σ_{\bar{A}}\}</script><blockquote>
+<ul>
+<li>$λ_0$：事务类型</li>
+<li>$ID_{\bar{A}}$：DN 唯一标识</li>
+<li>$ hEMR$：EMR 哈希值</li>
+<li>$ ts_1$：时间戳</li>
+<li>$ htxM=H(λ_0, ID_{\bar{A}}, hEMR, ts_1)$，前四项哈希值</li>
+<li>$σ_{\bar{A}}=Sign_{\bar{A}} (htxM)$：$\bar{A}$对$htxM$的签名</li>
+</ul>
+</blockquote>
+<ol>
+<li>发送：医生$\bar{A}$将 EMR 和$tx_{mr}$发送到该医院 A</li>
+<li><p>上链：医院 A <strong>存储</strong> C 的 EMR 和$tx_{mr}$，并<strong>聚合事务签名</strong>，将这些事务<strong>传到 MED 链</strong>。具体步骤如下：</p>
+<ol>
+<li>校验有效性：A 使用$tx_{mr}$的$hEMR$验证 EMR 的完整性，使用$(htxM,σ_{\bar{A}})$验证$tx_{mr}$的有效性。之后，A 根据每个 EMR 的$hEMR$ 生成顺序递增的 EMR 标识符</li>
+<li>初始因子生成加密因子：A 根据有效 EMR 的个数，利用$S_α和S_β$生成相等数量的加密因子，<strong>加密因子与每个 EMR**</strong>一对一对应**。<ol>
+<li>A 计算$s^0_α = H_4(s_α)$、$s^0_β = H_4(s_β)$，$H_4：G^ <em>_ 1 → Z^ </em>_ q$</li>
+<li>假设 C 的 EMR 数量为 n，A 计算 hash 链表：$s^1_β = H_5(s^0_β)$，$s^2_β = H_5(s^1_β)$……，$s^n_β = H_5(s^{n-1}_β)$。$H_5：Z ^<em>_ q → Z^ </em>_ q$</li>
+<li>A 将这些值反向插入另一个 hash 链表中：$s^1_α = H_5(s^0_α⊕ s^n_β)$，$s^2_α = H_5(s^1_α ⊕ s^{n−1}_β)$……，$s^n_α = H_5(s^{n−1}_α⊕ s^1_β)$</li>
+<li>最后，A 得到加密因子集合$\{s^1_α, s^2_α, · · · ,s^j_α, · · · ,s^n_α\}$，其中 j 是 EMR 标识符<br><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/HnYDbOLQmojOgcxComzc81uxnyh.png" alt></li>
+</ol>
+</li>
+<li>将事务组合成 Merkle tree：基于$\{htxM_1，· · ·，htxM_n\}$，A 将 n 个事务$\{tx^1_{mr}, · · · ,tx^n_{mr}\}$组合到 Merkle tree 中，并计算 Merkle tree root 值 rootM，生成关于 rootM 的事务$TX_{mr}$</li>
+</ol>
+<script type="math/tex; mode=display">
+X_{mr} = \{λ_0, ID_A, rootM, ts_2, hTXM,σ_A\}</script><blockquote>
+<ul>
+<li>$ID_{A}$：<strong>HN</strong> 唯一标识</li>
+</ul>
+</blockquote>
+<ol>
+<li>聚合签名：A 将事务集合$T =\{tx^1_{mr}, · · · ,tx^n_{mr}, TX_{mr}\}$中的<strong>签名</strong>聚合成一个聚合签名$σ_{agg}$，再移除 T 中所有签名以得到事务$T/σ$</li>
+<li>发送给信息：<ol>
+<li>To 矿工：A 发出($T/σ$,$σ_{agg}$)</li>
+<li>To C：A 用$sk_{AC}$加密 EMR 和相应的 htxM，并将它们发送给 C</li>
+</ol>
+</li>
+<li>矿工上链：<ol>
+<li>每个矿工接收到($T/σ$,$σ_{agg}$)后，通过聚合签名$σ_{agg}$验证事务集合$T/σ$的有效性</li>
+<li>基于$\{htxM_1，· · ·，htxM_n\}$，矿工生成 Merkle root，并进一步将$\{σ^1_{agg}, · · · , σ^n_{agg}\}$聚合成一个聚合签名</li>
+<li>通过 PoW 共识机制将新的 Mblock 上传到 MED 链上。</li>
+</ol>
+</li>
+<li><p>C 加密 EMR 生成 EEE：</p>
+<ol>
+<li>解密 A 传来的数据</li>
+<li>对于每个 EMR，使用相关 htxM 来访问 <strong>MED 链上</strong>的相关$tx_{mr}$，$tx_{mr}$中的 hEMR 用于检查 EMR 的完整性</li>
+<li>从 EMR 中提取关键字 W，创建 EMR 条目 EE</li>
+</ol>
+<script type="math/tex; mode=display">
+E = \{W||htxM||ID_A||j\}</script><blockquote>
+<ul>
+<li>$ID_{A}$：存储 EMR 的 <strong>HN</strong> 唯一标识</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>j：EMR 编号<ol>
+<li>使用 C 自己的生物信息（如：指纹 fp）加密 EMR 条目 $EEE =<br>H_6(fp) ⊕ EE$（$H_6：\{0，1\}^<em> → \{0，1\}^</em>$）</li>
+<li>调用智能合约将 EEE 存储在 MED 链上</li>
+<li>C 再执行与 A 相同的操作以获得相同的加密因子$\{s^1_α, s^2_α, · · · ,s^j_α, · · · ,s^n_α\}$——因为 C 在协商密钥阶段有和 A 相同的初始因子</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<h4 id="EMR-共享"><a href="#EMR-共享" class="headerlink" title="EMR 共享"></a>EMR 共享</h4><p>正常情况 EMR 共享：患者授权医生访问 EMR</p>
+<p>紧急情况 EMR 共享：昏迷患者不能直接授权医生，医生需要利用双区块链搜索、访问患者 EMR</p>
+<h5 id="正常情况-EMR-共享"><a href="#正常情况-EMR-共享" class="headerlink" title="正常情况 EMR 共享"></a><strong>正常情况 EMR 共享</strong></h5><p>总览：医生$\bar{B}$先向患者 C 获取授权，再拿着授权向医院 A 获取 EMR，再从 MED 链找到对应 hEMR 验证 EMR 完整性</p>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/NO2XbflLton2O3xRnPdcklrXnVg.png" alt></p>
+<ol>
+<li><p>C 给予$\bar{B}$所需访问 EMR 的<strong>标识符 j 和加密因子</strong>——即获取 EMR 的授权</p>
+<ol>
+<li>协商会话密钥：$\bar{B}$和 C 协商认证的会话密钥$sk_{C\bar{B}}=sk_{\bar{B}C}$，（协商步骤间 2.4.4.1）</li>
+<li>计算$α_C$：C 计算$Q_{A} = H_0(ID_{A})$，$Q_{\bar{B}} = H_0(ID_{\bar{B}})$，$α_C=\frac{1}{c_1+Q_A+Q_{\bar{B}}}P$，$α_C∈ G_1$</li>
+<li>发送授权消息给医生：加密并发送 $(α_C, c_1s^j_<br>αP, j) $给$\bar{B}$，其中$s^j_α$ 为 标识符为 j 的 EMR 所对应的加密因子）</li>
+</ol>
+</li>
+<li><p>$\bar{B}$通过 C 给予的授权信息生成 EMR 请求，向 A 请求 EMR</p>
+<ol>
+<li>使用授权的$α_C$计算$α_{C\bar{B}}$：$\bar{B}$选择随机数$b ∈ Z^∗_q$，计算$T_b = bP, g_b = g^b, α_{C\bar{B}} = bα_C$，$α_{C\bar{B}}∈G_1$，其中双线性映射 $g = \hat{e}(P, P)$</li>
+<li>生成请求：<strong>正常请求</strong>$θ =(ID_C||j)$，<strong>加密请求</strong>$N = H_3(g_b)⊕θ$，（$H_3：G_2→\{0，1\}^*$）</li>
+<li>请求签名：根据登记阶段获得的$(L_{\bar{B}}, d_{\bar{B}}, x_{\bar{B}})$，计算 $h = H_2 (θ||ID_{\bar{B}}||P_{pub}||L_{\bar{B}}||T_b)<br>，v = b + h (d_{\bar{B}}+ x_{\bar{B}}) mod q$，签名$σ = (L_{\bar{B}}, h, v)$</li>
+<li>发送请求给医院：发送$(α_{C\bar{B}},N, σ, ID_C, ρ_{\bar{B}})$给医院 A，其中$ρ_{\bar{B}}$是$\bar{B}$的许可</li>
+</ol>
+</li>
+<li><p>医院 A 检查医生发出的请求是否合法、被授权</p>
+<ol>
+<li>检查医生身份合法性：如果$\bar{B}$不在医生撤销列表中，则认为$ρ_{\bar{B}}$是合法的</li>
+<li>检查授权的真实性：如果 C 的 EMR 存在，A 计算<ol>
+<li><script type="math/tex; mode=display">
+Q_B= H_0(ID_B),</script></li>
+<li>$α’_{CB} = T_{c1} + (Q_A<br>+Q_B)P,$$α’_{CB} ∈G_1$</li>
+<li><script type="math/tex; mode=display">
+g'_b = \hat{e}(α'_{CB}, α_{CB}),</script></li>
+<li>$θ’ = H_3(g’_b) ⊕N$——验证量</li>
+<li><script type="math/tex; mode=display">
+f' = H_7 (ID_B||P_{pub}||L_B) ,</script></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+6. $T'_b = vP − h (L_B + f'P_{pub}) 
+$——验证量
+        7. $$h' = H_2 (θ' ||ID_B||P_{pub} ||L_B||T_B||T'_b) .</script><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果等式$h&#x27; = H_2 (θ&#x27; ||ID_B||P_&#123;pub&#125; ||L_B||T_B||T&#x27;_b) ==h$成立，则A可以**确认C授权给了**$\bar&#123;B&#125;$，**且正常请求θ没有被篡改。**</span><br><span class="line">正确性分析：</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>A 根据 θ 中的 EMR 标识符 j ，将指定 EMR 和 htxM 加密返回给医生$\bar{B}$</p>
+<ol>
+<li><script type="math/tex; mode=display">
+K_{AB−C} = \hat{e}(T_b, c_1P)^{s^j_αa_1}</script></li>
+<li><script type="math/tex; mode=display">
+sk_{AB} = H_{sk}(ID_B||ID_A||a_1T'_b||K_{AB−C}||T_b||T_{a1})</script></li>
+<li>加密 EMR 消息：用$sk_{AB}$加密$(EMR, htxM_j)$，得到 ε</li>
+<li>返回给医生：发送$(T_{a1}, ε)$给$\bar{B}$</li>
+</ol>
+</li>
+<li><p>$\bar{B}$解密 EMR 消息，并通过 MED 链上的 hEMR 验证其完整性</p>
+<ol>
+<li>计算$K_{BA−C}=\hat{e}(T_{a1}, c_1s^j_αP)^b$，如果$K_{BA−C}==K_{AB−C}$，则确定$T_{a1}$的完整性<br><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/EfS1bCduaojj50xQcsKcsk28nDD.png" alt></li>
+<li>计算密钥：$sk_{BA} = H_{sk}(ID_B||ID_A||bT’_{a1}||K_{BA−C}||T_b||T_{a1})$</li>
+<li>解密 EMR 消息：用$sk_{BA}$解密 ε，获得目标 EMR 和 htxM 的明文</li>
+<li>从 MED 链获取 hEMR 以检验医院发来的 EMR 的完整性：通过 htxM 在 MED 链上找到$tx_{mr}的hEMR$，验证 EMR 完整性</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/ToatbVYFQoDDqkxaDl7cjWglnPc.png" alt></p>
+<p>协议支持一次共享多个 EMR。例如，B 和 A 计划共 享  m 标识符为 j−1，j+1，j+2 的三个 EMR。然后将上述协议中的$s^j_α$替换为$（s^{j−1}_α, s^{j+1}_α, s^{j+2}_α）$，B 和 A 生成三个 EMR 的特定会话密钥</p>
+<h5 id="紧急情况-EMR-共享"><a href="#紧急情况-EMR-共享" class="headerlink" title="紧急情况 EMR 共享"></a>紧急情况 EMR 共享</h5><p>总述：医生$\bar{B}$使用 C 的生物信息从 MED 链获取 EMR 条目 EE，再请求所属医院 B 为医生作安全担保，即医院 B 在 SUP 链发出紧急 EMR 共享请求——$tx_{ur}$上 SUP 链，医生$\bar{B}$再发送紧急请求给医院 A（存有 C 相关 EMR），A 检查 SUP 链是否有记录$tx_{ur}$，检验$σ_{\bar{B}B}$有效性，加密相关 EMR 信息给医生$\bar{B}$，医生用 EE 的 htxM 从 MED 链获取 hEMR,验证 EMR 完整性</p>
+<p>治疗后，C 访问双区块链可以查看 C 在昏迷期间的 EMR 共享历史</p>
+<ol>
+<li><p>医生$\bar{B}$从 MED 链获取 C 的 EMR 条目 EE，提前关键字 W（后面第三步会使用 W 从医院 A 获取所需 EMR）：</p>
+<ol>
+<li>搜索 EEE：$\bar{B}$调用具有$ID_C$和指纹 fp 的 MED 链智能合约，来搜索 C 的加密 EMR 条目 EEE</li>
+<li>自动解密为 EE：如果$ID_C$和 fp 有效，智能合约自动通过 $EEE =<br>H_6(fp) ⊕ EE$ 解密得到 EE</li>
+<li>提取 W：$\bar{B}$从$EE = \{W||htxM||ID_A||j\}$中基于关键字 W 确定存储在 A 中的 C 的$EMR_j$是有用的</li>
+</ol>
+</li>
+<li><p>医生紧急请求<strong>所属医院 B</strong> 为其做<strong>安全担保</strong>，将$tx_{ur}$存入 SUB 链，以便下一步向存有 EMR 的医院 A 请求 EMR</p>
+<ol>
+<li>医生生成紧急请求并发给所属医院：医生$\bar{B}$生成紧急请求$η = (ID_C||j)$，$ 和元组 \{λ_1, ID_{\bar{B}}<br>, ID_B, hUR, ts_3, htxU, σ_{\bar{B}}\}$</li>
+</ol>
+<blockquote>
+<p>事务类型、医生唯一标识、医院唯一标识</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>$hUR = H(η)$：紧急请求的哈希值</li>
+<li>$htxU= H(λ_1, ID_{\bar{B}}<br>, ID_B, hUR, ts_3)$：事务前五项的哈希值</li>
+<li><script type="math/tex; mode=display">
+σ_{\bar{B}}= Sign_{\bar{B}}(λ_1, ID_{\bar{B}}</script></li>
+</ul>
+</blockquote>
+<p>, hUR, ts_3)$$<br>将这些数据发送给医院 B</p>
+<ol>
+<li>医院 B 检查医生$\bar{B}$合法性（撤销列表）</li>
+<li>医院 B 聚合签名：医院 B 签署事务$σ_B=Sign_B(htxU)$。聚合$σ_B和σ_{\bar{B}}得到σ_{\bar{B}B}$。</li>
+<li>医院 B 生成 $tx_{ur}= \{λ_1, ID_{\bar{B}}<br>, ID_B, hUR, ts_3, htxU, σ_{\bar{B}B}\}$</li>
+<li><p>医院 B 将$tx_{ur}$上 SUP 链：如果$σ_{\bar{B}B}$有效，则 SUP 链通过 HotStuff 共识将$tx_{ur}$记录在区块中</p>
+</li>
+<li><p>医生$\bar{B}$紧急请求医院 A 以获取所需 EMR，A 根据 η 从 SUP 链获取$tx_{ur}$，告知患者紧急请求，计算密钥，将 EMR 加密发送给医生$\bar{B}$<br><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/JEPhbi1ldoWqSMxRCh4c930Dnof.png" alt></p>
+<ol>
+<li>医生发送紧急请求给医院 A：医生$\bar{B}$选择随机数$b ∈ Z^∗_q$，计算$T_b = bP$，发送$(T_b, η, htxU)$给医院 A（因为医院 A 才保存着患者 C 的完整 EMR）</li>
+<li>医院 A 查看 SUP 链，根据 η 获取$tx_{ur}$：A 收到$\bar{B}$的紧急请求，使用 η 和 htxU 调用 SUP 的智能合约，确认 η 是否在 SUP 链中，如果$tx_{ur}$存在，则智能合约返回$tx_{ur}$给 A，并告知患者 C 这个紧急请求。</li>
+<li>检查$tx_{ur}$中$σ_{\bar{B}B}$的有效性——紧急请求是否是由这个医生发出：$σ_{\bar{B}B}$有效，则 A 相信$\bar{B}$是合法的，η 有效。</li>
+<li>A 计算与医生的密钥：$K_{A\bar{B}} = \hat{e}( \hat{S}A, \hat{Q}_{\bar{B}}),<br>sk_{A\bar{B}} = H_{sk}(ID_{\bar{B}}<br>||ID_A<br>||a_1T_b||K_{A\bar{B}}<br>||T_b||T_{a1}).$</li>
+<li>加密 EMR 信息：用$sk_{AB}$加密$(EMR, htxM_j)$，得到 ε</li>
+<li>发送：将$(T_{a1}，ε)$发送给医生$\bar{B}$</li>
+</ol>
+</li>
+<li><p>医生$\bar{B}$</p>
+<ol>
+<li>计算密钥：$K_{\bar{B}A} = \hat{e}(\hat{S}_{\bar{B}}, \hat{Q}_A),$$sk_{\bar{B}A} = H_{sk}(ID_{\bar{B}}<br>||ID_A<br>||bT_{a1}||K_{\bar{B}A}<br>||T_b||T_{a1}).$</li>
+<li>解密 EMR 消息：使用$sk_{\bar{B}A} $解密 ε，获得目标 EMR 和 htxM 的明文，</li>
+<li>从 MED 链获取 hEMR 以检验医院发来的 EMR 的完整性：使用$EE = \{W||htxM||ID_A||j\}$中的 htxM，在 MED 链上找到$tx^j_{mr}$，验证 EMR 的完整性、有效性。</li>
+</ol>
+</li>
+</ol>
+<h4 id="监督"><a href="#监督" class="headerlink" title="监督"></a>监督</h4><p>SUP 链有两个功能：</p>
+<h5 id="监督-MED-链的-Mblocks"><a href="#监督-MED-链的-Mblocks" class="headerlink" title="监督 MED 链的 Mblocks"></a>监督 MED 链的 Mblocks</h5><ul>
+<li>当 HN 生成或接收到新的有效 Mblocks 时，HN 将其哈希值复制到 SUP 链事务池中</li>
+<li>一个 Sblock 存储一段 Mblocks 的哈希</li>
+<li>当前共识的主节点 HN 从 SUP 事务池中选择新的 Mblock 的最长分支，以 Merkle 树的形式记录在新的 Sblock 中</li>
+<li><p>选择 MED 链分支的具体规则（由上到下）：</p>
+<ol>
+<li>规则 1：新 MED 链分支的<strong>父区块</strong>必须是上一个 Sblock 中记录的最新 Mblock</li>
+<li>规则 2：<strong>最长</strong>分支</li>
+<li>规则 3：如果多分支等长，选择 M<strong>erkle root 哈希值最小</strong>的分支</li>
+</ol>
+</li>
+<li><p>例如：HN 将要生成新的 Sblock，检查 S3</p>
+<ol>
+<li>寻找<strong>父区块是 S3 中最新 Mblock</strong> 的 MED 链分支<ul>
+<li>情况 a 的 MED 链分支父区块是 M11</li>
+<li>情况 b 的 MED 链分支父区块是 M9</li>
+<li>情况 e 的 MED 链分支父区块是 M2</li>
+</ul>
+</li>
+<li>寻找<strong>最长</strong>的 MED 链分支——情况 d 最长</li>
+<li>d 的 MED 链分支被记录在 S4 区块中<br><img src="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/QZvnb7wf9oNYy2x3gEicn5nlnEe.png" alt></li>
+</ol>
+</li>
+<li>如果生成了 Sblock，则说明<strong>所有 HN 已经确认 MED 链新分支的有效性</strong>，MED 链中记录的 EMR 可以在 SUP 监督下，由医疗机构安全地交叉使用</li>
+</ul>
+<h5 id="管理过期-DN"><a href="#管理过期-DN" class="headerlink" title="管理过期 DN"></a>管理过期 DN</h5><p>HN 可以<strong>撤销</strong>或<strong>重新授权</strong> DN 的许可（在 DN 的许可自然到期之前）</p>
+<p>例如：HN E 通过 SUP 链发出关于医生的资格撤销请求$tx_{qr}$</p>
+<ol>
+<li>医院 E 生成资格撤销通知$QR = \{ID_{\bar{E}}，EXP，AoD\}$</li>
+</ol>
+<blockquote>
+<p>$ID_{\bar{E}}$：医生的唯一标识<br>EXP：医生的许可自然到期时间<br>AoD：添加/删除标记；0-将医生添加到撤销列表；1-将医生从撤销列表删除</p>
+</blockquote>
+<ol>
+<li>医院 E 生成 $tx_{qr} = \{λ_2, ID_E<br>, QR, ts_4, htxQ, σ_E<br>\}$</li>
+</ol>
+<blockquote>
+<p>$λ_2$：事务类型<br>$ID_E<br>$：医院 E 的唯一标识<br>$ htxQ= H(λ_2，ID_E，QR，ts_4)$：$tx_{qr}$的标识符<br>$σ_E=SignE（htxQ）$：医院 E 的签名</p>
+</blockquote>
+<ol>
+<li>每个 HN 将撤销列表本地存储在 MPT 结构中，基于$tx_{qr}$从列表中添加/删除 DN——如果<strong>本地撤销列表的 root</strong> 与<strong>新 Sblock 中的 root</strong> 值相同，则表明 HN 维护与其他 HN 相同的撤销列表</li>
+</ol>
+<h3 id="取得了什么效果？"><a href="#取得了什么效果？" class="headerlink" title="取得了什么效果？"></a>取得了什么效果？</h3><ul>
+<li>安全性分析证实，协议满足指定的目标。</li>
+<li>性能分析表明，该协议具有较高的计算效率和较低的通信开销。</li>
+<li>安全性分析，以证明我们的协议可以确保数据安全和保护用户隐私。我们还提出了一个详细的证据的安全性的 TAKA 协议。我们的安全性比较和性能评估表明，我们的方案具有较低的计算开销，略低的通信开销</li>
+</ul>
+<h3 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h3><ol>
+<li>MED 区块链存储$tx_{mr}$而不是整个 EMR，既降低了区块链存储负担，又通过 htxM、hEMR 保证了 EMR 的分布式安全和隐私保护</li>
+<li>SUP 链通过存储 MED 链区块的哈希，实现区块链监督另一个区块链</li>
+<li>节点本地存储医生撤销列表的 Merkle，SUP 链只存储 Merkle 树根值，降低了区块链负担、又能保证撤销列表一致性</li>
+<li>使用聚合签名降低存储成本、验证成本</li>
+<li>使用 Hotstuff 共识机制，相较于 PBFT 共识算法，减少了节点间的通信开销，更适用于大规模节点的区块链网络</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/" title="以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享">http://example.com/2023/09/14/以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91/" rel="tag"><i class="fa fa-tag"></i> 区块链物联网</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/21/Java%E9%9B%86%E5%90%88%E7%B1%BB/" rel="prev" title="Java集合类">
+      <i class="fa fa-chevron-left"></i> Java集合类
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/" rel="next" title="区块链物联网-科研开始">
+      区块链物联网-科研开始 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Learn"><span class="nav-number">1.</span> <span class="nav-text">Learn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E5%AD%90%E7%97%85%E5%8E%86%EF%BC%88Electronic-Medical-Records-EMRs%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">电子病历（Electronic Medical Records, EMRs）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB%EF%BC%88Man-in-the-Middle-Attack%EF%BC%8CMITM-%E6%94%BB%E5%87%BB%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">中间人攻击（Man-in-the-Middle Attack，MITM 攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%98%A0%E5%B0%84-%E5%BB%BA%E7%AB%8B%E8%AE%A4%E8%AF%81%E5%AF%86%E9%92%A5%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.3.</span> <span class="nav-text">双线性映射-建立认证密钥协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Merkle-tree"><span class="nav-number">1.4.</span> <span class="nav-text">Merkle tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hotstuff-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.5.</span> <span class="nav-text">Hotstuff 共识机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">2.</span> <span class="nav-text">Why?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">3.</span> <span class="nav-text">What?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E6%9E%B6%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">双区块链架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%B1%BB%E5%9E%8B%E8%8A%82%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">三类型节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E6%80%A7%E4%BA%8B%E5%8A%A1"><span class="nav-number">3.3.</span> <span class="nav-text">时间敏感性事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93%E4%B8%8E%E9%93%BE%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.4.</span> <span class="nav-text">实体与链的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TAKA-%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.5.</span> <span class="nav-text">TAKA 协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83"><span class="nav-number">3.6.</span> <span class="nav-text">以患者为中心</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How"><span class="nav-number">4.</span> <span class="nav-text">How?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.1.</span> <span class="nav-text">相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84-EMR-%E5%85%B1%E4%BA%AB"><span class="nav-number">4.1.1.</span> <span class="nav-text">基于区块链的 EMR 共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81%E5%AF%86%E9%92%A5%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.1.2.</span> <span class="nav-text">认证密钥协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">4.2.</span> <span class="nav-text">系统框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A8%81%E8%83%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.3.</span> <span class="nav-text">威胁模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%9B%AE%E6%A0%87"><span class="nav-number">4.4.</span> <span class="nav-text">安全目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E7%BB%86%E8%8A%82"><span class="nav-number">4.5.</span> <span class="nav-text">方案细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E6%A6%82%E8%A7%88"><span class="nav-number">4.5.1.</span> <span class="nav-text">方案概览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">4.5.2.</span> <span class="nav-text">系统初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C"><span class="nav-number">4.5.3.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EMR-%E7%AE%A1%E7%90%86"><span class="nav-number">4.5.4.</span> <span class="nav-text">EMR 管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8F%E5%95%86%E5%AF%86%E9%92%A5%E3%80%81%E7%94%9F%E6%88%90%E5%88%9D%E5%A7%8B%E5%9B%A0%E5%AD%90"><span class="nav-number">4.5.4.1.</span> <span class="nav-text">协商密钥、生成初始因子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#EMR-%E5%92%8C%E7%9B%B8%E5%85%B3%E4%BA%8B%E5%8A%A1-tx-mr-%E7%9A%84%E7%94%9F%E6%88%90%E3%80%81%E4%B8%8A%E9%93%BE"><span class="nav-number">4.5.4.2.</span> <span class="nav-text">EMR 和相关事务$tx_{mr}$的生成、上链</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EMR-%E5%85%B1%E4%BA%AB"><span class="nav-number">4.5.5.</span> <span class="nav-text">EMR 共享</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E5%B8%B8%E6%83%85%E5%86%B5-EMR-%E5%85%B1%E4%BA%AB"><span class="nav-number">4.5.5.1.</span> <span class="nav-text">正常情况 EMR 共享</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A7%E6%80%A5%E6%83%85%E5%86%B5-EMR-%E5%85%B1%E4%BA%AB"><span class="nav-number">4.5.5.2.</span> <span class="nav-text">紧急情况 EMR 共享</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%91%E7%9D%A3"><span class="nav-number">4.5.6.</span> <span class="nav-text">监督</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%91%E7%9D%A3-MED-%E9%93%BE%E7%9A%84-Mblocks"><span class="nav-number">4.5.6.1.</span> <span class="nav-text">监督 MED 链的 Mblocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E8%BF%87%E6%9C%9F-DN"><span class="nav-number">4.5.6.2.</span> <span class="nav-text">管理过期 DN</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E4%BA%86%E4%BB%80%E4%B9%88%E6%95%88%E6%9E%9C%EF%BC%9F"><span class="nav-number">4.6.</span> <span class="nav-text">取得了什么效果？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E8%8E%B7"><span class="nav-number">4.7.</span> <span class="nav-text">收获</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

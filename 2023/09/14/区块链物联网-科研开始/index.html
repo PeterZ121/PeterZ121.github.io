@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="科研-区块链物联网 [ ] 区块链共识机制如何应对一半以上恶意节点？ [ ] 区块链共识机制全复制策略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链物联网-科研开始">
+<meta property="og:url" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="科研-区块链物联网 [ ] 区块链共识机制如何应对一半以上恶意节点？ [ ] 区块链共识机制全复制策略">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/JQZsbyIL3oSIaUxlvhrcEF07nqe.jpg">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/A4X8bB386ogFvzx7uMDcrpfXnKv.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/NUEYbZNyXoJ3r3xgqxecUkRznKg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/DPx6b2xFqoVfxoxxfqzcppJ9nmf.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/BBicbXO9koo9LixeIvGclpqHn1f.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/VyvZb6ScQo5Myfxn3LYcV7NAnJd.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/F9WNbwFe5o0iVaxeODAc6RcVnvf.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/TSMRbcGTeowH92xrp2wcJItKnLe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/Jnkrb0Tqmo0iV2x5IJmcOPbOnhh.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/Sms8bojy5oj2bnxVqkBcwZ09npc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/WwXhboSf0o8gRDxAvPacZrCBnzy.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/LDGTbXlVBopBEaxXsoncOwXGnNe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/BkqSbOdRoouo1zxEJVjcruvQn3c.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/IaoHby8DOodXISxPiTbc1LFMntc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/VWatbBH2aoMHj4xsqXjc0Xmqn6e.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/LXRnb9UhjoMELcxorYyc2Hjenpf.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/BclFbrlbEohFUhxzFS4c8nofnfb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/SOhRbE3PMol0gwxkRgHcFx7Nn0g.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/W2F5b8um3ozidux1G45czQlxnEA.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/LDxkbvhfVox85UxzRHvccL4Fn6c.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/HWZSbqb3EoUvVixGlXCcuM1Mnue.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/ECxlb6O72oneyAx7ZNKcCG5UnYg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/QA7GbnhYRoTwy2xFaVWc1ZCDnDf.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/ZWc0bwa8Ko5uGexqMXjci5vBnae.png">
+<meta property="article:published_time" content="2023-09-14T11:13:52.000Z">
+<meta property="article:modified_time" content="2023-09-14T11:16:20.000Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="区块链物联网">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/JQZsbyIL3oSIaUxlvhrcEF07nqe.jpg">
+
+<link rel="canonical" href="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>区块链物联网-科研开始 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          区块链物联网-科研开始
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-14 19:13:52 / 修改时间：19:16:20" itemprop="dateCreated datePublished" datetime="2023-09-14T19:13:52+08:00">2023-09-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="科研-区块链物联网"><a href="#科研-区块链物联网" class="headerlink" title="科研-区块链物联网"></a>科研-区块链物联网</h1><ul>
+<li>[ ] 区块链共识机制如何应对一半以上恶意节点？</li>
+<li>[ ] 区块链共识机制全复制策略</li>
+</ul>
+<span id="more"></span>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/JQZsbyIL3oSIaUxlvhrcEF07nqe.jpg" alt></p>
+<h2 id="如何阅读论文？"><a href="#如何阅读论文？" class="headerlink" title="如何阅读论文？"></a>如何阅读论文？</h2><h3 id="论文类型"><a href="#论文类型" class="headerlink" title="论文类型"></a>论文类型</h3><ul>
+<li><strong>综述论文：</strong>快速熟悉某领域发展历程、现状及方向，了解基础概念及关键词</li>
+<li><strong>专题论文：</strong>介绍具体算法，可学习设计思路、实验技巧、代码实现等技术</li>
+</ul>
+<p>A 类期刊论文和 A、B 类会议论文，而且一般会议论文相对来说实时性更好，基本是今年投稿的论文今年就会发表，而期刊就不一样了实时性很差，有时候一篇论文要 3 年才可以检索到。</p>
+<h3 id="文献作者"><a href="#文献作者" class="headerlink" title="文献作者"></a>文献作者</h3><h5 id="论文中的第一作者-合作作者-通讯作者都是什么意思啊-怎么分辨"><a href="#论文中的第一作者-合作作者-通讯作者都是什么意思啊-怎么分辨" class="headerlink" title="论文中的第一作者,合作作者,通讯作者都是什么意思啊,怎么分辨?"></a><strong>论文中的第一作者,合作作者,通讯作者都是什么意思啊,怎么分辨?</strong></h5><ol>
+<li>答：第一作者是论文署名第一位的作者，一般评职称、硕士毕业等要求以第一作者的身份发表论文<br>合作作者是在一个课题项目中处于合作关系的作者，譬如几个科室共同研究或厅级与校级的合作<br>通讯作者等同于第一作者，一般会放导师或者研究中领导。</li>
+<li>答：第一作者是文章功劳最大的那个人<br>发表时谁名字放在前面<br>谁就是第一作者<br>合作作者就是放在后面的那个名字<br>通讯作者<br>就是留联系方式的那个作者</li>
+</ol>
+<h5 id="论文的第一作者，和第-N-作者，有什么区别？"><a href="#论文的第一作者，和第-N-作者，有什么区别？" class="headerlink" title="论文的第一作者，和第 N 作者，有什么区别？"></a><strong>论文的第一作者，和第 N 作者，有什么区别？</strong></h5><ol>
+<li>答：一般情况下，导师放到最后是通讯作者，就是关于这篇论文的有关情况你可以直接跟这个老师联系。第一作者是主要完成论文的</li>
+<li>答：国内有实际作用的就是： 一作、二作、通信作者。这里面存在组合情况！ 国内实验组发的论文，习惯把一些老师挂在最后，不管实际做出的贡献。中国特色！<br>985 高校博士，已发数篇 SCI 期刊论文，通信方向！</li>
+<li>答：这样的话，你给师兄师姐打杂，录个数据，印印东西，打打字，到时他们发文章，你挂个第 N 作者，这样算你也发文了吗？有这样投机的吗</li>
+<li>答：很多 SCI 的惯例是研究生第一作者需要导师在后面署名罩着很多时候 paper 是 accepted 了但打回来的修改意见是：请增署阁下导师的姓名</li>
+<li>答：这个要看老师的要求咯如果老师比较急得要文章的话可能就是第一作者一般说来学生在第一和第二都差不多</li>
+</ol>
+<h5 id="问：论文署名在第三个是第几作者？"><a href="#问：论文署名在第三个是第几作者？" class="headerlink" title="问：论文署名在第三个是第几作者？"></a><strong>问：论文署名在第三个是第几作者？</strong></h5><ol>
+<li>答：第三作者<br>一个发表的期刊论文可以有三个有效作者<br>一般第一作者都是做这的这个实验或发表的设计的主要人<br>第二作者可以是参与的人 也对这个文章里的内容做出贡献<br>第一作者有这个文章的版权拥有的权利 第二作者没有<br>评职称，一般文科的第二作者没多大用，<br>但理科的第二作者是有用的。要看单位的职称评定文件，或者所<br>在省份的职称文件</li>
+</ol>
+<h5 id="问：如何看期刊的第一作者和通讯作者"><a href="#问：如何看期刊的第一作者和通讯作者" class="headerlink" title="问：如何看期刊的第一作者和通讯作者"></a><strong>问：如何看期刊的第一作者和通讯作者</strong></h5><ol>
+<li>答：第一作者指的是署名排在最前面的那个人，有的文章署名也有两个或多个第一作者，称为并列第一作者，这种情况下一般需要在人名上进行标注。<br>通讯作者一般指整个课题的负责人，承担课题的经费，设计，文章的书写等。他也是文章和研究材料的联系人。最重要的是，他担负着文章可靠性的责任。<br>第一作者与通讯作者不同，与创造性贡献不同，通讯作者常由诸作者中在论文所属领域最有权威者所充当。<br>扩展资料<br>在创新性作品如科研论文、专利、调研报告等等的署名中，对于多个作者共同完成的情况，对作品贡献最大的人的名字通常署名在最前面。特别对于科研论文的署名，各期刊都有更细致的规定；而当论文署名用于职称评定时，第一作者的分量显然比第二、第三作者要重，而比单独署名的要轻。<br>对作品有一定直接或间接帮助的贡献人，在总体贡献上跟第一作者有较大差距，统称为第二/三作者。<br>参考资料：</li>
+<li>答：第一作者就是作者署名的第一个 这个比较简单，一般在标题下面 或者文章第一页的左下角，通讯作者一般都标有“通讯作者”字样，如果没有标记，一般都是以*号表示</li>
+</ol>
+<h5 id="问：如何区分第一作者和通讯作者？"><a href="#问：如何区分第一作者和通讯作者？" class="headerlink" title="问：如何区分第一作者和通讯作者？"></a><strong>问：如何区分第一作者和通讯作者？</strong></h5><ol>
+<li>答：第一作者就是文章的第一个名字，一般第一作者是该论文的主要完成者，包括实验，论文撰写等等方面，而通讯作者一般为导师，通讯作者后面会加星号，脚注也会有注明，杂志社一般跟通讯作者联系~</li>
+<li>答：通讯作者是课题负责人，承担课题的经费，设计，文章的书写和把关。他也是文章和研究材料的联系人。最重要的是，他担负着文章可靠性的责任。通讯作者的好处是能和外界建立更广泛的联系。一些杂志会约你申稿，写综述。这些会大大地提高你在科学界的地位。 所以，老板一般不会将通讯作者让给手下的人。<br>第一作者一般是本文工作中贡献最大的研究人员。此作者不仅有最多和最重要的图表 (即体力上的贡献)，也是文章初稿的撰写人(即对本文的智力贡献)。一些反映老板重要观点的文章，老板也不会放过既是第一又是通讯作者。<br>有些杂志甚至声明只有体力上的贡献不可以作文章的作者，但可以致谢。</li>
+</ol>
+<h4 id="文献调研"><a href="#文献调研" class="headerlink" title="文献调研"></a>文献调研</h4><p>高质量期刊会议、高引论文、知名团队、有代码论文</p>
+<p>在文献调查中往往需要阅读数十篇学术论文，而且可能还是一个你不熟悉的领域。你需要从海量的论文中选取哪些去阅读？下面介绍三步论文阅读法在文献调查中如何使用。</p>
+<ol>
+<li>首先，使用学术搜索引擎例如 <code>Google Scholar</code> 或 <code>CiteSeer</code> 在领域中<strong>按照关键字搜索</strong>，选取<strong>三到五篇高引用</strong>的论文。第一遍阅读得到论文的整体概括，然后阅读“相关工作”这一子节，如果幸运的话，你还会找到一篇最近的综述文献，接下来阅读这篇综述文献。</li>
+<li>如果没有找到的话，阅读第二遍，找到多篇论文参考文献的<strong>共同引用</strong>和<strong>重复出现的作者名字</strong>，这些是这个领域中的核心论文和知名研究者。<strong>搜索这些研究者最近的论文</strong>，最好的研究人员通常会在顶级会议上发表文章，因此你可以确定这个领域的顶级会议。</li>
+<li>接下来，去这些<strong>顶级会议的网站</strong>上浏览<strong>最近出版的高质量论文</strong>，连同上面筛选留下来的论文，一同构成此次论文调查的对象，最后阅读它们。</li>
+</ol>
+<h4 id="给论文分类"><a href="#给论文分类" class="headerlink" title="给论文分类"></a><strong>给论文分类</strong></h4><p>分类：</p>
+<ul>
+<li>不值得花时间阅读的论文</li>
+<li>值得了解的论文，可以快速浏览一下，知道他的方法和大致水平、作者的大致思路即可。大部分论文都是这类</li>
+<li>值得精读的论文，通常具有很高的启发性、具有一定的突破性，值得花时间去深究细节</li>
+<li>经典论文，不光要清楚方法的细节，还要尝试去复现它，</li>
+</ul>
+<p>如何分类？</p>
+<ul>
+<li>询问老师、学长</li>
+<li>看引用量，引用量很高则值得阅读。但新发表的论文不能这样看</li>
+<li>看整体结果，如果结果不错、整体流程，则值得阅读</li>
+</ul>
+<p><strong>阅读论文</strong></p>
+<ul>
+<li>不要过于纠结某一句话、某一个字的理解，要侧重于理解作者的想法，忌讳在第一次阅读论文时就从头到尾字斟句酌</li>
+</ul>
+<p><strong>步骤</strong></p>
+<ol>
+<li><p>先读摘要，找到回答：</p>
+<ul>
+<li>处理的是一个什么样的问题？</li>
+<li>提出了什么样的方法和创新点？</li>
+<li>取得了什么效果？</li>
+</ul>
+</li>
+<li><p>跳过中间部分，直接看论文的实验部分——计算机论文中信息密度最大的部分</p>
+<ul>
+<li>作者的实验环境是怎么搭建的？（使用了什么数据集？使用了什么测试方法？使用了什么评估指标？）</li>
+<li>作者跟什么方法进行比较？</li>
+<li>作者的方法取得了何种定性或者定量的效果</li>
+</ul>
+</li>
+<li>看 introduction 部分，该部分会详细阐述问题背景、前人遇到的困难、作者为什么会提出这样的方法、</li>
+</ol>
+<h3 id="第一步：检索文献"><a href="#第一步：检索文献" class="headerlink" title="第一步：检索文献"></a>第一步：检索文献</h3><ul>
+<li>CCF 论文的 dblp 快捷通道：</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://uestc.feishu.cn/file/ZtORbqpy0orXDZxzv2gcQdBFnRd">中国计算机学会推荐国际学术会议和期刊目录-2022.pdf</a></p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/A4X8bB386ogFvzx7uMDcrpfXnKv.png" alt></p>
+<ul>
+<li>全局搜索论文：</li>
+</ul>
+<p>dblp：<a target="_blank" rel="noopener" href="https://dblp.org/">https://dblp.org/</a></p>
+<p>dblp 检索方法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/volkia/article/details/109246502">https://blog.csdn.net/volkia/article/details/109246502</a></p>
+<ul>
+<li>成电论文：<a target="_blank" rel="noopener" href="https://primobe.uestc.edu.cn/primo-explore/search?vid=uestc">https://primobe.uestc.edu.cn/primo-explore/search?vid=uestc</a></li>
+</ul>
+<h3 id="第二步：查看文献类型"><a href="#第二步：查看文献类型" class="headerlink" title="第二步：查看文献类型"></a>第二步：查看文献类型</h3><p><a target="_blank" rel="noopener" href="https://www.webofscience.com/wos/alldb/basic-search">https://www.webofscience.com/wos/alldb/basic-search</a></p>
+<p>输入论文标题</p>
+<p>查看</p>
+<ul>
+<li>DOI</li>
+<li>出版日期（最近为佳）</li>
+<li>文献类型（会议为佳）</li>
+<li><p>论文类别</p>
+<ul>
+<li>CCF 通过会议名称判断是 A/B/C/D 类（AB 为佳）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/NUEYbZNyXoJ3r3xgqxecUkRznKg.png" alt></p>
+<h3 id="第三部：下载文献"><a href="#第三部：下载文献" class="headerlink" title="第三部：下载文献"></a>第三部：下载文献</h3><p>如果不能直接下载，先获取文献 DOI，DOI 是数字对象唯一标识符，相当于文献的身份证。</p>
+<p>使用：</p>
+<p><a target="_blank" rel="noopener" href="https://tool.yovisun.com/scihub/">https://tool.yovisun.com/scihub/</a></p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/DPx6b2xFqoVfxoxxfqzcppJ9nmf.png" alt></p>
+<h3 id="第四步：读论文"><a href="#第四步：读论文" class="headerlink" title="第四步：读论文"></a>第四步：读论文</h3><h4 id="第一遍：快速预览，把握概要（5-10min）"><a href="#第一遍：快速预览，把握概要（5-10min）" class="headerlink" title="第一遍：快速预览，把握概要（5~10min）"></a>第一遍：快速预览，把握概要（5~10min）</h4><ol>
+<li><p>仔细读：标题、摘要、介绍，回答：</p>
+<ul>
+<li>处理的是一个什么样的问题？</li>
+<li>提出了什么样的方法和创新点？</li>
+<li>取得了什么效果？</li>
+</ul>
+</li>
+<li>先忽略内容，读文章中的每个章节标题和小标题</li>
+<li>如果有数学内容，先大致浏览，这一遍不需要理解，但要明白这里牵扯了哪些基础理论。</li>
+<li>读论文结论。</li>
+<li>浏览参考文献，如果有你已经读过的，把它们勾选出来。</li>
+</ol>
+<p>第一遍阅读结束，应该可以回答以下五个问题：</p>
+<p>根据以上这些信息，可以决定是否有必要（把这篇论文打印出来）深入阅读接下来的两遍。如果你对这篇论文不感兴趣、或是你缺少基础知识、或是这篇论文假设不合理，总之，阅读这一遍已经足够了。</p>
+<p>写论文技巧：结构尽量清晰，要点尽量突出，让审稿人第一遍就能 get 到。</p>
+<h4 id="第二遍：抓住重点，暂略细节（60min）"><a href="#第二遍：抓住重点，暂略细节（60min）" class="headerlink" title="第二遍：抓住重点，暂略细节（60min）"></a>第二遍：抓住重点，暂略细节（60min）</h4><p>当你判定一篇论文值得一读，就可以把它加入第二遍阅读的队列</p>
+<ul>
+<li>好好看论文内容</li>
+<li>不纠结于没见过的术语，不沉迷于证明推导的细节，先记下来，略过。</li>
+<li>认真的看这篇论文中的数字、图表和其他例证。特别注意图表，轴的标签是否标注、结论在统计上是否有意义。这里很容易出现错误，像这样的错误会把仓促的、粗制滥造的论文与真正优秀的论文区分开来。</li>
+<li>标记论文中涉及的、你并未读过的参考文献，之后进一步阅读。</li>
+</ul>
+<p>读完第二遍，你应该能掌握论文内容，总结全文主旨了。</p>
+<p>不过，有时候即使是这样读完一遍，也未必就能读懂论文：论文可能涉及你陌生的领域，有太多陌生术语；作者可能采用了你不了解的证明或实验技术；甚至，这篇论文可能写得不行。</p>
+<p>那么，就进入最后一步吧</p>
+<h4 id="第三遍：重构论文，注重细节（4-5h）"><a href="#第三遍：重构论文，注重细节（4-5h）" class="headerlink" title="第三遍：重构论文，注重细节（4-5h）"></a>第三遍：重构论文，注重细节（4-5h）</h4><p>跟随作者的思路，在脑海中重现论文内容</p>
+<p>按照作者给出的条件，尝试重新做一遍工作，不仅可以加深对这篇论文创新之处的理解，还可以发现其隐藏的假设和或者是这篇论文的缺陷。</p>
+<p>这一遍阅读你需要深入论文细节，甚至对每一处的前提假设提出质疑。而且你还应该情景带入，如果让你解决这个问题，你会提出什么样的方法，你还可以把暂时想到的未来工作的想法记下来。对于刚入门的研究者来说，这一遍阅读可能会花 4-5 个小时，结束之后你应该能在脑海中重建这篇论文的结构，包括其假设前提、用到了哪些基础理论、做了哪些增量工作、其实验设计方法等。</p>
+<h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><h4 id="全节点和轻节点"><a href="#全节点和轻节点" class="headerlink" title="全节点和轻节点"></a>全节点和轻节点</h4><p>区块链节点是指连接到区块链网络的计算机或设备。每个节点都具有复制整个区块链账本的功能，并通过网络与其他节点进行通信。节点在区块链网络中起到了关键的作用，它们共同维护和验证区块链的完整性和安全性。节点可以是全节点或轻节点（也称为 SPV 节点）。</p>
+<ul>
+<li>全节点：全节点是完整的区块链网络参与者，它们下载并存储了<strong>整个区块链的所有交易和区块数据</strong>。全节点能够独立地验证和验证交易，并对新的区块进行挖掘和共识验证，因此对于区块链的安全性和去中心化至关重要。</li>
+<li>轻节点（SPV 节点）：轻节点不下载和存储整个区块链，而是<strong>只获取与自己相关的交易数据</strong>，以便快速地验证交易的有效性。虽然轻节点可以提供一定程度的去中心化，但它们相对于全节点来说在安全性和可信度上较弱。</li>
+</ul>
+<h4 id="双花攻击（Double-Spending-Attack）"><a href="#双花攻击（Double-Spending-Attack）" class="headerlink" title="双花攻击（Double Spending Attack）"></a>双花攻击（Double Spending Attack）</h4><p>在一般的数字货币系统中，当一个用户发起一笔交易时，该交易会被广播到整个网络中的节点进行验证和确认。一旦交易被确认，并且被添加到区块链（或类似的分布式账本）中，资金就被视为已经花费，不能再次使用。这是通过共识机制（如工作量证明或权益证明）来保证的。</p>
+<p>然而，双花攻击旨在通过欺骗系统，<strong>使同一笔资金在不同的交易中被使用两次或多次</strong>。攻击者在进行双花攻击时可能会执行以下步骤：</p>
+<ol>
+<li>攻击者创建一笔交易，将一定数量的资金发送给接收者，并广播到网络中。——正常交易</li>
+<li><strong>同时</strong>，攻击者使用相同的资金创建另一笔交易，但这次将其发送到自己的账户。——恶意交易</li>
+<li>一些节点会接收第一笔交易，而另一些节点接收第二笔交易，假设正常交易在绿色区块 101 上，恶意交易在红色区块 101 上——网络确认以及区块链分叉（两个区块同时产生时会导致区块链分叉）</li>
+</ol>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/BBicbXO9koo9LixeIvGclpqHn1f.png" alt></p>
+<ol>
+<li>攻击者在红色链上投入大量算力，且算力大于该区块链在全网的 51%，那他产生区块的速度肯定比 49% 诚实节点快，最终红色链超过绿色链，其他实结节根据最长链优先原则又纷纷到红色链上继续挖矿，而绿色链之前发生的所有交易（其实只有其中那一笔交易是伪造的）就回滚了，这将导致第一笔交易无效，并允许攻击者重复使用相同的资产</li>
+<li>结果是，攻击者成功地双花了同一笔资金，将其发送给接收者同时保留在自己的账户中。</li>
+</ol>
+<p>双花攻击的成功与否取决于攻击者能否控制足够数量的节点或改变网络的共识规则。攻击者需要确保足够多的节点接受并确认他们的第二笔交易，以便系统认为这是有效的交易。</p>
+<h4 id="自私挖矿"><a href="#自私挖矿" class="headerlink" title="自私挖矿"></a>自私挖矿</h4><p>自私挖矿（Selfish Mining）是一种攻击行为，其中一部分恶意矿工试图利用共识机制中的不公平性来获得更多的收益。该攻击行为旨在扰乱区块链网络的共识过程，并使攻击者获得比其应得份额更多的奖励。</p>
+<p>在传统的区块链共识机制中（如 Proof of Work），矿工通过解决数学难题来竞争产生区块的权利。一旦一个矿工找到了符合条件的区块，他会将其广播给网络中的其他节点。然后，其他节点会验证并接受该区块，并开始基于该区块构建下一个区块。</p>
+<p>然而，自私挖矿攻击中，攻击者会故意选择不将自己挖到的区块立即广播给其他节点。相反，他们会继续挖掘新的区块，并将这些区块保留在私有分支上。这样做的目的是在网络上产生一个分叉，使其他诚实节点在自私矿工的私有分支上浪费时间和资源。</p>
+<p>一旦自私矿工的私有分支达到一定长度，他们会将其公开发布，以取代其他节点的公共分支。由于自私矿工的私有分支更长，其他节点会放弃自己的分支，并接受自私矿工的分支，从而给自私矿工带来额外的奖励。</p>
+<p>自私挖矿攻击的目的是获得不公平的利益，而且该攻击并不会改变区块链网络的整体安全性，只是对其他诚实矿工的公平性产生了不利影响。因此，自私挖矿攻击是一种对共识机制的攻击行为，旨在利用共识机制的缺陷来获得额外的经济利益。</p>
+<h4 id="同态哈希"><a href="#同态哈希" class="headerlink" title="同态哈希"></a>同态哈希</h4><p>不一定是 + 法，可以是任何运算方法</p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/VyvZb6ScQo5Myfxn3LYcV7NAnJd.png" alt></p>
+<h3 id="面向物联网的区块链共识机制综述"><a href="#面向物联网的区块链共识机制综述" class="headerlink" title="面向物联网的区块链共识机制综述"></a><strong>面向物联网的区块链共识机制综述</strong></h3><p><a target="_blank" rel="noopener" href="https://uestc.feishu.cn/file/RIoFbu9QlopJXUxU7NrcOhg3nHd">面向物联网的区块链共识机制综述.pdf</a></p>
+<h4 id="处理的是一个什么样的问题？"><a href="#处理的是一个什么样的问题？" class="headerlink" title="处理的是一个什么样的问题？"></a>处理的是一个什么样的问题？</h4><p>区块链与物联网结合应该使用什么共识机制更合适</p>
+<h4 id="提出了什么样的方法和创新点？"><a href="#提出了什么样的方法和创新点？" class="headerlink" title="提出了什么样的方法和创新点？"></a>提出了什么样的方法和创新点？</h4><ol>
+<li>阐述 loT 的体系结构特征以及资源受限问题造成的轻量化问题，概述 loT 中实现区块链所面临的问题，需求分析 loT 中的区块链（结合比特币的运行流程）<br><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/F9WNbwFe5o0iVaxeODAc6RcVnvf.png" alt></li>
+<li>把共识机制分为：证明类、拜占庭类、有向无环图类。并研究它们的工作原理。在通信复杂度上分析它们与 loT 的适应度。对现有共识机制和 loT 结合的架构进行调研分析<br>通信复杂度是指<strong>共识过程中各个节点为了达成一致所需要的通信量</strong>。</li>
+</ol>
+<h4 id="证明类"><a href="#证明类" class="headerlink" title="证明类"></a>证明类</h4><h5 id="PoW-Proof-of-Work-工作量证明共识机制"><a href="#PoW-Proof-of-Work-工作量证明共识机制" class="headerlink" title="PoW(Proof of Work)工作量证明共识机制"></a><strong>PoW(Proof of Work)工作量证明共识机制</strong></h5><p>代表项目：比特币</p>
+<ul>
+<li>通信复杂度：<strong>O(n)。</strong>由于工作量证明采用哈希算法，通过寻找 nonce 值，重复计算区块头信息，矿工之间不需要通信，只有在生成区块后才在全网进行广播，其他节点验证区块有效性。</li>
+<li><p>优点：</p>
+<ul>
+<li>去中心化程度高。每个节点享有同等参与的权力，并且对产生的新区块进行验证工作。</li>
+<li>安全性高。基于最长链原则的 PoW 共识机制，产生区块需要牺牲大量的算力，作恶成本高，避免双花攻击。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>高延迟。生成一个区块需要花费 10 min，使得区块的确认时间长。</li>
+<li>可扩展性差。随着交易数量的增加，处理交易的能力有限。</li>
+<li>成本高。由于挖矿是一个不断进行哈希计算的过程，要以耗费大量的算力为代价，浪费资源。</li>
+<li>需要特殊的硬件设备，而且对带宽的要求较高。</li>
+</ul>
+</li>
+<li><p>应用于物联网的限制：</p>
+<ul>
+<li><strong>挖矿</strong>需要消耗大量的算力资源，而物联网设备由于计算能力弱不适合成为矿工节点</li>
+<li><strong>完成共识过程</strong>需要消耗大量的能量，而物联网设备具有低功耗的特征，而且大部分物联网终端采用电池供电寿命有限，不能满足能量的供应</li>
+<li>由于哈希函数求解的复杂性，解决此难题需要一些时间，使交易处理速度较慢，影响了出块的时间，无法满足物联网应用的低延迟需求</li>
+<li>工作量证明共识机制需要特殊的硬件设备来支持以及对带宽有一定的要求，也不适合物联网场景</li>
+</ul>
+</li>
+</ul>
+<h5 id="PoS-Proof-of-Stake-权益证明共识机制"><a href="#PoS-Proof-of-Stake-权益证明共识机制" class="headerlink" title="PoS(Proof of Stake)权益证明共识机制"></a><strong>PoS(Proof of Stake)权益证明共识机制</strong></h5><p>代表项目：目前<strong>以太坊</strong>的共识机制正在朝 POS 方向迭代</p>
+<ul>
+<li>介绍：在 POS 共识机制中，持有<strong>更多权益（代币数量、币龄(持有代币的时间)、历史贡献等）的节点有更大的概率被选为区块生成者</strong>，这是因为持有更多代币意味着更高的权益和更大的经济利益，节点有动力保持诚实的行为以保护自己的投资</li>
+</ul>
+<p>PoS 算法表示：$coinage = coin∗time$，coinage 表示该笔交易的币龄，coin 和 time 分别表示持有货币的数量和时间，持有货币的数量越多或者时间越长，则获得产生区块的难度越小。</p>
+<ul>
+<li><p>优点：</p>
+<ul>
+<li>节省资源。生产区块不需要进行大量的计算，消耗的能量少</li>
+<li>低延迟。节点挖矿依靠权益证明，而不需要算力竞争，从交易被打包装入区块到生成新区块的共识过程的确认时间大约是 1 min。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>安全性差。由于挖矿成本不高，攻击者可以累积一定量的币龄，发起双花攻击。</li>
+<li>可扩展性差。由于交易数量的增加，网络节点处理交易的能力有限。</li>
+<li>激励问题。因为 PoS 共识机制在共识过程中不需要消耗大量的算力，相较于 PoW，其激励程度远远不及。</li>
+</ul>
+</li>
+<li><p>应用于物联网的限制：</p>
+<ul>
+<li>PoS 生成区块成本低，恶意节点可以发起 51% 攻击，而物联网设备本身就容易遭受攻击，要求安全性</li>
+<li>可扩展性差，当物联网设备增加时，网络节点处理能力有限。</li>
+</ul>
+</li>
+</ul>
+<h5 id="DPoS-Delegated-Proof-of-Stake-委托权益证明共识机制（授权股份证明机制）"><a href="#DPoS-Delegated-Proof-of-Stake-委托权益证明共识机制（授权股份证明机制）" class="headerlink" title="DPoS(Delegated Proof of Stake)委托权益证明共识机制（授权股份证明机制）"></a><strong>DPoS(Delegated Proof of Stake)委托权益证明共识机制（授权股份证明机制）</strong></h5><p>代表项目：EOS</p>
+<p>DPoS 机制类似于股份制公司，平民百姓（没有权益的节点）不能选举推选董事会，普通股民（有权益的节点）进不了董事会，但能投票选举董事会（代表节点）代他们做决策。</p>
+<ul>
+<li>介绍：全网每个拥有权益的节点都具有投票的权力，投票选出一定数量的代表节点，代表节点的职责是<strong>轮流</strong>生产区块并进行区块的验证，类似于现实中“民主集中”制度的记账方式，可以在短时间内达成共识（大约每 3 s 产生一个区块）。如果某一个代表节点长时间不在线或者多次产生无效区块，其他节点将投票选出一个新代表节点。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/TSMRbcGTeowH92xrp2wcJItKnLe.png" alt></p>
+<ul>
+<li><p>优点：</p>
+<ul>
+<li>交易确认速度快。代表节点的数量是有限的，使得短时间内达成共识，产生一个区块仅仅需要大约 3 s，相较于 PoW 共识机制产生一个区块需要 10 min，明显提高了确认速度。</li>
+<li>节约资源。在系统中投票选取少量的代表节点，依靠每个代表节点轮流产生区块，不需要消耗大量的算力资源。</li>
+<li>可扩展性好。由于代表节点处理交易能力强，提高了节点处理交易的扩展能力。</li>
+<li>抵御双花攻击。因为每个代表节点都拥有生成区块的权力，一旦一个代表节点在规定的时间没有生成区块或者多次产生无效的区块，那么这个代表节点会被其他代表节点投票剔除。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>将一些代表节点的权力中心化。因为多个代表节点能够联合起来共同作恶，影响共识过程。</li>
+<li>代表节点可能遭受分布式拒绝服务攻击（DistributedDenial of Service，DDoS）攻击。因为攻击者可以单独对每一个代表节点发起攻击，从而影响代表节点在规定的时间内生产区块。</li>
+</ul>
+</li>
+<li><p>与物联网场景的适应度：</p>
+<ul>
+<li>目前，采用 DPoS 共识机制的区块链应用平台是 EOS 项目。EOS 全称 EOS. IO 软件，通过构建一个类似操作系统的体系结构的应用程序，来实现去中心化应用程序的性能扩展（每秒可以处理百万级交易）。EOS 项目的物联网应用是 EOSIoT，利 用 智 能 合 约 和 射 频 识 别（Radio FrequencyIdentification，RFID）系统传送的电子标签，实现 EOS 链服务于物联网场景中。</li>
+</ul>
+</li>
+<li><p>DPoS 共识机制完全应用于物联网场景中时会受到一些限制：</p>
+<ul>
+<li>DPoS 共识机制的共识过程虽然简单高效，但是去中心化程度不高，不适用于分布范围广的物联网设备</li>
+<li>当物联网设备少时，代表性不强。</li>
+</ul>
+</li>
+<li>对 DPoS 共识机制改进的物联网区块链项目是 IoTEX，通过<strong>随机选择</strong>代表节点发布区块，进一步增强了去中心化和可扩展性方面的能力。下图是 IoTEX 架构，根链负责维护子链，子链直接用来连接物联网设备，当子链出现故障时，根链继续正常运行。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/Jnkrb0Tqmo0iV2x5IJmcOPbOnhh.png" alt></p>
+<h5 id="PoA-Proof-of-Authority-权威证明共识机制"><a href="#PoA-Proof-of-Authority-权威证明共识机制" class="headerlink" title="PoA(Proof of Authority)权威证明共识机制"></a><strong>PoA(Proof of Authority)权威证明共识机制</strong></h5><ul>
+<li><p>介绍：</p>
+<ol>
+<li>系统根据节点信誉选出一定数量的<strong>验证者</strong>。</li>
+<li>用户或者智能合约向系统发起交易请求。</li>
+<li>接收到交易请求后，系统中的<strong>验证者将交易打包到区块中</strong>。</li>
+<li>验证者确认出块，在全网进行<strong>广播</strong>，验证者对区块进行<strong>签名</strong>，检查该节点是否为验证者。如果该节点被确认为验证者，则该区块是有效的。</li>
+<li>如果<strong>普通节点申请成为新的验证者</strong>，需要在验证者内部投票决定。验证者将根据投票数量是否大于 1/2，来对该节点进行判断。</li>
+</ol>
+</li>
+<li><p>优点：</p>
+<ul>
+<li>交易处理速度快。由于计算能力要求低，不需要进行大量的计算，平均只需 5 s 即可生成区块。</li>
+<li>安全性高。由于该机制需要对验证者的身份进行确认，只有确认合格才能发布区块，所以验证者很难作恶，能够有效避免双花攻击。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>去中心化程度不高。因为参与共识过程的验证者数量较少。</li>
+<li>验证者作恶。如果验证者在共识过程中选择作恶，当前有效的解决方法是使用多重签名机制。</li>
+<li>隐私威胁。由于验证者身份是公开的，个人信息容易被泄露。</li>
+</ul>
+</li>
+<li>与物联网场景的适应度：PoA 共识机制适用于解决物联网面临的处理能力弱、能量供应有限等问题</li>
+<li>一个限制：与 DPoS 共识机制类似，由于去中心化程度不高，不适用于分布范围广的物联网设备。</li>
+</ul>
+<h5 id="PoC-Proof-of-Capacity-容量证明共识机制（贡献证明算法）"><a href="#PoC-Proof-of-Capacity-容量证明共识机制（贡献证明算法）" class="headerlink" title="PoC(Proof of Capacity)容量证明共识机制（贡献证明算法）"></a><strong>PoC(Proof of Capacity)容量证明共识机制（贡献证明算法）</strong></h5><p>用来解决区块链中 51% 攻击问题</p>
+<p><strong>计算能力不是决定区块生成权的因素，而是存储容量的大小</strong></p>
+<ul>
+<li><p>介绍：</p>
+<ol>
+<li>参与者需要事先将<strong>一定量的存储空间</strong>分配给网络，称为”plots”。这些 plots 包含了预先计算好的随机值和相关证明，生成 plot 的过程通常是计算密集型的，因为需要大量的计算来生成并存储 plot。</li>
+<li>在区块生成的过程中，参与者根据其拥有的存储空间大小，以及存储空间中预先计算好的值，使用哈希函数进行计算。通过比较计算结果与目标值之间的关系，参与者可以证明自己的存储容量，并有机会被选为区块生成者。存储空间较大的参与者具有更高的概率被选中。</li>
+</ol>
+</li>
+<li><p>优点</p>
+<ul>
+<li>不需要大量的计算资源，因此能源效率更高。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>生成 plot 需要大量的计算资源和存储空间，这可能会对参与者造成一定的成本和资源开销</li>
+<li>PoC 机制可能存在寻找高效哈希函数和防止预计算的攻击等技术难题。</li>
+</ul>
+</li>
+</ul>
+<h5 id="Ouroboros-共识机制"><a href="#Ouroboros-共识机制" class="headerlink" title="Ouroboros 共识机制"></a>Ouroboros 共识机制</h5><p>基于 PoS 的共识机制，用来防止自私挖矿等攻击，是 Cardano 区块链的核心组成部分</p>
+<ul>
+<li>介绍：Ouroboros 共识机制基于时间分片（Epoch）和槽（Slot）的概念，通过将时间分为连续的时段来组织区块的生成和验证。每个时间分片（Epoch）由一系列连续的槽（Slot）组成，每个槽对应一个验证人节点来生成区块。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/Sms8bojy5oj2bnxVqkBcwZ09npc.png" alt></p>
+<ul>
+<li><p>优点：</p>
+<ul>
+<li>安全性高。Ouroboros 对安全性做了严格的数学论证，提出了一种新的激励机制，让诚实节点的行为是一个近似纳什均衡，能够防止恶意攻击。</li>
+</ul>
+<blockquote>
+<p>Ouroboros 共识机制中的激励机制旨在鼓励节点遵守共识规则并参与网络的安全和稳定。激励机制通过经济奖励来驱动节点的行为，确保他们以正确的方式执行共识算法。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>在 Ouroboros 中，节点可以通过两种方式获得经济奖励：</p>
+<ol>
+<li>区块奖励：在 Ouroboros 中，选定的验证人节点负责生成和验证区块。当节点成功生成一个区块并添加到区块链中时，他们将<strong>获得一定数量的代币作为区块奖励</strong>。这个奖励作为节点参与共识过程的回报，鼓励他们诚实地参与区块链的维护和安全性。</li>
+<li>交易费用：除了区块奖励，Ouroboros 还允许验证人节点<strong>收取交易费用</strong>。当用户发送交易时，他们可以选择支付一定数量的代币作为交易费用。这些交易费用将分配给验证人作为额外的经济激励，鼓励他们包含和验证更多的交易并维护网络的流动性。<ul>
+<li>交易处理速度快。耗费算力资源少，比 PoW 和 PoS 共识机制更高效，大约能够在 20 s 达成共识完成出块。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<ul>
+<li><p>缺点：</p>
+<ul>
+<li>容易遭受 DDoS 攻击。由于 Ouroboros 共识机制能够提前知道谁是下一个出块者，攻击者可以单独发起对某一个出块者的恶意行为。</li>
+<li>去中心化程度低。在 Ouroboros 共识机制中，由于节点进行选择出块候选人与代币的分布有关，会影响去中心化程度。</li>
+</ul>
+</li>
+<li>与物联网场景的适应度：提高了系统的安全性和交易速度，但由于后期去中心化程度的降低，不太适用于物联网场景中。</li>
+</ul>
+<h4 id="拜占庭类"><a href="#拜占庭类" class="headerlink" title="拜占庭类"></a>拜占庭类</h4><ul>
+<li>证明类共识机制：通过经济或计算证明，来确保节点的诚实参与和安全性。</li>
+<li>拜占庭式共识机制：注重节点之间的相互信任和消息交互，以解决恶意行为的问题，解决<strong>拜占庭错误</strong></li>
+<li>拜占庭错误：人为的故意作恶导致的错误，相对于普通的宕机错误，拜占庭错误是一种<strong>有目的的作恶行为</strong>。</li>
+</ul>
+<h5 id="PBFT-Practical-Byzantine-Fault-Tolerance-实用拜占庭容错共识机制"><a href="#PBFT-Practical-Byzantine-Fault-Tolerance-实用拜占庭容错共识机制" class="headerlink" title="PBFT(Practical Byzantine Fault Tolerance) 实用拜占庭容错共识机制"></a>PBFT(Practical Byzantine Fault Tolerance) 实用拜占庭容错共识机制</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ganzr/article/details/105276253">https://blog.csdn.net/ganzr/article/details/105276253</a></p>
+<ul>
+<li>最早是由 Castro 和 Liskov 在 1999 年发表的论文中提出的，旨在解决分布式系统中存在故障或恶意行为节点的问题，并提供高性能和可扩展性。算法的核心思想是通过交互式的消息传递和多数派原则来达成共识。</li>
+<li>核心概念：当收到 2/3 以上的同种票后，网络中的节点们达成了共识</li>
+<li><p>2/3 的由来<br>假设总结点数为 N，恶意节点数量为 f，普通节点数量则为 N-f</p>
+<ol>
+<li>整个投票的过程在得到 N-f 个回应之前就可以做出决定：假设需要 N-f+1 个回应，那么恶意节点集体选择不回应，系统就永远无法做出决定</li>
+<li>如果收到了 N-f 个回应，但我们并不清楚其中有多少个恶意节点，最坏情况就是所有恶意节点都包含进来了——<strong>本次回应</strong>包含普通节点数量 = N-f-f</li>
+<li>在一次回应中，如果普通节点的票数大于恶意节点票数，根据多数派原则，这次决定是正确的，因此在上述最坏情况下： N-f-f &gt; f ———-&gt; N/3&gt;f ———&gt; 也就是说在能根据回应做出正确决定的情况下，恶意节点数不会超过总结点数 1/3</li>
+<li>因此如果在某次回应中，收到 2/3 以上的赞成票，1/3 以下的反对票，反对票中最坏也就包含了占 1/3 的恶意节点，无法改变决定</li>
+</ol>
+</li>
+<li>每轮共识过程中有且仅有一个主节点</li>
+<li>实施步骤：</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/WwXhboSf0o8gRDxAvPacZrCBnzy.png" alt></p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/LDGTbXlVBopBEaxXsoncOwXGnNe.png" alt></p>
+<ol>
+<li>预备阶段（Pre-Prepare）：主节点收到客户端请求后，生成、打包区块，广播 Pre-Prepare 消息给其他共识节点。</li>
+<li>验证阶段：共识节点对区块进行验证，决定投出“赞成”（该区块可上链）/“反对”票（该区块不可上链）</li>
+<li>准备阶段（Prepare）：共识节点对投出的票附上签名，并广播给全网其他节点（我认为这个区块可以/不可以上链）。当一个节点收到超过 2/3 以上赞成/反对票后，意味着该节点达成了共识，进入 commit</li>
+<li>提交阶段（Commit）：与准备阶段类似，节点将准备 commit 的消息向全网其他节点广播（我达成共识了，我准备执行区块了），当一个节点收到超过 2/3 的 commit 后，回复主节点，区块正式上链</li>
+</ol>
+<blockquote>
+<p>为什么需要 commit 阶段？<br>在准备阶段，假设节点 1 收到了超过 2/3 以上赞成票，但是它不能保证网络中其他节点也收到那么多赞成票，可能因为网络传输等问题，节点 2 收到的反对票更多，节点 3 还没有收到票</p>
+<ul>
+<li>如果没有 commit 阶段，这时节点 1 就直接去执行区块交易了，就会导致和节点 2、3 的区块链状态不一致，网络的共识就被打破了</li>
+<li>如果有 commit 阶段，节点 1、2、3 都收到了 2/3 个该交易的 commit，即使 2 节点收到反对票更多、3 节点没有收到票，但是它们还是会执行和节点 1 一样的区块操作</li>
+</ul>
+<p>换一个说法：<br>PBFT 中 prepare 阶段的算法效果<br>在 prepare 阶段，在算法正常进行时，每一个合法的节点都将接收到至少 2/3 的投票数，我们将“一个节点接收到至少 2/3 的投票数”称为事件 A，显然至少 2/3 节点都发生了事件 A，但是节点之间不知道彼此之间是否发生了事件 A；</p>
+<p>PBFT 中 commit 阶段的算法效果<br>在 commit 阶段，每一个节点都会将自己发生了事件 A 的消息广播给其他节点，并收集其他节点关于事件 A 的广播，我们把“收集到至少 2/3 节点广播事件 A”称作事件 B，此时，每一个节点都知道至少有 2/3 节点都发生了事件 A，但是不确定其他节点是否知道事件 B。</p>
+<p>PBFT 中 reply 阶段的算法效果<br>在 reply 阶段，每一个节点都将事件 B 返回给 client，此时 client 只要收集到至少 2/3 节点的事件 B 的广播时，就可以判断，系统已经对该 proposal 形成共识，因为事件 B 表示“至少 2/3 节点都知道有至少 2/3 节点对 proposal 进行了投票”，将“收集到至少 2/3 节点的事件 B 的广播”称作事件 C。</p>
+</blockquote>
+<ol>
+<li>执行请求：主节点执行请求，并将执行结果发送给客户端。</li>
+</ol>
+<p>优缺点：</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>通信复杂度$O(n^2)$，解决了原始拜占庭容错(BFT)算法效率不高的问题，将算法复杂度由指数级降低到多项式级，使得拜占庭容错算法在实际系统应用中变得可行。</li>
+<li>共识效率高。在秒级内就能够生产区块，效率高。</li>
+<li>首次提出在<strong>异步网络环境下使用状态机副本复制协议</strong>，该算法可以工作在异步环境中，并且通过优化在早期算法的基础上把响应性能提升了一个数量级以上。作者使用这个算法实现了拜占庭容错的网络文件系统（NFS），性能测试证明了该系统仅比无副本复制的标准 NFS 慢了 3%。</li>
+<li>使用了加密技术来防止欺骗攻击和重播攻击，以及检测被破坏的消息。消息包含了公钥签名（RSA 算法）、消息验证编码（MAC）和无碰撞哈希函数生成的消息摘要（message digest）。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>仅仅适用于 permissioned systems (联盟链/私有链)，不适用于公链</li>
+<li>可扩展性较差。在节点数增多后，性能下降非常快。</li>
+<li>PBFT 在网络不稳定的情况下延迟很高。</li>
+<li>容易遭受拒绝服务（Denial of Service，DoS）攻击。攻击者发起对一笔交易的拒绝服务攻击，使消息得不到传播，阻碍成功完成交易。</li>
+</ul>
+<p>PBFT 共识机制与物联网场景的适应度：PBFT 共识机制应用于物联网会受到一个限制：由于 PBFT 共识机制的安全性会随着节点数量的增多而降低，而物联网设备数量多，不能够解决物联网设备的安全威胁问题。</p>
+<p>支持容错故障节点之外，还支持容错作恶节点。假设集群节点数为 N，有问题的节点为 f。pbft 算法的最大容错节点数量是（n-1）/3。有问题的节点中，可以既是故障节点，也可以是作恶节点，或者只是故障节点或者只是作恶节点。</p>
+<p>假设故障节点和作恶节点都是不同的节点。那么就会有 f 个问题节点和 f 个故障节点，当发现节点是问题节点后，会被集群排除在外，剩下 f 个故障节点，那么根据小数服从多数的原则，集群里正常节点只需要比 f 个节点再多一个节点，即 f+1 个节点，确节点的数量就会比故障节点数量多，那么集群就能达成共识。所以，所有类型的节点数量加起来就是 f+1 个正确节点，f 个故障节点和 f 个问题节点，即 3f+1=n</p>
+<p>pbft 算法的基本流程主要有以下四步：</p>
+<ol>
+<li>客户端发送请求给主节点</li>
+<li>主节点广播请求给其它节点，节点执行 pbft 算法的三阶段共识流程。</li>
+<li>节点处理完三阶段流程后，返回消息给客户端。</li>
+<li>客户端收到来自 f+1 个节点的相同消息后，代表共识已经正确完成。</li>
+</ol>
+<p>为什么收到 f+1 个节点的相同消息后就代表共识已经正确完成？从上一小节的推导里可知，无论是最好的情况还是最坏的情况，如果客户端收到 f+1 个节点的相同消息，那么就代表有足够多的正确节点已全部达成共识并处理完毕了。</p>
+<ul>
+<li><p>角色：</p>
+<ul>
+<li>客户端 Client：负责发送交易请求</li>
+<li>主节点 Primary：负责将交易打包成区块和区块共识，每轮共识过程中仅有一个主节点</li>
+<li>副本节点 Replica：负责区块共识，每轮共识过程中有多个 Replica 节点</li>
+<li>共识节点：Primary 和 Replica 节点都属于共识节点</li>
+</ul>
+</li>
+<li><p>详见：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zmk-c/p/14535734.html">https://www.cnblogs.com/zmk-c/p/14535734.html</a></p>
+</li>
+<li><p>流程：</p>
+<ol>
+<li>请求。客户端 ——请求消息——&gt; 主节点。</li>
+</ol>
+<blockquote>
+<p>请求消息 <code>&lt;&lt;REQUEST,o,t,c&gt;&gt;</code> 其中 o 表示操作，t 是时间戳，c 是这个 client</p>
+</blockquote>
+<ol>
+<li>预准备 pre-prepare。主节点 —— 预准备消息 ——&gt; 副本节点</li>
+</ol>
+<blockquote>
+<p>预准备消息 <code>&lt;&lt;PRE_PREPARE,v,n,d&gt;,m&gt;</code>。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p><strong>v 代表视图编号：比如当前主节点为 A，视图编号为 1，如果主节点换成 B，那么视图编号就为 2</strong><br><strong>n 代表序号：主节点收到客户端的每个请求都以一个编号来标记</strong><br><strong>d 代表消息摘要</strong><br><strong>m 代表原始消息数据</strong>。<br>副本节点检查预准备消息，消息里的 v 和 n 在之前收到里的消息是曾经出现过的，但是 d 和 m 却和之前的消息不一致，或者请求编号 n 不在高低水位之间，这时候就会拒绝请求。拒绝的逻辑就是<strong>主节点不会发送两条具有相同的 v 和 n ，但 d 和 m 却不同的消息。</strong></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 准备prepare。当前节点同意预准备请求后 ---- 准备消息 ----&gt;其他节点，并将消息记录到 **Log** 中</span><br><span class="line">&gt; 准备消息`&lt;PREPARE,v,n,d,i&gt;`</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>i 用于表示当前节点的身份。<br>同一时刻不是只有一个节点在进行这个过程，可能有 n 个节点也在进行这个过程，因此节点是有可能收到其它节点发送的 prepare 消息的，当前节点 i 验证这些 prepare 消息和自己发出的 prepare 消息的 v，n，d 三个数据是否都是一致的。验证通过之后，当前节点 i 将 prepared(m，v，n) 设置为 true，<strong>prepared(m，v，n) 代表共识节点认为在(v，n)中针对消息 m 的 Prepare 阶段是否已经完成</strong>。在一定时间范围内，如果收到超过 <strong>2f</strong> 个其他节点的 prepare 消息，就代表 prepare 阶段已经完成。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 提交commit。共识节点 ---- 提交消息 ----&gt; 其他共识节点，其他节点接收到2f个来自其他共识节点的commit消息后，将其插入Log中（算上自己的共有2f+1个），验证这些commit消息和自己发的commit消息的v，n，d三个数据都是一致后，共识节点将committed-local(m，v，n)设置为true，**committed-local(m，v，n)代表共识节点确定消息m已经在整个系统中得到至少2f+1个节点的共识，而这保证了至少有f+1个non-faulty节点已经对消息m达成共识**。于是节点就会执行请求，写入数据。</span><br><span class="line">&gt; commit消息`&lt;COMMIT,v,n,d,i&gt;`</span><br><span class="line">1. 回复。若客户端收到的相同回复消息至少是f + 1，则表示请求结束；否则，重新发起请求。</span><br><span class="line">![](static/O7D7bS4vsoRDunxMfjecjBwSn4g.png)</span><br><span class="line">1. 客户端发送请求：客户端将请求发送给副本节点，并等待响应。</span><br><span class="line">2. 预备阶段（Pre-Prepare）：副本节点收到请求后，首先广播Pre-Prepare消息给其他副本节点。Pre-Prepare消息包含了请求的摘要和序列号等信息。</span><br><span class="line">3. 准备阶段（Prepare）：副本节点收到Pre-Prepare消息后，进行请求的验证，并广播Prepare消息给其他副本节点。Prepare消息包含了对请求的承诺和对其他副本节点的Prepare消息的签名。</span><br><span class="line">4. 提交阶段（Commit）：副本节点在收到足够数量的Prepare消息后，广播Commit消息给其他副本节点。Commit消息表明该副本已经准备好执行请求，并承诺将该请求应用到状态机中。</span><br><span class="line">5. 执行请求：副本节点执行请求，并将执行结果发送给客户端。</span><br><span class="line">6. 客户端响应：客户端收到来自多数副本节点的执行结果后，认为请求已成功执行，并向副本节点发送确认消息。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通信复杂度：由于算法共识过程的五个阶段需要广播大量的消息，所以 PBFT 共识机制的通信复杂度为$O(n^2)$。</li>
+</ul>
+<h5 id="HotStuff-共识机制"><a href="#HotStuff-共识机制" class="headerlink" title="HotStuff 共识机制"></a>HotStuff 共识机制</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ganzr/article/details/110879463">https://blog.csdn.net/ganzr/article/details/110879463</a></p>
+<p>算法复杂度为 O(n)</p>
+<p>优化点：</p>
+<ol>
+<li>将<strong>节点广播投票</strong>改成 <strong>leader 节点收集投票然后再广播</strong>，从而将$O(n^2)$的复杂度降低为$O(n)$</li>
+</ol>
+<blockquote>
+<p>在 PBFT 中，由于每个节点都会广播自己的投票并收集其他人的投票（因为有拜占庭节点的存在，节点只相信自己所获取到的关于某个节点的投票信息），导致每一个节点都做了大量重复的工作。<br>HotStuff 只需要一个节点负责收集，将收集到的结果广播给每一个节点，避免其他节点重复收集</p>
+</blockquote>
+<ol>
+<li>每一个轮的投票除了是对本轮的请求的共识，<strong>也是对上一轮请求的共识</strong>。</li>
+</ol>
+<blockquote>
+<p>pbft 预准备、准备、提交<strong>三个阶段</strong>的内容都有<strong>收集投票</strong>：</p>
+<ul>
+<li>preprepare：收集 leader 的提议</li>
+<li>prepare：收集所有节点对于该提议的投票信息；</li>
+<li>commit：收集所有节点对于 prepare 阶段中“自身节点收集到 2/3 的其他节点的反对/赞成投票”的信息；<br>将提议的不同阶段重合，实现<strong>并行处理</strong>提议的投票<br><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/BkqSbOdRoouo1zxEJVjcruvQn3c.png" alt></li>
+</ul>
+</blockquote>
+<ol>
+<li><strong>每一轮投票更换一次 leader 节点</strong>，尽可能减少 leader 出错时更换 leader 所需要的时间。</li>
+</ol>
+<blockquote>
+<p>在 pbft 中，有一个专门的 <strong>view-change</strong> 阶段来更换出问题的 leader，但是这个 view-change 实质上就是一个特殊的 proposal，这个 proposal 不需要 leader 来发出，而是节点本身在判断当前 leader 出问题时，就会直接广播一个针对这个特殊的 proposal 的投票。那么这里的 leader 更换就需要走至少一轮完整的共识。<strong>耗费了一个共识的时间</strong><br>在 HotStuff 中，为了减少更换 leader 所需要的走的流程，主动在每次发送完 proposal 之后就更换 leader。</p>
+</blockquote>
+<p>非流水线 HotStuff 算法流程：</p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/IaoHby8DOodXISxPiTbc1LFMntc.png" alt></p>
+<p>leader 做收集投票的事情：</p>
+<ol>
+<li>收集至少 2/3 节点的投票，即 leader 节点<strong>发生了</strong>事件 A，此时 leader 节点把这个时间的证据保留下来，广播给其他节点，那么其他节点也就相当于发生了事件 A；但是还是不知道其他节点是否有<strong>接收到</strong> leader 广播的事件 A</li>
+<li>此时<strong>接收到</strong>事件 A 的节点会广播一个投票给 leader；leader 会收集这些投票，即 leader 发生了事件 B，同理，将这个事件 B 广播给其他节点，其他的节点在收到时也相当于发生了事件 B，但是还是不知道其他节点是否有<strong>收到</strong> leader 广播的事件 B</li>
+<li>跟第 2 步一样，收到事件 B 的节点也会广播一个投票给 leader，leader 收集，此时 leader 节点上发生了事件 C，同理，将这个事件广播给其他节点，其他节点受到后，就确认了共识已经达成。</li>
+</ol>
+<p>流水线 HotStuff 算法流程</p>
+<p>在非流水线的 hotstuff 中，节点的步骤有 4 个，分别是 pre-prepare，prepare，pre-commit，commit，在<strong>每一阶段中都会有一次广播</strong>，因此，可以将<strong>不同的 proposal 的不同的阶段重合</strong>，然后复用每一轮的广播来完成这些重叠的 proposal 的阶段的变换。</p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/VWatbBH2aoMHj4xsqXjc0Xmqn6e.png" alt></p>
+<p>QC 即上述的事件发生的“证据”——至少 2/3 节点的投票</p>
+<ol>
+<li>每一个 cmd（即 proposal）在 prepare 被提出，经历后续三个阶段后达成共识；</li>
+<li>每一个 QC，既是所指向的 cmd 达到下一个阶段的证明，也是上一个 cmd 的的证明，同时还是上上个 cmd 的证明，且分别表示不同的 cmd 到达了不同阶段的证明。</li>
+</ol>
+<p>总结</p>
+<ul>
+<li><strong>leader 完成</strong>本来每个节点都需要重复做的事情——收集投票</li>
+<li>将整个共识的阶段抽象成<strong>流水线</strong>模型，每一个 QC 同时证明三个 cmd 状态</li>
+<li>每一个 leader 在广播完一个（QC，cmd）之后就会<strong>更换另一个 leader</strong></li>
+</ul>
+<h5 id="Algorand-共识机制"><a href="#Algorand-共识机制" class="headerlink" title="Algorand 共识机制"></a>Algorand 共识机制</h5><p>是一种将 PoS 与 BFT 共识机制结合的混合共识机制，解决了 PoW 和 PoS 共识机制中存在的交易延迟以及 BFT 共识机制的可扩展性问题。在 Algorand 中采用 BFT 共识，使交易的响应时间达到秒级。而且，Algorand 通过随机选择领导者生产区块和委员会成员投票决议（验证区块）的方式实现共识过程，解决了 BFT 共识机制的可扩展性问题。</p>
+<ul>
+<li>流程：</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/LXRnb9UhjoMELcxorYyc2Hjenpf.png" alt></p>
+<ul>
+<li><p>关键特点：</p>
+<ol>
+<li>纯 PPoS：Algorand 的共识机制是纯粹的权益证明（Pure Proof-of-Stake）系统，没有需要进行投票的委员会或轮值验证者。在 Algorand 中，每个持有代币的地址都有机会被选中来提议和验证新的区块。</li>
+<li>随机选举：为了确保公平性和去中心化，Algorand 使用密码学随机选择机制来选择验证者。该选择是<strong>基于每个地址持有的代币数</strong>，而不是通过消耗大量能量来解决难题的方式。</li>
+<li>块提议和确认：在 Algorand 中，每个轮次都会有一个块提议者被随机选中来提议一个新的区块。然后，所有其他持有代币的地址都会参与到一个快速的二进制共识协议中，称为“不可变性共识（BA*）”。这个协议的目标是快速达成共识，并确保网络的安全性和一致性。</li>
+<li>最终性：Algorand 的共识机制提供了快速的最终性，这意味着一旦一个块被确认，它就不会被撤销或修改。这降低了双花和其他攻击的可能性，提高了交易的安全性。</li>
+<li>可扩展性：Algorand 的共识机制被设计为高度可扩展的，可以在网络中支持大量的交易和参与者。该协议使用了一种称为“快速同步和安全传输（Fast Sync and Secure Broadcast）”的技术，以减少网络通信的复杂性和延迟。</li>
+</ol>
+</li>
+<li><p>优点：</p>
+<ul>
+<li>交易处理速度快于 PoW 和 PoS 共识机制。Algorand 共识机制通过选取一部分节点完成共识过程，提高了交易处理的效率；而且采用改进的拜占庭共识算法 BA⋆，以很小的通信量使委员会成员达成一致，进一步缩短了共识时间。</li>
+<li>安全性高。由于采用了<strong>随机选取</strong>领导者和委员会成员的方式，不能够确定谁是下一个区块的生产者，以及<strong>最终性，</strong>有效地抵御了攻击者的任意行为。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>没有激励机制。由于没有额外的奖励，节点不会积极参与。</li>
+<li>安全隐患。网络用户重复使用领导者和委员会成员的私钥，使私钥容易被泄露；此外，当系统中恶意节点占有 2/3 以上资金时，恶意节点可以发起任何行为的攻击。</li>
+<li>缺少惩罚机制。在共识过程中，如果存在恶意节点，缺乏惩罚机制将不能阻止恶意行为攻击。</li>
+</ul>
+</li>
+<li><p>与物联网场景的适应度：Algorand 共识机制应用于物联网场景中会受到两个限制：</p>
+<ul>
+<li>一是隐私泄露问题。由于在共识过程中会重复使用私钥进行签名，可能会泄露用户信息，而物联网设备本身就存在隐私泄露问题</li>
+<li>二是当恶意节点掌握系统 2/3 以上资金，会破坏共识过程，而物联网设备本身就容易遭受安全威胁，这将使 Algorand 共识机制应用于物联网中面临安全挑战。</li>
+</ul>
+</li>
+</ul>
+<h5 id="Tendermint-共识机制"><a href="#Tendermint-共识机制" class="headerlink" title="Tendermint 共识机制"></a>Tendermint 共识机制</h5><p>基于 PoS 和 PBFT 的共识机制，目的是为了解决无利害关系问题</p>
+<ul>
+<li>Tendermint <strong>以轮为单位</strong>进行，每轮都有<strong>一个专用的提议者</strong>（协调者或领导者）。</li>
+<li><p>两个角色：</p>
+<ul>
+<li>验证者，在生产区块阶段拥有投票的权力</li>
+<li>提议者，提议区块。</li>
+</ul>
+</li>
+<li>共识过程分为三个核心步骤和两个特殊步骤，也称一轮。三个核心步骤是预投票、预提交、提交，两个特殊步骤是提议者提议区块、生成新区块并且区块链高度加 1。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/BclFbrlbEohFUhxzFS4c8nofnfb.png" alt></p>
+<ul>
+<li><p>具体流程：</p>
+<ol>
+<li>首先随机选择一部分节点成为验证者，然后从验证者中选择一个作为提议者</li>
+<li>提议者提议区块：提议者开始提议一个区块，并向全网广播。</li>
+<li>验证者验证提议的区块：验证者在收到这个提议区块后，验证该区块的有效性，区块有效则进入下一阶段。</li>
+<li>验证者预投票：验证者投票，需要获得 2/3 以上验证者同意的票数，才能进入下一阶段。</li>
+<li>验证者预提交：预提交，需要获得 2/3 以上的验证者投票同意，才能进入到下一个阶段提交。</li>
+<li>提交：提交产生一个新区块，进入下一轮。</li>
+</ol>
+</li>
+<li><p>注意：</p>
+<ol>
+<li>空块不含任何交易信息，不是一个真正意义上的区块</li>
+<li>如果提议者没有在设置的时间内提议区块，系统不会等待而会生成一个空块，进入下一阶段。</li>
+<li>在预投票阶段，如果没有获得 2/3 验证者投票的同意，系统也不会等待会生成一个空块，进入预提交阶段。</li>
+<li>在预提交阶段，如果没有获得 2/3 验证者投票的同意，直接进入下一轮，由下一个提议者开始提议区块。</li>
+</ol>
+</li>
+<li>通信复杂度：因为在投票阶段，需要网络中 2/3 以上的验证者投票同意才可以发送消息，所以，Algorand 共识机制的通信复杂度为$O(n^2)$。</li>
+<li><p>优点：</p>
+<ul>
+<li>交易处理速度快。因为只要有验证者 2/3 的投票同意就能够生产区块，可以在短时间内处理大量的交易，系统交易吞吐量大。</li>
+<li>安全性高。Tendermint 共识机制对有恶意行为的节点采取罚款的方式，保证了交易信息的正确性。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>可能会遭受 DoS 攻击。由于以循环方式选择提议者，可以针对某一个验证者节点发起攻击，阻止交易完成。</li>
+<li>最多能容忍 1/3 拜占庭节点。因为 Tendermint 共识机制在共识过程中需要 2/3 以上验证者投票同意才能进入下一阶段，能够允许的最大拜占庭节点数是不超过全网总节点数的 1/3。</li>
+</ul>
+</li>
+<li><p>与物联网场景的适应度：</p>
+<ul>
+<li>好：Tendermint 共识机制的高吞吐和低延迟提高了物联网的性能，特别是通过 Tendermint 实现的 Ethermint 被认为是物联网区块链结合的合适选择。</li>
+<li>坏：相较于后面 DAG 类共识机制，当节点数量特别多时其交易处理速度、安全性以及可扩展性不如 IOTA 以及 Byteball 共识机制。</li>
+</ul>
+</li>
+</ul>
+<h5 id><a href="#" class="headerlink" title=" "></a> </h5><h4 id="DAG-类"><a href="#DAG-类" class="headerlink" title="DAG 类"></a>DAG 类</h4><h5 id="IOTA-共识机制"><a href="#IOTA-共识机制" class="headerlink" title="IOTA 共识机制"></a>IOTA 共识机制</h5><ul>
+<li><p>特点：</p>
+<ul>
+<li>IOTA 是<strong>针对物联网场景的应用</strong>而提出的一种新型区块链技术</li>
+<li>物联网中的设备作为区块链的参与节点。</li>
+<li>一个区块存放一个交易</li>
+</ul>
+</li>
+<li>交易权重：$3^n$ 是权重（n 是该节点持有代币量）</li>
+<li>交易累积权重：交易的累积权重是通过 该交易的自身权重 和 其他直接或者间接验证这个交易的所有交易的自身权重 <strong>相加求和</strong>得出的</li>
+<li>架构：每个新加入的交易将会被放在后面指向<strong>之前的两个</strong>交易。图 11 中，一个字母代表一个交易，如 A、B，方框内左上角的数字是交易的累积权重，右下角的数字是交易的自身权重。交易 A 指向交易 B 和 C，那么 A 直接验证了 B 和 C；交易 A、B、C、D、E、F、G 最终都指向 H，则交易 H 的累积权重的计算结果是 16。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/SOhRbE3PMol0gwxkRgHcFx7Nn0g.png" alt></p>
+<ul>
+<li><p>工作原理：</p>
+<ol>
+<li>节点发起一个交易，需要验证 Tangle 中先前的两个交易，并将此交易指向他们。</li>
+<li>然后，通过花费少量的 PoW 计算权重和累积权重验证先前的两个交易。随着这个交易被之后新的交易直接或者间接验证，当交易的累积权重足够大时，则认为这个交易是有效的。利用累积权重大小来验证交易有效性，可能会受到双花攻击（典型的是寄生链攻击）。为此，引入了马尔可夫蒙特卡洛（MarkovChain Monte Carlo，MCMC）验证算法，节点先在累积权重 r 和 2r 之间随机选择 m 个交易，然后下图所示的概率向尖端交易（tips）进行离散时间无规行走到 tips，找到既定的目标：<br><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/W2F5b8um3ozidux1G45czQlxnEA.png" alt></li>
+</ol>
+</li>
+<li>相较于链式区块链，IOTA 结构具有较好的可扩展性，同时能够处理大量的交易信息，减少了共识的时间。</li>
+<li><p>优点：</p>
+<ul>
+<li>高吞吐量。在 DAG 结构下，只需要花费少量的 PoW 来验证先前的两笔交易，从而能够并发处理大量的交易，减少了生成区块的时间。</li>
+<li>可扩展性好。随着交易数量的不断增多，IOTA 的处理速度和扩展能力得到相应的提高；而且，交易量越大，系统变得越稳定，安全性也会得到相应的提高。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li><strong>交易时间不确定</strong>。由于 IOTA 的交易验证是通过计算累积权重的方式，在交易量比较少时，容易出现交易长时间得不到确认。</li>
+<li>安全性降低。在节点数过少时，<strong>容易遭受双花攻击，系统安全性不如链式结构</strong>。</li>
+</ul>
+</li>
+<li><p>IOTA 共识机制与物联网场景的适应度：</p>
+<ul>
+<li>挑战：由于物联网设备具有分布范围广的特征，当在一定范围内物联网设备比较少而且分散时，需要解决 IOTA 共识机制本身存在的交易时间不确认、容易遭受双花攻击的难题。</li>
+<li>好处：但是相比前面介绍的几种共识算法，随着物联网设备呈指数级的增长，它在速度、安全、可扩展性方面显然更好，未来会适用于物联网场景中</li>
+</ul>
+</li>
+</ul>
+<h5 id="Byteball-共识机制"><a href="#Byteball-共识机制" class="headerlink" title="Byteball 共识机制"></a>Byteball 共识机制</h5><ul>
+<li>在 Byteball 中，每个交易都直接链接到之前的交易，形成一个有向无环图。这些链接是通过交易的哈希值来建立的，使得交易之间形成非线性的关系。这种数据结构允许多个交易并行处理，提供了高吞吐量和扩展性。</li>
+<li>Byteball 的共识机制是通过所谓的“主链”（Main Chain）来实现的。主链是由一组被选为见证人（Witnesses）的节点共同维护的链。见证人通过随机数抽签方式从拥有一定 Byteball 代币的节点中选取（持有的代币数量越多，成为见证人的机会就越高）。一旦成为见证人，节点将参与交易验证和主链的维护。见证人在确认交易有效性时采用了一种称为“锁定投票”（Locked Voting）的机制。锁定投票意味着见证人在<strong>确认一个交易后将其锁定</strong>，然后在一段时间内无法更改。这样可以防止见证人对交易进行双重花费。见证人们会收集其他见证人的锁定投票，并将其存储在称为“对等签名”（Co-signing）的数据结构中。通过对等签名，见证人们可以共同决定哪些交易是有效的，并形成主链。<strong>主链上的交易被视为已经得到足够的见证人确认，是网络中被广泛接受和认可的交易</strong>。</li>
+<li>引入 12 个见证人，见证人用来记录存储单元。当用户发起交易时，由一个顶端单元开始通过选择算法选择一个最优父单元，直到构成一条到达创世单元的最佳路径称为主链。DAG 的每个顶端单元直接或者间接到达主链，把主链编号为 MCI，创世单元的 MCI 设置为 0，向后逐渐加 1，主链上最先直接或者间接单元的 MCI 是不在主链上的单元的 MCI。在发生双重支付时，MCI 小的存储单元被认为是有效的。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/LDxkbvhfVox85UxzRHvccL4Fn6c.png" alt></p>
+<ul>
+<li><p>优点：</p>
+<ul>
+<li>安全性强。Byteball 共识机制引入了见证人的方式，并且通过选择算法来创建主链，提高了系统的安全性</li>
+<li>可扩展性好。与 IOTA 共识机制类似，交易量越多，系统越稳定。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>当存储单元数量比较少时，可能会发生双花问题，因为存储单元太少，使一些交易长期得不到确认，此时攻击者可以发起交易，制造另一条链，并且让其成为主链</li>
+<li>牺牲了去中心化程度。由于引入了 12 个见证人，没有实现完全去中心化。</li>
+<li>交易时间不确定。当系统中交易量较少时，会有一些交易长期得不到后续单元的确认。</li>
+</ul>
+</li>
+<li>Byteball 共识机制与物联网场景的适应度：Byteball 和 IOTA 共识机制相较于链式数据结构来说，能够并发处理大量的交易，同时提高了扩展能力，更适用于物联网场景中。</li>
+</ul>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/HWZSbqb3EoUvVixGlXCcuM1Mnue.png" alt></p>
+<h4 id="共识机制对比"><a href="#共识机制对比" class="headerlink" title="共识机制对比"></a>共识机制对比</h4><h5 id="对比指标"><a href="#对比指标" class="headerlink" title="对比指标"></a>对比指标</h5><ul>
+<li>去中心化程度。去中心化程度决定了参与共识节点的权力是掌握在少数人手里还是多数人手里。</li>
+<li>交易吞吐量，在给定的时间段内处理交易的数量。单位 TPS”笔/秒”或”交易/秒”</li>
+<li>交易响应时间。交易从发起到生成区块的时间。</li>
+<li>安全性。在共识过程中，其所能够承受恶意节点发起任意行为攻击的能力</li>
+<li>可扩展性。是指网络节点处理交易的能力，评价可扩展性好坏的标准是随着交易数量的增加，系统中节点处理交易的能力能否得到相应的提高。</li>
+</ul>
+<h5 id="对比分析"><a href="#对比分析" class="headerlink" title="对比分析"></a>对比分析</h5><p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/ECxlb6O72oneyAx7ZNKcCG5UnYg.png" alt></p>
+<p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/QA7GbnhYRoTwy2xFaVWc1ZCDnDf.png" alt></p>
+<ul>
+<li>PoW 共识机制采用公有链，每个节点都可以参与，因而去中心化程度高。但容易产生分叉，进而如果攻击者掌握了全网 51% 的算力，会发起 51% 攻击；并且，PoW 共识机制也会遭受其他类型的攻击，如日蚀攻击、自私挖矿攻击等。通常情况下，PoW 共识机制产生一个区块需要花费 10 min，会带来高延迟问题。——不适用于物联网。</li>
+<li>PoS 共识机制的出块时间为 1 min，而且依靠币龄来产生区块，不需要消耗大量的能量；但由于 PoS 共识机制容易遭受 51% 攻击以及无利害关系问题攻击，使系统安全性得不到保障。PoS 共识机制虽然提高了交易处理的速度，但是在安全性和可扩展性上没有任何的优势。——不适用于物联网。</li>
+<li>DPoS 共识机制不容易产生分叉，而且交易处理速度和安全性比 PoW 和 PoS 更好；缺点是只有少量的代表节点参与共识过程，而物联网设备具有分布范围广的特点，节点太少不具有代表性。——DPoS 共识机制不能够直接应用于物联网设备，只能通过改进 DPoS 共识机制使其适用于物联网设备。</li>
+<li>PoA 共识机制具有交易处理速度快、共识时间短、扩展性好的特点；但算法实现起来比较困难，而且还存在隐私泄露问题。——适用于解决物联网面临的处理能力弱、能量供应有限等问题，但由于去中心化程度不高，不适用于分布范围广的物联网设备。</li>
+<li>PoC 共识机制不容易产生分叉，其安全性高；但是可扩展性比较差。——很难适合数量不断增加的物联网设备。</li>
+<li>Ouroboros 是一个可证明其安全性高的共识机制，其交易处理速度比 PoW 和 PoS 共识机制快；但由于后期去中心化程度的降低，会影响其在物联网场景中的使用。</li>
+<li>PBFT 共识机制的优点是不容易产生分叉，交易处理速度快。但是，这种共识机制容易遭受 DoS 的攻击；而且，PBFT 共识机制只能容忍不超过 1/3 的拜占庭节点，随着节点数量的增加，在安全性上得不到保障。——不能解决物联网的安全问题。</li>
+<li>Algorand 共识机制具有交易处理速度快的优点。但是，容易遭受系统中有占 2/3 资金以上的不诚实节点攻击；而且，当物联网设备的数量特别多时，可扩展性方面存在不足</li>
+<li>Tendermint 共识机制具有低延迟和可扩展性好的优点，对于物联网区块链结合来说是适合的。但是，如果故障节点或恶意节点数超过 1/3 以上时，安全性则得不到保证；而且，随着物联网设备的大量增多，在交易处理速度和可扩展性上不如 IOTA 和 Byteball 共识机制。</li>
+<li>IOTA 和 Byteball 共识机制是一种新型加密技术，其在交易吞吐量和可扩展性上比传统的区块链共识机制有了很大的改进；但是当交易数量较少时，IOTA 和 Byteball 会遭受双花攻击，而且容易发生交易长时间得不到确认等问题。根据共识机制在去中心化程度、交易处理速度、交易确认延迟、安全性和可扩展性方面对物联网产生的影响，要因地制宜地选择适用于物联网场景的共识机制。</li>
+<li>PoW、PoS 共识机制由于需要算力竞争和权益证明不适合于计算能力弱的物联网场景中；DPoS 由于节点数量太少，不适用于分布范围广的物联网体系；PBFT 由于安全性得不到保证，不能应用于物联网场景中。随着物联网设备的增多，PoC、Ouroboros、Algorand、Tendermint、POA 和 PoC 在吞吐量和可扩展性上不如 IOTA 和 Byteball，IOTA 和 Byteball 所具有的特点更适用于物联网场景。</li>
+</ul>
+<ol>
+<li>针对 loT 面临的中心机构运行成本高、可扩展性差、安全性存在隐患的问题进行深入研究</li>
+</ol>
+<p>本文通过对各种共识机制的优缺点进行对比，发现当需要处理大量交易时，IOTA 和 Byteball 比其他共识机制在交易处理速度和可扩展性等方面更有优势，更适用于物联网场景中。</p>
+<p>虽然 IOTA 和 Byteball 已经开始应用于物联网场景，但是仍然存在很多的问题：</p>
+<ul>
+<li>去中心化程度不彻底。IOTA 共识机制采用协调器来控制和处理信息，而 Byteball 共识机制引入见证人来维护网络信息，因此他们都没有实现完全去中心化。</li>
+<li>安全问题。当交易数量较少时，IOTA 和 Byteball 共识机制容易遭受双花攻击，而且交易可能长时间得不到确认，将他们应用于物联网场景，需要解决这一问题。</li>
+<li>信息存储。由于物联网设备的存储能力有限，在 IOTA 和 Byteball 共识机制应用于物联网设备时，需要解决存储问题。</li>
+</ul>
+<h4 id="取得了什么效果？"><a href="#取得了什么效果？" class="headerlink" title="取得了什么效果？"></a>取得了什么效果？</h4><p>基于 DAG 技术的埃欧塔（IOTA）和 Byteball 共识机制在交易数量很多的情况下具有交易处理速度快、可扩展性好、安全性强的优点，是未来 IoT 领域区块链共识机制的发展方向。</p>
+<h2 id="文献阅读"><a href="#文献阅读" class="headerlink" title="文献阅读"></a>文献阅读</h2><p><a target="_blank" rel="noopener" href="https://kmu23mx86u.feishu.cn/docx/QT15dhIMeoUc8NxxwUpcfoHvnWs">以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享</a></p>
+<p><a target="_blank" rel="noopener" href="https://uestc.feishu.cn/docx/VZDcdaXY7oN0yFxpDogcqulqnvS">DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议</a></p>
+<p><a target="_blank" rel="noopener" href="https://uestc.feishu.cn/docx/HlCXdSz8xoRHm2x1rBHcUlJtncg">智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案</a></p>
+<h2 id="基于区块链的不可抵赖物联网数据交易：更简单、更快速、更便宜"><a href="#基于区块链的不可抵赖物联网数据交易：更简单、更快速、更便宜" class="headerlink" title="基于区块链的不可抵赖物联网数据交易：更简单、更快速、更便宜"></a>基于区块链的不可抵赖物联网数据交易：更简单、更快速、更便宜</h2><h3 id="读摘要、介绍"><a href="#读摘要、介绍" class="headerlink" title="读摘要、介绍"></a>读摘要、介绍</h3><h4 id="处理的问题？"><a href="#处理的问题？" class="headerlink" title="处理的问题？"></a>处理的问题？</h4><p>传统的集中式数据共享/交易机制缺乏信任保证，无法满足物联网智能设备之间随时连接和共享数据的实时性要求</p>
+<blockquote>
+<p>为什么交易缺乏保证？<br>传统物联网数据交易： 基于由第三方运行的数据市场（类似淘宝）</p>
+<ol>
+<li>数据购买者首先向物联网数据所有者发送请求。</li>
+<li>购买者向第三方支付数据费用。</li>
+<li>在第三方确认付款后，数据所有者直接将数据发送给数据购买者。</li>
+<li>在数据购买者确认收货后，第三方将钱发送给数据所有者。<br>风险：</li>
+</ol>
+<ul>
+<li>数据所有者恶意：所有者与第三方否定自己收到购买者的金钱，由于缺乏有效证据，购买者很难将钱拿回来</li>
+<li>数据购买者恶意：购买者可以否认自己收到数据或者否认数据的正确性<br>传统解决方案及缺陷：</li>
+<li>基于可信第三方——单点故障</li>
+<li>概率方法——需要多轮通信，低效</li>
+</ul>
+</blockquote>
+<h4 id="提出了什么样的方法和创新点？-1"><a href="#提出了什么样的方法和创新点？-1" class="headerlink" title="提出了什么样的方法和创新点？"></a>提出了什么样的方法和创新点？</h4><h5 id="解决方案概述"><a href="#解决方案概述" class="headerlink" title="解决方案概述"></a>解决方案概述</h5><p>提出了一种基于区块链的物联网数据不可否认交易方案，以建立数据所有者与购买者之间的信任。使用智能合约来支持自动物联网数据交易、自动支付：区块链存储数据发送记录、数据收据证明，当发生纠纷时，智能合约被触发，使用先前记录的证据实现自动仲裁。</p>
+<p>该方案由交易方案和仲裁方案两部分组成。</p>
+<ul>
+<li>交易方案：采用分而治之的方式、两种承诺方式，来支持高效的物联网数据交易，以两轮的方式运行。</li>
+<li>仲裁方案首先利用智能合约实时解决链上纠纷。 如果链上仲裁不满意，仲裁方案还采用离线仲裁来做出最终解决。</li>
+</ul>
+<blockquote>
+<p>第一阶段：</p>
+<ol>
+<li>购买者向物联网数据所有者请求目标数据服务。</li>
+<li>购买者支付金钱。这笔钱被锁定在智能合约中。</li>
+<li>数据所有者接收到请求后，先向购买者发送数据的部分版本（S1）（可能是数据的加密版本，需要解密密钥）</li>
+<li>数据所有者再发布要被交易的数据的证明，在区块链上</li>
+<li>数据购买者发布部分数据被接收到的证明，在区块链上<br>第二阶段：</li>
+<li>数据所有者发送剩余数据（S2）（通常比 S1 小得多），使得购买者可以获得完整真实数据</li>
+</ol>
+<ul>
+<li>如果没有发生纠纷，数据所有者可以在固定期限后“解锁”支付</li>
+<li>如果发生纠纷，结合链上和链外仲裁方法，保证公平性</li>
+</ul>
+</blockquote>
+<h5 id="解决方案技术问题以及细节实现"><a href="#解决方案技术问题以及细节实现" class="headerlink" title="解决方案技术问题以及细节实现"></a>解决方案技术问题以及细节实现</h5><ol>
+<li>实现不可否认性——使用智能合约来执行 运用存储在链上的证明的 自动仲裁机制</li>
+</ol>
+<blockquote>
+<p>数据所有者在发送 S1 后，在区块链上存储：</p>
+<ul>
+<li>S1 的摘要或提交——digest(S1)</li>
+<li>全局的验证标签——Tag(S)，作为整个数据的承诺，Tag（S）是 digest（S1）和 S2 的计算高效函数<br>在链上仲裁过程中，仲裁器检查是否可以使用 digest(S1)和 S2 来重新计算所存储的 Tag(S)</li>
+<li>如果不能重新计算——所有者发送的数据不完整，则所有者被仲裁为恶意。</li>
+<li>如果能重新计算，则购买者被仲裁为恶意<br>然而，当数据所有者在第一时间故意发布错误的验证时，链上仲裁将不起作用。因此，还需要链下仲裁机制：</li>
+</ul>
+<ol>
+<li>数据所有者将交易数据离线提交给仲裁者。</li>
+<li>仲裁者利用背景信息来检查哪个交易方作弊。</li>
+</ol>
+</blockquote>
+<ol>
+<li>保证效率：区块链存储负担小(存储的证明少)、计算复杂度低——本地哈希函数</li>
+</ol>
+<blockquote>
+<p>使用 <code>hash()</code>（区块链的本地密码哈希函数）进行计算</p>
+<ul>
+<li><code>digest(S1)=hash(S1)</code></li>
+<li><code>Tag(S)=hash(S1)⊕hash(S2)</code><br>这种设计易于计算、存储效率高，且确保了不可否认性（如第五节所示）<br>无论数据有多大，智能合约只需要一个简单的计算。</li>
+</ul>
+</blockquote>
+<ol>
+<li>尽量减少可能发生的纠纷——激励机制，激励双方诚实做事</li>
+</ol>
+<blockquote>
+<p>当发现数据所有者和数据购买者作弊时，将受到惩罚<br>对于数据拥有者来说：</p>
+<ul>
+<li>如果交易过程中没有发生纠纷，数据拥有者可以触发智能合约拿到“上锁”的钱。</li>
+<li>如果发生纠纷，数据买方发起链上仲裁，仲裁员将进行链上仲裁，并决定是否对数据所有者进行处罚<br>对于数据购买者来说；</li>
+<li>购买者无法在没有支付的情况下消费真实的、完整的数据。</li>
+<li>付款后，如果数据购买者仍然作弊，仲裁员也会对数据购买者进行处罚。</li>
+</ul>
+</blockquote>
+<h4 id="取得了什么效果？-1"><a href="#取得了什么效果？-1" class="headerlink" title="取得了什么效果？"></a>取得了什么效果？</h4><p>本文使用<strong>以太坊区块链</strong>实现并评估了所提方案的性能。</p>
+<ul>
+<li>效率上：链上 gas 消耗和链下计算开销都相当小，有一个数量级的性能加速</li>
+</ul>
+<blockquote>
+<p>gas 用于衡量在<strong>执行交易或智能合约</strong>时所消耗的计算资源，当交易或智能合约执行完成时，消耗的 gas 会被用于支付矿工的费用，并作为激励来保持网络的安全和运转。<br>对于一个 256 位的值 S2，所有数据交易过程中最大的 gas 消耗约为 0.00193 以太。 最大的链上存储成本约为 214 字节。 对于在线仲裁，提议的方案成本约为 32000 英镑，比最先进的方案高出几个数量级。</p>
+</blockquote>
+<ul>
+<li>不可否认性上：</li>
+</ul>
+<h3 id="读内容"><a href="#读内容" class="headerlink" title="读内容"></a>读内容</h3><h4 id="第二节：以前不可否定方案的相关工作"><a href="#第二节：以前不可否定方案的相关工作" class="headerlink" title="第二节：以前不可否定方案的相关工作"></a>第二节：以前不可否定方案的相关工作</h4><h5 id="传统方案"><a href="#传统方案" class="headerlink" title="传统方案"></a>传统方案</h5><h6 id="基于可信第三方（TTP）"><a href="#基于可信第三方（TTP）" class="headerlink" title="基于可信第三方（TTP）"></a>基于可信第三方（TTP）</h6><p><strong>描述：</strong></p>
+<ul>
+<li>假设数据所有者和购买者都信任第三方；发生纠纷时，TTP 可作为证人</li>
+<li>可信第三方负责记录交互证据</li>
+<li>数据所有者和购买者需要向 TTP 提供数字签名的证明。当一方否认时，TTP 可以使用这些数字签名的证明进行仲裁。</li>
+</ul>
+<p><strong>缺陷：</strong></p>
+<ul>
+<li>性能低：TTP 需要参与每一轮的证据收集过程。</li>
+</ul>
+<blockquote>
+<p>有人提出了优化方案，让 TTP 大部分时间是离线的，只需参与通信过程中的初始化步骤，并只有在不诚实行为或网络出错等特殊情况下才被激活</p>
+</blockquote>
+<ul>
+<li>集中问题：TTP 一旦与任意一方勾结，都会导致交易出错</li>
+</ul>
+<h6 id="概率方法"><a href="#概率方法" class="headerlink" title="概率方法"></a>概率方法</h6><p>该方法不需要 TTP，但需要双方之间的<strong>大规模互动</strong></p>
+<h5 id="基于区块链的方案"><a href="#基于区块链的方案" class="headerlink" title="基于区块链的方案"></a>基于区块链的方案</h5><p>区块链上记录的数据可以被认为是可靠和值得信赖的，因为它具有共识机制。 从这个角度看，区块链天然适合作为证据的记录者</p>
+<ul>
+<li>Zou：提出了早期的不可否认方案，数据接收方需要将接收证据写入区块链</li>
+<li>Aniello：基于日志的方案，日志记录区块链上所有已签署的时间，证据一旦被写入区块链台账，就几乎不可能篡改。</li>
+</ul>
+<p>以上两种方案只是在恶意数据发送者拒绝将证据写入区块链的情况下保证了弱公平性。</p>
+<ul>
+<li>Xu：提出了基于区块链的不可否认方案：数据分为一小部分和一大部分，要求数据购买者在收到主要部分后公布收据证据。 然后，数据所有者在区块链上发布小部分。 该方案使用计算密集型的同态哈希来计算证据（效率问题）</li>
+</ul>
+<h4 id="第三节：IoT-数据交易不可否认方案的模型设计。"><a href="#第三节：IoT-数据交易不可否认方案的模型设计。" class="headerlink" title="第三节：IoT 数据交易不可否认方案的模型设计。"></a>第三节：IoT 数据交易不可否认方案的模型设计。</h4><h5 id="系统模型-架构"><a href="#系统模型-架构" class="headerlink" title="系统模型(架构)"></a>系统模型(架构)</h5><p><img src="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/ZWc0bwa8Ko5uGexqMXjci5vBnae.png" alt></p>
+<ul>
+<li>三个实体：数据所有者、数据购买者、仲裁者</li>
+<li>购买者和所有者使用智能合约支持交易</li>
+<li>仲裁者监督交易过程、对争议进行仲裁</li>
+<li>流程：</li>
+</ul>
+<ol>
+<li>购买者请求数据：通过使用智能合约和发送数据请求交易，购买者在区块链上记录请求证明</li>
+<li>购买者寄款：购买者将交易钱款存入智能合约以预付数据服务费。</li>
+<li>所有者发送 S1 数据：S1 数据暂时无法使用，如果没有数据所有者的链上确认，数据购买者将永远无法获得真实数据</li>
+<li>所有者证明 S1 数据已发送：发送 S1 数据后，数据所有者使用智能合约在区块链上记录<strong>完整真实数据</strong>和 <strong>S1 数据</strong>的证明信息；还要在智能合约上进行保证存款或罚款。</li>
+<li>购买者证明 S1 数据已接受</li>
+<li>所有者完整化数据：所有者在区块链上发布剩余数据，用于完整化数据。</li>
+<li>所有者取款：如果在特定时间内没有发生纠纷，所有者可以从智能合约获取金钱。</li>
+<li>仲裁</li>
+</ol>
+<ul>
+<li>把数据分成两部分的办法：<ul>
+<li>S1 是真实数据的加密版本，S2 是解密密钥</li>
+<li>S1 是电子表格文档，S2 是打开密码</li>
+</ul>
+</li>
+</ul>
+<h5 id="威胁模型与假设-谁可信谁不可信"><a href="#威胁模型与假设-谁可信谁不可信" class="headerlink" title="威胁模型与假设(谁可信谁不可信)"></a>威胁模型与假设(谁可信谁不可信)</h5><ul>
+<li><p>购买者（不可信）</p>
+<ul>
+<li>接收到数据，但否认自己已收到</li>
+<li>接收到数据，但否认数据的正确性<br>从而拒绝付费，甚至向所有者索取赔偿</li>
+</ul>
+</li>
+<li><p>所有者（半可信）</p>
+<ul>
+<li>链上仲裁时，所有者被认为是可信的，其在区块链上发布的证明也被认为是可信的</li>
+<li>链下仲裁被触发时，所有者被认为是不可信，可能作弊并发布错误证明</li>
+</ul>
+</li>
+<li>离线仲裁器能判断交易的物联网数据在现实世界的场景中是否有效</li>
+</ul>
+<h4 id="第四节：方案的细节"><a href="#第四节：方案的细节" class="headerlink" title="第四节：方案的细节"></a>第四节：方案的细节</h4><h5 id="基于同态哈希的不可否认方案-文献-20-的方案"><a href="#基于同态哈希的不可否认方案-文献-20-的方案" class="headerlink" title="基于同态哈希的不可否认方案(文献[20]的方案)"></a>基于同态哈希的不可否认方案(文献[20]的方案)</h5><p>使用同态哈希的主要目的是：能重新计算真实的完整数据的原始哈希结果。</p>
+<ol>
+<li>购买者请求数据：通过使用智能合约和发送数据请求交易，购买者在区块链上记录请求证明</li>
+<li>购买者寄款：购买者将交易钱款存入智能合约以预付数据服务费。</li>
+<li><p>所有者发送 S1 数据：所有者接收到请求后，</p>
+<ol>
+<li>先计算 S1 的同态散列，并在区块链上发布 h(S1)</li>
+<li>再通过链外通道将 S1 发送给购买者。</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>S1 数据暂时无法使用，如果没有数据所有者的链上确认，数据购买者将永远无法获得真实数据</p>
+</blockquote>
+<ol>
+<li>所有者证明 S1 数据已发送：发送 S1 数据后，数据所有者使用智能合约在区块链上记录<strong>完整真实数据</strong>和 <strong>S1 数据</strong>的证明信息；还要在智能合约上进行保证存款或罚款。</li>
+<li>购买者证明 S1 数据已接受：购买者在链外收到 S1 数据后，计算 h(S1)，与区块链上购买者发布的 h(S1)记性比较，匹配，则确认收到 S1。</li>
+<li>所有者发送 S2 数据：所有者在区块链上发布 S2</li>
+<li>购买者证明数据正确：购买者使用链外通道接收的 S1 和区块链上的 S2 生成完整数据 S，如果数据正确，则购买者在区块链上进行最终确认。</li>
+<li>所有者取款：在特定时间内没有发生纠纷，所有者可以从智能合约获取金钱。</li>
+<li><p>仲裁：发生纠纷时</p>
+<ol>
+<li>链上仲裁：购买者和所有者都可以调用智能合约进行链上仲裁，智能合约计算所有者在区块链上发布的 S2 的哈希，得到 h(S2)，如果 <code>h（S）= h（S1）× h（S2）</code>，则所有者没有错，购买者被仲裁为恶意。</li>
+</ol>
+</li>
+</ol>
+<h5 id="两个改进：功能更实用，性能更高效-如何提高方案性能"><a href="#两个改进：功能更实用，性能更高效-如何提高方案性能" class="headerlink" title="两个改进：功能更实用，性能更高效(如何提高方案性能)"></a>两个改进：功能更实用，性能更高效(如何提高方案性能)</h5><p><strong>功能上——完善不可否认性</strong></p>
+<ul>
+<li>方案限制——假设了初始化数据是正确的<br>在方案[20]中，散列值 h(S)被预先存储在区块链上并且被认为是可信的。此哈希值的正确性对于仲裁过程至关重要。具体来说，智能合约需要将重新计算的哈希结果与 h(S)进行比较，以确定哪一方是恶意的。但是，此哈希值由数据所有者提供。事实上，数据所有者也可能首先通过发布错误的 h(S)来不诚实地行事。当这种情况发生时，不匹配的 h(S)可能导致不公平的仲裁过程。</li>
+<li><p>方案改进——引入激励机制</p>
+<ul>
+<li>所有者和购买者应该在交易开始时，将罚款转移到智能合约上</li>
+<li>交易正常结束，他们可以要求退款</li>
+<li>发生纠纷，通过仲裁后，不诚实的一方受到惩罚。</li>
+</ul>
+</li>
+</ul>
+<p><strong>性能上——提高效率</strong></p>
+<ul>
+<li>方案限制——同态哈希计算是复杂的大数算法</li>
+</ul>
+<p>虽然 S2 很小，但它的计算涉及大量的算术运算，这是非常计算密集型的，并且由于每笔交易的 gas 配额有限，对于现代智能合约执行来说是负担不起的。此外，在智能合约的背景下，这种计算成本相对于 S2 的大小线性增长。</p>
+<ul>
+<li>使用同态散列的主要目的是重新计算真实的完整数据的原始散列结果。为了实现相同的目的，也可以使用其他散列函数</li>
+<li>方案改进：</li>
+<li><p>第五节：从短期和长期两个角度分析拟议方案的安全性。</p>
+<ul>
+<li>短期行为分析</li>
+<li>长期行为分析</li>
+</ul>
+</li>
+<li><p>第六节：所提方案的实验评价结果。</p>
+<ul>
+<li>方案实现</li>
+<li>结果</li>
+</ul>
+</li>
+<li>第七节：对论文作了总结。</li>
+</ul>
+<h3 id="-1"><a href="#-1" class="headerlink" title="#"></a>#</h3>
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/" title="区块链物联网-科研开始">http://example.com/2023/09/14/区块链物联网-科研开始/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91/" rel="tag"><i class="fa fa-tag"></i> 区块链物联网</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/14/%E4%BB%A5%E6%82%A3%E8%80%85%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%85%A8%E7%9A%84%E7%94%B5%E5%AD%90%E5%8C%BB%E7%96%97%E8%AE%B0%E5%BD%95%E5%85%B1%E4%BA%AB/" rel="prev" title="以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享">
+      <i class="fa fa-chevron-left"></i> 以患者为中心的细粒度访问控制，通过双区块链实现安全的电子医疗记录共享
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/" rel="next" title="DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议">
+      DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%91%E7%A0%94-%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91"><span class="nav-number">1.</span> <span class="nav-text">科研-区块链物联网</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">如何阅读论文？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">论文类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E7%8C%AE%E4%BD%9C%E8%80%85"><span class="nav-number">1.1.2.</span> <span class="nav-text">文献作者</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E4%B8%AD%E7%9A%84%E7%AC%AC%E4%B8%80%E4%BD%9C%E8%80%85-%E5%90%88%E4%BD%9C%E4%BD%9C%E8%80%85-%E9%80%9A%E8%AE%AF%E4%BD%9C%E8%80%85%E9%83%BD%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D%E5%95%8A-%E6%80%8E%E4%B9%88%E5%88%86%E8%BE%A8"><span class="nav-number">1.1.2.0.1.</span> <span class="nav-text">论文中的第一作者,合作作者,通讯作者都是什么意思啊,怎么分辨?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%9A%84%E7%AC%AC%E4%B8%80%E4%BD%9C%E8%80%85%EF%BC%8C%E5%92%8C%E7%AC%AC-N-%E4%BD%9C%E8%80%85%EF%BC%8C%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.1.2.0.2.</span> <span class="nav-text">论文的第一作者，和第 N 作者，有什么区别？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%EF%BC%9A%E8%AE%BA%E6%96%87%E7%BD%B2%E5%90%8D%E5%9C%A8%E7%AC%AC%E4%B8%89%E4%B8%AA%E6%98%AF%E7%AC%AC%E5%87%A0%E4%BD%9C%E8%80%85%EF%BC%9F"><span class="nav-number">1.1.2.0.3.</span> <span class="nav-text">问：论文署名在第三个是第几作者？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%EF%BC%9A%E5%A6%82%E4%BD%95%E7%9C%8B%E6%9C%9F%E5%88%8A%E7%9A%84%E7%AC%AC%E4%B8%80%E4%BD%9C%E8%80%85%E5%92%8C%E9%80%9A%E8%AE%AF%E4%BD%9C%E8%80%85"><span class="nav-number">1.1.2.0.4.</span> <span class="nav-text">问：如何看期刊的第一作者和通讯作者</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%EF%BC%9A%E5%A6%82%E4%BD%95%E5%8C%BA%E5%88%86%E7%AC%AC%E4%B8%80%E4%BD%9C%E8%80%85%E5%92%8C%E9%80%9A%E8%AE%AF%E4%BD%9C%E8%80%85%EF%BC%9F"><span class="nav-number">1.1.2.0.5.</span> <span class="nav-text">问：如何区分第一作者和通讯作者？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E7%8C%AE%E8%B0%83%E7%A0%94"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">文献调研</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99%E8%AE%BA%E6%96%87%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">给论文分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%A3%80%E7%B4%A2%E6%96%87%E7%8C%AE"><span class="nav-number">1.1.3.</span> <span class="nav-text">第一步：检索文献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%9F%A5%E7%9C%8B%E6%96%87%E7%8C%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.4.</span> <span class="nav-text">第二步：查看文献类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%EF%BC%9A%E4%B8%8B%E8%BD%BD%E6%96%87%E7%8C%AE"><span class="nav-number">1.1.5.</span> <span class="nav-text">第三部：下载文献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E8%AF%BB%E8%AE%BA%E6%96%87"><span class="nav-number">1.1.6.</span> <span class="nav-text">第四步：读论文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%81%8D%EF%BC%9A%E5%BF%AB%E9%80%9F%E9%A2%84%E8%A7%88%EF%BC%8C%E6%8A%8A%E6%8F%A1%E6%A6%82%E8%A6%81%EF%BC%885-10min%EF%BC%89"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">第一遍：快速预览，把握概要（5~10min）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%81%8D%EF%BC%9A%E6%8A%93%E4%BD%8F%E9%87%8D%E7%82%B9%EF%BC%8C%E6%9A%82%E7%95%A5%E7%BB%86%E8%8A%82%EF%BC%8860min%EF%BC%89"><span class="nav-number">1.1.6.2.</span> <span class="nav-text">第二遍：抓住重点，暂略细节（60min）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%81%8D%EF%BC%9A%E9%87%8D%E6%9E%84%E8%AE%BA%E6%96%87%EF%BC%8C%E6%B3%A8%E9%87%8D%E7%BB%86%E8%8A%82%EF%BC%884-5h%EF%BC%89"><span class="nav-number">1.1.6.3.</span> <span class="nav-text">第三遍：重构论文，注重细节（4-5h）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.</span> <span class="nav-text">相关术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E8%8A%82%E7%82%B9%E5%92%8C%E8%BD%BB%E8%8A%82%E7%82%B9"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">全节点和轻节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E8%8A%B1%E6%94%BB%E5%87%BB%EF%BC%88Double-Spending-Attack%EF%BC%89"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">双花攻击（Double Spending Attack）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E7%A7%81%E6%8C%96%E7%9F%BF"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">自私挖矿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E6%80%81%E5%93%88%E5%B8%8C"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">同态哈希</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E7%89%A9%E8%81%94%E7%BD%91%E7%9A%84%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">面向物联网的区块链共识机制综述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%9A%84%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">处理的是一个什么样的问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E4%BA%86%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E5%88%9B%E6%96%B0%E7%82%B9%EF%BC%9F"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">提出了什么样的方法和创新点？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%81%E6%98%8E%E7%B1%BB"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">证明类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PoW-Proof-of-Work-%E5%B7%A5%E4%BD%9C%E9%87%8F%E8%AF%81%E6%98%8E%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.3.1.</span> <span class="nav-text">PoW(Proof of Work)工作量证明共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PoS-Proof-of-Stake-%E6%9D%83%E7%9B%8A%E8%AF%81%E6%98%8E%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.3.2.</span> <span class="nav-text">PoS(Proof of Stake)权益证明共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DPoS-Delegated-Proof-of-Stake-%E5%A7%94%E6%89%98%E6%9D%83%E7%9B%8A%E8%AF%81%E6%98%8E%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6%EF%BC%88%E6%8E%88%E6%9D%83%E8%82%A1%E4%BB%BD%E8%AF%81%E6%98%8E%E6%9C%BA%E5%88%B6%EF%BC%89"><span class="nav-number">1.2.1.3.3.</span> <span class="nav-text">DPoS(Delegated Proof of Stake)委托权益证明共识机制（授权股份证明机制）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PoA-Proof-of-Authority-%E6%9D%83%E5%A8%81%E8%AF%81%E6%98%8E%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.3.4.</span> <span class="nav-text">PoA(Proof of Authority)权威证明共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PoC-Proof-of-Capacity-%E5%AE%B9%E9%87%8F%E8%AF%81%E6%98%8E%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6%EF%BC%88%E8%B4%A1%E7%8C%AE%E8%AF%81%E6%98%8E%E7%AE%97%E6%B3%95%EF%BC%89"><span class="nav-number">1.2.1.3.5.</span> <span class="nav-text">PoC(Proof of Capacity)容量证明共识机制（贡献证明算法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Ouroboros-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.3.6.</span> <span class="nav-text">Ouroboros 共识机制</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%9C%E5%8D%A0%E5%BA%AD%E7%B1%BB"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">拜占庭类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PBFT-Practical-Byzantine-Fault-Tolerance-%E5%AE%9E%E7%94%A8%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%AE%B9%E9%94%99%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.4.1.</span> <span class="nav-text">PBFT(Practical Byzantine Fault Tolerance) 实用拜占庭容错共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HotStuff-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.4.2.</span> <span class="nav-text">HotStuff 共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Algorand-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.4.3.</span> <span class="nav-text">Algorand 共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Tendermint-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.4.4.</span> <span class="nav-text">Tendermint 共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link"><span class="nav-number">1.2.1.4.5.</span> <span class="nav-text"> </span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DAG-%E7%B1%BB"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">DAG 类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IOTA-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.5.1.</span> <span class="nav-text">IOTA 共识机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Byteball-%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.5.2.</span> <span class="nav-text">Byteball 共识机制</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.1.6.</span> <span class="nav-text">共识机制对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E6%8C%87%E6%A0%87"><span class="nav-number">1.2.1.6.1.</span> <span class="nav-text">对比指标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90"><span class="nav-number">1.2.1.6.2.</span> <span class="nav-text">对比分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E4%BA%86%E4%BB%80%E4%B9%88%E6%95%88%E6%9E%9C%EF%BC%9F"><span class="nav-number">1.2.1.7.</span> <span class="nav-text">取得了什么效果？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB"><span class="nav-number">1.3.</span> <span class="nav-text">文献阅读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E4%B8%8D%E5%8F%AF%E6%8A%B5%E8%B5%96%E7%89%A9%E8%81%94%E7%BD%91%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%98%93%EF%BC%9A%E6%9B%B4%E7%AE%80%E5%8D%95%E3%80%81%E6%9B%B4%E5%BF%AB%E9%80%9F%E3%80%81%E6%9B%B4%E4%BE%BF%E5%AE%9C"><span class="nav-number">1.4.</span> <span class="nav-text">基于区块链的不可抵赖物联网数据交易：更简单、更快速、更便宜</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E6%91%98%E8%A6%81%E3%80%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.4.1.</span> <span class="nav-text">读摘要、介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">处理的问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E4%BA%86%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E5%88%9B%E6%96%B0%E7%82%B9%EF%BC%9F-1"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">提出了什么样的方法和创新点？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%A6%82%E8%BF%B0"><span class="nav-number">1.4.1.2.1.</span> <span class="nav-text">解决方案概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%8A%80%E6%9C%AF%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E7%BB%86%E8%8A%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.4.1.2.2.</span> <span class="nav-text">解决方案技术问题以及细节实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E4%BA%86%E4%BB%80%E4%B9%88%E6%95%88%E6%9E%9C%EF%BC%9F-1"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">取得了什么效果？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%85%E5%AE%B9"><span class="nav-number">1.4.2.</span> <span class="nav-text">读内容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%9A%E4%BB%A5%E5%89%8D%E4%B8%8D%E5%8F%AF%E5%90%A6%E5%AE%9A%E6%96%B9%E6%A1%88%E7%9A%84%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">第二节：以前不可否定方案的相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.2.1.1.</span> <span class="nav-text">传统方案</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8F%AF%E4%BF%A1%E7%AC%AC%E4%B8%89%E6%96%B9%EF%BC%88TTP%EF%BC%89"><span class="nav-number">1.4.2.1.1.1.</span> <span class="nav-text">基于可信第三方（TTP）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A6%82%E7%8E%87%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.2.1.1.2.</span> <span class="nav-text">概率方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.2.1.2.</span> <span class="nav-text">基于区块链的方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8A%82%EF%BC%9AIoT-%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%98%93%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%96%B9%E6%A1%88%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1%E3%80%82"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">第三节：IoT 数据交易不可否认方案的模型设计。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B-%E6%9E%B6%E6%9E%84"><span class="nav-number">1.4.2.2.1.</span> <span class="nav-text">系统模型(架构)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A8%81%E8%83%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%81%87%E8%AE%BE-%E8%B0%81%E5%8F%AF%E4%BF%A1%E8%B0%81%E4%B8%8D%E5%8F%AF%E4%BF%A1"><span class="nav-number">1.4.2.2.2.</span> <span class="nav-text">威胁模型与假设(谁可信谁不可信)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E8%8A%82%EF%BC%9A%E6%96%B9%E6%A1%88%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">第四节：方案的细节</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%90%8C%E6%80%81%E5%93%88%E5%B8%8C%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%96%B9%E6%A1%88-%E6%96%87%E7%8C%AE-20-%E7%9A%84%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.2.3.1.</span> <span class="nav-text">基于同态哈希的不可否认方案(文献[20]的方案)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E6%94%B9%E8%BF%9B%EF%BC%9A%E5%8A%9F%E8%83%BD%E6%9B%B4%E5%AE%9E%E7%94%A8%EF%BC%8C%E6%80%A7%E8%83%BD%E6%9B%B4%E9%AB%98%E6%95%88-%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E6%96%B9%E6%A1%88%E6%80%A7%E8%83%BD"><span class="nav-number">1.4.2.3.2.</span> <span class="nav-text">两个改进：功能更实用，性能更高效(如何提高方案性能)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-1"><span class="nav-number">1.4.3.</span> <span class="nav-text">#</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

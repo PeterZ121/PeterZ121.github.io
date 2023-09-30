@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Learn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议">
+<meta property="og:url" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="Learn">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/RUiFbrbrcoJzW7xl77fci4A6nJf.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/QAYMbYBnBoEIBTxDqc1cuxNmnUd.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/FnUQbfkOzoG03SxV53OchXERnbb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/FfuEbr8cXoNo1Ix7Go9cdi3LnWh.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/JSF5bwOSXoM3F3xeH96cuj4enTe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/Jqm7bfqX7ozYkkxir4XcsxA5nAb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/U3YKbBBqOoY7I6xeD6qcl6b5nah.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/YQJYbpkP4oOIZVxUES7czzzFnQd.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/Em1RbNLyJoarGyxFZTGcfanlnkg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/T4ECb26V0o9FYxxLYBKcrmwInSc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/XsFobVFPpoYdcIxmPHYcCE6Lniw.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/GcNobaJ8Aoi9JcxnCW8chLQlnCg.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/XBwObrn8PoVKtHx6tXHcKUDin4g.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/WcuhbtEh8ohSNtxjMCzc6LZCnhe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/KKz5bSbCuoPiOOxOGa9cOv5GnNe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/HW5ibDpyqoS3dKxdsJcchuFNnIe.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/PLdTbUJv2oJsXoxQOhScULpknMf.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/OVfPbYu8co3jCyx5eVxcXxJTnXb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/ZpYobx4XSo0FnLxAscrc9zPYnle.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/I7uLbqXxEoeKefxt12FcV2yCnJb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/UKKNbFhNPo7prIxscR6cUUdBndb.png">
+<meta property="article:published_time" content="2023-09-14T11:18:22.000Z">
+<meta property="article:modified_time" content="2023-09-16T08:14:06.000Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="区块链物联网">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/RUiFbrbrcoJzW7xl77fci4A6nJf.png">
+
+<link rel="canonical" href="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-09-14 19:18:22" itemprop="dateCreated datePublished" datetime="2023-09-14T19:18:22+08:00">2023-09-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-16 16:14:06" itemprop="dateModified" datetime="2023-09-16T16:14:06+08:00">2023-09-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Learn"><a href="#Learn" class="headerlink" title="Learn"></a>Learn</h2><p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/RUiFbrbrcoJzW7xl77fci4A6nJf.png" alt></p>
+<span id="more"></span>
+<h3 id="分布式动态注销违法车辆"><a href="#分布式动态注销违法车辆" class="headerlink" title="分布式动态注销违法车辆"></a>分布式动态注销违法车辆</h3><p>一个系统，能够<strong>实时</strong>识别、追踪和迅速注销被认定为非法或未经授权的车辆的特权，同时通过<strong>多个机构、辖区或系统共同协作</strong>来执行注销。这样的系统可以帮助提高道路安全和执法效率，迅速应对道路上非法车辆的存在。</p>
+<h3 id="车载自组织网络（VANETs）"><a href="#车载自组织网络（VANETs）" class="headerlink" title="车载自组织网络（VANETs）"></a>车载自组织网络（VANETs）</h3><p>Vehicular Ad Hoc Networks 是一种特定设计用于道路上，车辆间和路边基础设施之间进行无线通信的网络。</p>
+<p>VANETs 的主要特点如下：</p>
+<p>分布式、自配置</p>
+<ol>
+<li>车辆对车辆（Vehicle-to-Vehicle，简称 V2V）通信：VANETs 允许车辆之间直接进行无线通信。这样可以交换有关当前位置、速度、行驶方向等相关数据的信息。车辆可以利用这些信息增强对周围环境的认知，并采取适当措施来避免碰撞或提高交通流畅性。</li>
+<li>车辆对基础设施（Vehicle-to-Infrastructure，简称 V2I）通信：VANETs 还支持车辆与路边基础设施（如交通信号灯、道路标志、收费站等智能交通系统）之间的通信。这种通信有助于传播重要信息，如交通状况、道路危险和交通信号定时，以提高整体道路效率和安全性。</li>
+<li>安全应用：VANETs 的主要目标之一是增强道路安全。可以实现各种安全应用，例如<strong>碰撞预警系统</strong>，其中车辆相互之间会警告可能发生碰撞的情况，以及<strong>紧急电子制动灯</strong>，在其中一个车辆突然刹车时，随后的车辆会触发警告信号。</li>
+<li>交通管理和效率：VANETs 可用于交通管理，优化交通流动并减少拥堵。通过共享实时交通信息，车辆可以选择替代路线或调整速度，从而更有效地利用道路。</li>
+<li>娱乐和信息娱乐：除了安全和与交通相关的应用外，VANETs 还可以为乘车人员提供娱乐和信息娱乐服务，例如互联网连接、多媒体流媒体和车内社交网络。</li>
+<li>网络挑战：VANETs 面临一些挑战，主要由于<strong>网络的高度动态性</strong>。<strong>车辆的移动性、间歇性连接、不同的通信范围以及潜在的网络拥堵</strong>是需要解决的一些挑战，以便成功部署 VANETs。</li>
+</ol>
+<p>为了运作，VANETs 通常使用专门设计用于车辆通信的无线通信技术，例如专用短程通信（Dedicated Short-Range Communications，简称 DSRC）或车辆到一切（Vehicle-to-Everything，简称 V2X）通信，这些技术具有低延迟要求。</p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/QAYMbYBnBoEIBTxDqc1cuxNmnUd.png" alt></p>
+<ul>
+<li>V2V 通信：每个车辆配备有车载单元（On-Board Unit,OBU），实现车辆间通信。</li>
+<li>V2I 通信：车辆的 OBU 与路侧单元（Roadside Units,RSU）实现通信。</li>
+<li>V2V、V2I 通信：通过专用短程通信（Dedicated Short-Range Communication,DSRC）协议实现。</li>
+<li>路侧单元（Roadsizde Units,RSU）将通信信息传送到交通控制中心（Traffic Control Center,TCC），以进一步促进通信管理和咨询服务。</li>
+</ul>
+<h3 id="基线伪名与群签名"><a href="#基线伪名与群签名" class="headerlink" title="基线伪名与群签名"></a>基线伪名与群签名</h3><ol>
+<li>基线伪名（Baseline Pseudonyms）：允许用户在网络上以匿名方式进行通信和交互。在一些场景中，我们希望用户可以在互联网上使用伪名，而不暴露其真实身份。然而，基线伪名并不提供强大的保护，因为<strong>伪名和真实身份之间的联系</strong>可能在某些情况下仍然可以被揭示。</li>
+<li>群签名（Group Signatures）：一种高级的数字签名技术，<strong>允许某个特定群体中的成员对一条消息进行签名，而不用泄露签名者的身份</strong>。与普通数字签名不同，群签名不会揭示签名者的真实身份，而是将签名<strong>与一个群体相关联</strong>，使得验证者只能确定该签名是由群体中的成员中的某个人创建的，而无法具体识别是哪个成员签署的。</li>
+</ol>
+<h3 id="椭圆曲线密码体制-ECC"><a href="#椭圆曲线密码体制-ECC" class="headerlink" title="椭圆曲线密码体制 ECC"></a><strong>椭圆曲线密码体制 ECC</strong></h3><p>椭圆曲线离散对数问题具有密钥短和安全性假设的特点，给椭圆曲线带来了存储空间小、安全性高、轻量化、处理速度快等优点</p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/FnUQbfkOzoG03SxV53OchXERnbb.png" alt></p>
+<h4 id="椭圆曲线加法规则"><a href="#椭圆曲线加法规则" class="headerlink" title="椭圆曲线加法规则"></a>椭圆曲线加法规则</h4><p>ECC 加密：Q = kP，本质上是 k 个 P 相加。</p>
+<h4 id="ECC-消息加密解密过程"><a href="#ECC-消息加密解密过程" class="headerlink" title="ECC 消息加密解密过程"></a>ECC 消息加密解密过程</h4><p>为什么要加入随机数 r?如果没有 r，C=(P, M+Q)，因为 P、Q 公开，如果 C 被截获，则能轻松算出 M</p>
+<p>A 发布公钥 Q，B 获取公钥 Q，使用公钥 Q 对消息加密 M———&gt;C，把 C 发给 A，A 使用自己的私钥解密 C———-&gt;M</p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/FfuEbr8cXoNo1Ix7Go9cdi3LnWh.png" alt></p>
+<h4 id="椭圆曲线在有限域上的计算"><a href="#椭圆曲线在有限域上的计算" class="headerlink" title="椭圆曲线在有限域上的计算"></a>椭圆曲线在有限域上的计算</h4><ul>
+<li>把椭圆曲线变成离散的点，才能形成加密数据（计算机精度有限）——把椭圆曲线定义在<strong>有限域上</strong>。</li>
+</ul>
+<blockquote>
+<p>什么是域？<br>在一个域中进行加减乘除运算后，其结果还是在域中<br>如:有理数集合、实数集合、复数集合都是域，但整数集合不是。<br>(使用除法得到的分数或者小数已超出整数集合)。</p>
+<p>什么是有限域？</p>
+<ul>
+<li>有限域：域 F 只<strong>包含有限个元素</strong></li>
+<li>有限域的阶：有限域中<strong>元素的个数</strong>，每个有限域的阶<strong>必为素数的幂</strong>，即有限域的阶可表示为$p^n$(p 是素数,n 是正整数)，</li>
+<li>该有限域通常称为 Galois 域(Galois Fields),记为$GF(p^n)$</li>
+</ul>
+<p>如何让椭圆曲线在有限域中——取模</p>
+<ol>
+<li>定义模 p 加法和模 p 乘法（加或乘的结果超过 p 时，模 p 取余数，p 为素数)。</li>
+<li>集合内的元素经过加法和乘法计算，结果仍然在集合内。</li>
+<li>计算符合交换率、结合率、分配率。</li>
+<li>加法和乘法有单位元素(所有的集合内的值都有对应的值都有倒数）。</li>
+</ol>
+<p>分数取模运算：<br><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/JSF5bwOSXoM3F3xeH96cuj4enTe.png" alt><br>取适当的 k，使得 2668k+1 能被 17 整除</p>
+<p>负数取模运算：</p>
+</blockquote>
+<p>有限域上计算：</p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/Jqm7bfqX7ozYkkxir4XcsxA5nAb.png" alt></p>
+<p>当 k 很大时，椭圆曲线加法会比较久，使用<strong>标量乘法</strong>可以加速运算：</p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/U3YKbBBqOoY7I6xeD6qcl6b5nah.png" alt></p>
+<h4 id="椭圆曲线离散对数问题-ECDLP"><a href="#椭圆曲线离散对数问题-ECDLP" class="headerlink" title="椭圆曲线离散对数问题 ECDLP"></a>椭圆曲线离散对数问题 ECDLP</h4><p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/YQJYbpkP4oOIZVxUES7czzzFnQd.png" alt></p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>背景与问题：</p>
+<ul>
+<li>VANETs 具有显著经济价值，因此易遭受数据盗窃、攻击、滥用等问题</li>
+<li>VANETs 具有分布式操作、有限带宽、节点移动性和动态网络拓扑的特点，但是传统 VANETs 的安全机制大多是集中式的，难以满足 VANETs 的抵抗单点故障、消息的分布式安全认证、隐私保护等问题</li>
+</ul>
+<p>目标：增强 VANET 安全性，保证自治性、抗单点故障、消息分布式安全认证、隐私保护等</p>
+<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p><strong>双区块链辅助的条件隐私保护认证框架</strong></p>
+<ol>
+<li>即使在可信第三方离线的情况下，也能保证 VANETS 中传输信息的准确性和可靠性</li>
+<li>为车辆生成别名身份，定期更新身份，从而增强车辆的隐私性和不可连接性</li>
+<li>通过<strong>智能合约</strong>实现分布式动态注销车辆</li>
+<li>通过所有节点来保证可扩展性和鲁棒性，从而消除多对一的通信流和单点故障，提高去中心化程度，保证了自治性</li>
+</ol>
+<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a><strong>相关工作</strong></h3><p><strong>基于 PKI：</strong></p>
+<blockquote>
+<ul>
+<li>传统：证书颁发机构（Certificate Athoriry,CA）向用户颁发证书，通信双方的数字签名保证信息来源可靠</li>
+<li>Raya 等人[17]提出：基于 PKI 的安全隐私协议</li>
+<li>Wasef 等人[18]针对[17]提出：<ul>
+<li>所有车辆需要预先加载大量的匿名公钥和私钥对</li>
+<li>可信机构必须存储每个连接车辆的完整匿名证书<br>导致证书管理效率低下</li>
+</ul>
+</li>
+<li>Calandriello 等人[19]提出：将<strong>基线假名</strong>和<strong>群签名</strong>相结合来生成新的假名，优化混合方案，简化了证书管理过程</li>
+<li>Yu 等人[20]：利用<strong>假名交互策略</strong>和<strong>集成的群签名机制</strong>，构造了一个扩展的假名转换区域，允许该区域内车辆持续交换化名，更好地保护车辆的位置隐私</li>
+<li>Ali 等人[21]：提出 基于条件隐私保护的 无证书加密系统和基于 PKI 混合加密方案</li>
+</ul>
+</blockquote>
+<p>分析：</p>
+<ol>
+<li>可信第三方需要存储所有相关证书，占据大量存储空间</li>
+<li>证书管理导致高昂的计算成本、通信成本</li>
+</ol>
+<p><strong>基于身份密码学（Identity-Based Cryptography,IBC）</strong></p>
+<blockquote>
+<p>用户私钥由 KGC 发布，用户公钥是用户的标识——将公钥与身份关联</p>
+<ul>
+<li>张等人[23]：提出基于身份的批签名认证方案。IBC 用于生成假身份的私钥。不需要证书，从而显著降低传输开销</li>
+<li>Chim 等人[24]：提出基于软件的解决方案，利用两个共享秘密满足隐私要求，增强私密性</li>
+<li>Horng 等人[8]：指出[24]提出的 SPECS 方法仍然容易受到冒充攻击</li>
+<li>Ali 等人[25]：提出具有条件隐私保护的高效身份签名方案，克服了[24]易受冒充攻击的缺陷。<br>该方案使用常见的单向哈希函数和椭圆曲线机密，提供一种批量签名认证方式，每个车辆可以同时验证大量消息</li>
+</ul>
+</blockquote>
+<p>分析：</p>
+<ol>
+<li>存在密钥托管问题</li>
+<li>需要安全通信信道</li>
+</ol>
+<p><strong>基于区块链：</strong></p>
+<blockquote>
+<p>利用区块链构建分散的网络安全模型</p>
+<ul>
+<li>Raw 等人[27]：提出基于区块链的车联网事故取证框架，区块链存储有关交通事故的可信证据</li>
+<li>Shao 等人[28]：IOV 结合区块链的新框架，可应用于 IOV 中的身份认证方案，简化了分布式密钥管理过程，减少了密钥传输时间</li>
+<li>Lu 等人[29]：提出新的 BCPPA 协议，使用区块链 +Merkle Patricia 树，是协议具有高效的证书注销和隐私保护</li>
+<li>Zheng 等人[30]：利用假名技术设计基于身份的 BCPPA 协议</li>
+<li>Lin 等人[31]指出：在生成匿名证书过程中<ul>
+<li>[29]要求车辆和认证机构之间频繁交互</li>
+<li>[30]面对理想硬件的要求、经不起认证机构的泄漏</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>分析：</p>
+<ol>
+<li>安全性、隐私性实现不足</li>
+<li>去中心化运营比较欠缺</li>
+<li>恶意车辆的注销自动化和分布式程度不够</li>
+</ol>
+<h3 id="方案模型"><a href="#方案模型" class="headerlink" title="方案模型"></a>方案模型</h3><h4 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h4><ul>
+<li><p>三层模型结构</p>
+<ul>
+<li>上层：可信权威（Trusted Authority, TA）、<strong>私链</strong></li>
+<li>中间层：路侧单元 RSU（包括 联盟链和私链 的 RSU 节点）</li>
+<li>下层：车辆 OBU、<strong>联盟链</strong><br><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/Em1RbNLyJoarGyxFZTGcfanlnkg.png" alt></li>
+</ul>
+</li>
+<li><p>角色职能：</p>
+<ul>
+<li>可信权威 TA：<ul>
+<li>可信第三方，具有相当的计算、通信、存储能力。</li>
+<li>负责系统初始化、实体注册、智能合约部署、私链维护、恶意车辆追踪、车辆注销。</li>
+</ul>
+</li>
+<li>车辆 OBU：<ul>
+<li>车辆通过 OBU 与 VANET 的其他角色进行无线通信</li>
+<li>支持专用短程通信 DSRC 协议（V2V、V2I 通过 DSRC 实现）</li>
+<li>作为联盟链的轻节点，只存储联盟链的<strong>区块头</strong>。</li>
+</ul>
+</li>
+<li>路侧单元 RSU：<ul>
+<li>作为中间层，起桥梁作用，确保传输信息在没有集中第三方的情况下也是可信的</li>
+<li>可信的 RSUs 作为<strong>私链</strong>管理节点——可以查询私链信息、定期查询 TA 为车辆生成的假名并传给车辆</li>
+<li>其他 RSUs 作为<strong>联盟链</strong>的矿工——聚合车辆间的通信信息、存储链上所有事务数据</li>
+<li>接收到车辆请求，可信 RSUs 可以调用<strong>私链</strong>的智能合约，执行分布式动态注销恶意车辆，被注销车辆的相关信息将从双区块链中删除，并在全网广播</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>引入 5G：更高效的 V2V 通信、更可靠的连接性、更低实验（约 1ms）</li>
+</ul>
+<h4 id="双区块链模型"><a href="#双区块链模型" class="headerlink" title="双区块链模型"></a>双区块链模型</h4><p><strong>私链——网络模型的上层</strong></p>
+<ul>
+<li>作用：<strong>存储所有车辆私有身份信息</strong>：EPIT $“VID_i-PID_i-Vpk_i-sk_i-t_i”$，增加访问控制、安全性</li>
+<li><strong>TA 作为私链矿工</strong></li>
+<li>TA 和 RSU 作为全节点存储区块完整信息</li>
+<li>只有 <strong>TA</strong> 可以<strong>部署、插入、更新、注销智能合约；可信 RSU 私链节点</strong>可以<strong>访问私链上信息</strong></li>
+<li>TA 可以验证所有交易和智能合约的新状态。在 TA 验证区块后，TA 可以基于实用拜占庭容错（PBFT）共识机制将区块上传到私链。</li>
+<li><p>智能合约内容：</p>
+<ul>
+<li>加载实体私有信息表（Entity Private Information Table, EPIT），其<strong>聚合所有车辆身份信息</strong>。周期性获得车辆的新假名身份、对应公钥和私钥，并更新 EPPKT</li>
+<li>当车辆的注销申请达到<strong>阈值</strong>时，智能合约自动执行恶意车辆的动态注销</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/T4ECb26V0o9FYxxLYBKcrmwInSc.png" alt></p>
+<p><strong>联盟链——网络模型的下层</strong></p>
+<ul>
+<li>作用：<strong>存储所有车辆的假名身份和相应的公钥，EPPKT</strong>，<strong>方便其他车辆根据假名身份获取其公钥</strong>$“PID_i-Vpk_i”$</li>
+<li><strong>RSU 作为联盟链矿工</strong></li>
+<li>RSU 作为全节点存储区块完整信息，车辆充当轻节点存储用于数据查询和认证的区块头信息</li>
+<li>聚合 V2V 和 V2I 事务，车辆通过共识机制参与区块认证，安全处理多个共识节点之间的交易和智能合约状态，并向区块链添加区块。</li>
+<li>被允许的节点可以在需要时查找这些状态，以获取联盟链中节点所需的信息。</li>
+<li>智能合约内容：加载实体假名公钥表（Entity Pseudonymous Public Key Table, EPPKT）<br><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/XsFobVFPpoYdcIxmPHYcCE6Lniw.png" alt></li>
+</ul>
+<h4 id="威胁模型"><a href="#威胁模型" class="headerlink" title="威胁模型"></a>威胁模型</h4><ul>
+<li><p>角色可信度：</p>
+<ul>
+<li>不可信——车辆、联盟链节点 RSU</li>
+<li>半可信——私有链节点 RSU</li>
+<li>完全可信——根 TA</li>
+</ul>
+</li>
+<li>恶意方可能是：车辆、联盟链节点 RSU、网络入侵者</li>
+<li><p>恶意攻击：</p>
+<ul>
+<li>被动攻击：攻击者持续监视 VANET 通信信道以跟踪车辆或破坏消息的机密性</li>
+<li>主动攻击：攻击者尝试修改或编造消息</li>
+</ul>
+</li>
+</ul>
+<h5 id><a href="#" class="headerlink" title=" "></a> </h5><h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a><strong>智能合约</strong></h3><ul>
+<li>智能合约是执行合同条款的链上代码</li>
+<li>每个智能合约都有一个需要被触发的地址，该地址用于标识和定位该合约。类似于智能合约的身份证，其他用户和合约可以使用该地址来与该智能合约进行交互。</li>
+<li>智能合约中定义的函数可以由交易或其他智能合约调用</li>
+</ul>
+<p>在本文 DBCPA 方案中，智能合约为私链的 EPIT 管理服务提供 ABI（二进制级别接口），主要有七种算法：</p>
+<ol>
+<li><p>数据插入算法：</p>
+<ul>
+<li>触发条件：新车辆进入 VANET，向 TA 发起注册请求，TA 为车辆生成通信所需安全数据，在通过区块链节点的共识后</li>
+<li>操作：将数据（需要定期更新的数据）插入<strong>私链 EPIT</strong> 中</li>
+</ul>
+</li>
+<li><p>数据更新算法：</p>
+<ul>
+<li>触发条件：当存储在区块链中的安全数据即将过期时，TA 生成车辆通信所需的新安全数据。在通过区块链节点的共识后，</li>
+<li>操作：将新安全数据更新到<strong>私链</strong>的 EPIT。</li>
+</ul>
+</li>
+<li><p>数据查询算法：</p>
+<ul>
+<li>触发条件：当一辆车即将更新其通信所需的安全数据时</li>
+<li>操作：为车辆查询<strong>通信所需的新安全数据</strong>，并保存在<strong>联盟链</strong>节点 OBU 中供车辆使用</li>
+</ul>
+</li>
+<li><p>数据删除算法：</p>
+<ul>
+<li>触发条件：当新车辆离开 VANET 并向 TA 发起注销请求时，通过区块链节点的共识后</li>
+<li>操作：删除<strong>私链</strong>的 EPIT 中车辆的相关数据</li>
+</ul>
+</li>
+<li>实体阈值设置：当新车辆进入 VANET 时，TA 调用该算法，动态设置自动车辆注销阈值（基于车辆数量、交通流量、其他因素）</li>
+</ol>
+<p>mapRespondent[被投诉车辆假名] = 被投诉车辆号</p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/GcNobaJ8Aoi9JcxnCW8chLQlnCg.png" alt></p>
+<ol>
+<li>添加车辆投诉记录：定义了 TA 和 RSU 交互的 ABI，当一个通信实体投诉恶意车辆时，该算法被激活，在区块节点共识后，添加车辆的投诉记录<br>mapComplainant[被投诉车辆假名身份] = 被投诉次数</li>
+</ol>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/XBwObrn8PoVKtHx6tXHcKUDin4g.png" alt></p>
+<ol>
+<li>达到阈值，执行车辆注销：TA/RSU 判断某些恶意车辆的投诉记录是否达到阈值。如果达到阈值，则注销恶意车辆，并将注销相关信息返回给私链节点</li>
+</ol>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/WcuhbtEh8ohSNtxjMCzc6LZCnhe.png" alt></p>
+<ul>
+<li>在私链上预定义 EPIT 的查询权限：只有私链节点（TA 和部分可信 RSU）可以查询 EPIT。以保护车辆隐私、提高 VANETs 的可追溯性和非链接性</li>
+</ul>
+<h3 id="共识机制（PBFT）"><a href="#共识机制（PBFT）" class="headerlink" title="共识机制（PBFT）"></a>共识机制（PBFT）</h3><ul>
+<li>矿工节点-主节点，共识节点-副节点</li>
+<li>私链、联盟链都采用 PBFT 实用拜占庭容错共识机制</li>
+<li>私链：TA 是矿工节点，可信 RSU 是共识节点</li>
+<li>公链：RSU 是矿工节点，车辆是共识节点</li>
+<li><p>共识过程：</p>
+<ol>
+<li>矿工作为主节点，产生区块后进行广播</li>
+<li>共识节点验证该区块有效性</li>
+<li>以分布式的方式向彼此广播认证结果和签名</li>
+<li>每个节点接收到其他节点的广播消息，将这些消息进行<strong>比较</strong>，并将比较结果反馈给矿工</li>
+<li>如果 2/3 的节点同意该区块，则区块上链</li>
+</ol>
+</li>
+</ul>
+<h3 id="方案细节"><a href="#方案细节" class="headerlink" title="方案细节"></a>方案细节</h3><h4 id="系统初始化"><a href="#系统初始化" class="headerlink" title="系统初始化"></a>系统初始化</h4><ul>
+<li><p>TA 初始化：</p>
+<ul>
+<li>TA 选择<ul>
+<li>一个大的质数 $q_1$——用于椭圆曲线有限域的取模</li>
+<li>一个随机数$x ∈ Z^*_q$作为车辆注册密钥</li>
+<li>一个安全哈希函数$H_0：\{0，1\}^* → \{0，1\}^l$——将任意长度的二进制消息作为输入，并生成一个固定长度为 l 的二进制哈希值的函数。</li>
+</ul>
+</li>
+<li>TA 在注册阶段与车辆共享 $Γ= \{q_1, Z^∗_q ,H_0\}$</li>
+</ul>
+</li>
+<li><p>ECC 初始化：TA 生成系统参数$ECCparams = \{q，a，b，n，P，P_{pub}，H_1，H_2\}$</p>
+<ul>
+<li>其中有限域$Fp，(q，a，b)∈ F_p$</li>
+<li>定义方程 $y^2 = x^3 + ax + b\  mod\ p$的非奇异椭圆曲线 E，满足 $4a^3 + 27b^2 != 0$，G 由 E 上的所有点和无穷远处的点组成，P 是 n 阶加法群 G 的生成元——P 是基点</li>
+</ul>
+<blockquote>
+<p>如果一个元素 P 可以通过<strong>重复的加法操作</strong>生成整个加法群 G 中的<strong>所有元素</strong>，那么我们称 P 为 n 阶加法群 G 的生成元</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>即：对于加法群 G 中的任意元素 Q，我们都可以找到一个整数 k（1 &lt;= k &lt;= n），使得 Q = kP。这意味着通过重复的加法操作，我们可以将生成元 P 加自身 k 次，从而得到群 G 中的任何元素。而且，在 k 的取值范围内，所有的元素都可以用这种方式表示，没有多余的元素。<br>生成元在密码学中扮演着重要的角色，尤其在椭圆曲线密码学中。在椭圆曲线密码学中，椭圆曲线上的一个点（基点）被选为生成元，用于生成密钥对、加密、签名等操作。这样的生成元需要满足一些特定的数学性质，以确保密码学安全性。</p>
+<ul>
+<li>系统私钥 $s ∈ Z ^*_ n$；系统公钥 $P_{pub} = s·P$</li>
+<li>$H_1：\{0，1\}^<em> → \{0，1\}^λ，H_2：\{0，1\}^</em> → Z_n$，是两个具有固定输出范围的密码哈希函数</li>
+<li>_H_1：输出的长度是固定的 _λ_ 比特，长度不随输入的数据大小而改变。</li>
+<li>_H_2：输出的整数大小受 _n_ 的限制，输出的整数范围在 [0,_n_−1] 之间</li>
+</ul>
+</blockquote>
+<ul>
+<li>区块链初始化：见上</li>
+</ul>
+<h4 id="智能合约部署"><a href="#智能合约部署" class="headerlink" title="智能合约部署"></a>智能合约部署</h4><p>TA 将智能合约的输入编译并部署到私链，区块链节点经过验证之后，智能合约获得其唯一地址，并可以被 具有正确权限的交易 调用。</p>
+<h4 id="车辆注册"><a href="#车辆注册" class="headerlink" title="车辆注册"></a>车辆注册</h4><p>车辆进入区域时，为了获取通信所需密钥、假名身份，需要向 TA 注册，注册过程<strong>在安全信道中</strong>进行，并且 TA 离线注册。</p>
+<p>流程：</p>
+<ol>
+<li>自定义用户名密码：车辆用户自定义 $VID_i$、密码$pw$，车辆$V_i$选择随机数$b_i$———&gt; 计算$B_i = H_0(pw||b_i) $（密码加密），再将$VID_i$和$B_i$提交给 TA</li>
+<li><p>TA 为登记的车辆生成身份信息：</p>
+<ol>
+<li>生成车辆私钥$sk_i =H_2(VID_i ∥ s ∥ t_i)$，$VID_i$由车辆提供，s 是系统密钥，ti 是当前假名有效期</li>
+<li>生成车辆公钥$V_{pki} =sk_i · P$</li>
+<li>生成假名身份 $PID_i =VID_i ⊕ H_1(sk_i · P_{pub})$</li>
+<li>用户名密码加密：TA 选择随机数$e_i ∈ Z^∗_q$，计算 $A_i = H_0(x ∥ e_i), C_i = A_i ⊕B_i, D_i =H_0 (VID_i ∥ B_i ∥ Ai)$ $C_i$为对密码进行对称加密的数据块，$D_i$验证身份信息和密码的完整性</li>
+</ol>
+</li>
+<li><p>TA 将身份信息发送给各方：</p>
+<ul>
+<li>将 $\{C_i, D_i, e_i, H_0, q, Z^∗_q , ECCparams,<br>VID_i, PID_i, t_i\}$添加进<strong>车辆OBU，</strong>$PID_1$<strong>作为第一假名。**</strong>OBU 获得这些系统参数，表示正式进入系统中了**</li>
+<li>TA 发起共识，车辆进行公式，将$\{VID_i, PID_i, Vpk_i, sk_i\}$上传到智能合约，添加到<strong>私链 EPIT</strong></li>
+<li>TA 让 RSU 发起共识，车辆进行共识，将$\{PID_i，Vpk_i\}$添加到<strong>联盟链 EPPKT</strong></li>
+</ul>
+</li>
+</ol>
+<h4 id="登录以及-PBFT-消息认证"><a href="#登录以及-PBFT-消息认证" class="headerlink" title="登录以及 PBFT 消息认证"></a>登录以及 PBFT 消息认证</h4><p>当车辆想要向临近的 RSU、车辆<strong>广播</strong>交通信息时，需要认证</p>
+<p><strong>一对多：用自己的私钥加密消息并发送，各接受方使用它的公钥解密消息</strong></p>
+<p>流程：</p>
+<ol>
+<li>使用者登录 OBU：使用者将$VID^<em>_i$（相当于用户名）和$pw^</em>$（密码）输入 OBU，OBU 计算$B_i^<em> = H_0(pw^</em>||b_i) $ ,$A^∗_i = C_i ⊕B^∗_i $，$D^∗_i = H_0(VID^<em>_i ∥B^∗_i ∥ A^∗_i),$如果 $D^</em>_i != D_i$，则认证失败，OBU 拒绝请求——也就是说认证时自己以$VID_i$和 pw 作为输入，计算得到$D^<em>_i$，判断自己计算的$D^</em>_i$是否等于车辆登记时 TA 计算的$D_i$</li>
+<li><p>OBU 对消息进行私钥<strong>签名</strong>：认证成功，生成随机数$r_i ∈ Z_n$，计算</p>
+<ol>
+<li>$R_i = r_i · P$——$R_i$的引入使得每次运算都会得到不同的$R_i$，即使对于相同的输入_P_和_ri_，也会产生不同的结果。这有助于防止一些攻击，例如基于对同一输入多次执行相同操作的攻击——重放攻击。</li>
+<li>$ α_i =H_2(PID_i ∥ R_i ∥ M_i ∥ T_i) $，$M_i$表示在时间戳$T_i$发送的即时消息。——$α_i$作为消息前四项的哈希值，是消息的<strong>校验值</strong>（<strong>消息摘要</strong>）——校验消息是否被修改——无碰撞哈希函数生成消息摘要</li>
+<li>$θ_i = r_i+α_i ·sk_i\ mod\ n$。——$θ_i$将校验值使用<strong>发送方私钥</strong>加密，确保接收方验证消息时，不需要$r_i$也能验证。</li>
+</ol>
+</li>
+<li>OBU 广播消息：OBU 向相邻 RSU 和车辆广播以下消息$\{PID_i，M_i，R_i，T_i，θ_i\}$。</li>
+<li>接收方获取发送方公钥：消息接收方使用时间戳$T_i$验证消息的及时性，如果有效，则从联盟链实体假名公钥表 EPPKT 查询记录$\{PID_i，Vpk_i\}$，根据$PID_i$获取消息<strong>发送方</strong>公钥$Vpk_i$。</li>
+<li>接收方检验消息正确性：消息接收方拿到消息发送方公钥$Vpk_i$后，计算$α’_i=H_2(PID_i||R_i||M_i||T_i)$，只有当$θ_i · P = R_i + α′_i· Vpk_i$时，接收方才真的接受消息，否则说明公钥认证失败，消息被修改，拒绝接受消息——消息接收方使用消息<strong>发送方公钥</strong>确定<strong>收到消息的校验值</strong>是否等于<strong>发送消息的校验值</strong></li>
+</ol>
+<blockquote>
+<p>因为$Vpk_i = sk_i ·P$,$θ_i = r_i+α_i ·sk_i$，$R_i = r_i · P$<br>得到$θ_i · P =(r_i+α·sk_i)·P= R_i + α_i· Vpk_i$</p>
+</blockquote>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/KKz5bSbCuoPiOOxOGa9cOv5GnNe.png" alt></p>
+<h4 id="假名身份更新"><a href="#假名身份更新" class="headerlink" title="假名身份更新"></a>假名身份更新</h4><p>一对一：</p>
+<ol>
+<li><p>RSU 从私链获取新假名并进行消息加密：车辆的假名身份即将过期时，预置的私链可信节点 RSU 会<strong>周期性</strong>从私链获取即将过期车辆的更新身份信息$\{PID’_i、sk’_i、Vpk’_i、t_i\}$作为消息$M_i$，RSU 再对消息$M_i$进行加密和签名：生成一个随机数$r_i ∈ Z_n$,计算</p>
+<ol>
+<li><script type="math/tex; mode=display">
+R_i = r_i · P</script></li>
+<li>$ α_i =H_2(PID’_i ∥ R_i ∥ M_i ∥ T_i) $，$M_i$表示在时间戳$T_i$发送的即时消息</li>
+<li><script type="math/tex; mode=display">
+θ_i = r_i+α_i ·sk_i\ mod\ n</script></li>
+</ol>
+</li>
+<li>RSU 发送消息给车辆：RSU 通过<strong>安全信道</strong>向该车辆发送消息$\{PID’_i，M_i，R_i，T_i，θ_i\}$</li>
+<li>车辆验证消息：接收方车辆使用时间戳$T_i$验证消息的及时性。如果有效，则验证消息的正确性，计算$α’_i=H_2(PID’_i||R_i||M_i||T_i)$，并且仅当$θ_i · P = R_i + α′_i· Vpk_i$时，接收车辆才接受消息</li>
+<li>车辆更新假名身份：更新 OBU 的车辆假名、其对应的公钥、私钥。</li>
+<li>RSU 更新双链信息表：RSU 更新私链实体私有信息表 EPIT，方便对恶意车辆进行有条件跟踪；RSU 更新联盟链实体假名公钥表 EPPKT——都是<strong>离线</strong>执行的</li>
+</ol>
+<h4 id="车辆注销"><a href="#车辆注销" class="headerlink" title="车辆注销"></a>车辆注销</h4><p>当车辆离开区域或等待被注销时，有两个过程执行注销</p>
+<ol>
+<li><p>举报车辆——主节点调用智能合约<strong>请求注销</strong>车辆：TA 终止在智能合约中记录的当前车辆状态</p>
+<ol>
+<li>先进行区块链<strong>节点**</strong>共识**（保证注销安全性）</li>
+<li>然后由双链主节点调用智能合约注销该车辆。（只是请求注销，还没有真的注销）</li>
+</ol>
+</li>
+<li><p>注销车辆——请求注销数量达到<strong>阈值</strong>，<strong>实际注销</strong>车辆（该阈值根据当前交通流量等相关因素动态变化）：</p>
+<ol>
+<li>当主节点请求调用智能合约注销车辆的数量达到阈值时，智能合约自动执行车辆注销算法 revokeEPIT（PIDi）来注销车辆——删除双区块链中的相关元组（正式注销）</li>
+<li><strong>反馈</strong>给相关主节点。</li>
+<li>主节点向整个网络广播被注销车辆的相关信息。（告诉大家这车被注销了）</li>
+</ol>
+</li>
+</ol>
+<p>为了防止恶意删除或修改，使用了强制访问控制的概念。这确保了区块链状态只能通过达成共识的 TA 和达到阈值的主节点请求来进行更改。</p>
+<h4 id="密码更改"><a href="#密码更改" class="headerlink" title="密码更改"></a>密码更改</h4><ul>
+<li>用户认证：用户将$VID_i、pw、pw’$发送给 OBU，OBU 计算$B^<em>_i = H_0(pw||b_i) $，$A^∗_i = C_i ⊕B^∗_i $，$D^∗_i = H_0(VID_i ∥B^∗_i ∥ A^∗_i),$如果 $D^</em>_i != D_i$，则认证失败，OBU 拒绝请求</li>
+<li>密码更改：认证成功，OBU 接收新密码，选择 b’，计算$B’_i = H_0(pw’||b’_i) $，$C’_i = A_i ⊕B’_i $，$D’_i = H_0(VID_i ∥B’_i ∥ A_i),$OBU 使用$\{C′_ i，D′ _i，e_i，H_0，q_1，Z ^<em>_ q \}$替换$\{C_i，D_i，e_i，H_0，q_1，Z ^</em>_ q \}$</li>
+</ul>
+<h3 id="方案结果分析"><a href="#方案结果分析" class="headerlink" title="方案结果分析"></a>方案结果分析</h3><h4 id="安全性分析和安全性证明"><a href="#安全性分析和安全性证明" class="headerlink" title="安全性分析和安全性证明"></a>安全性分析和安全性证明</h4><h5 id="安全性分析（对应-2-2-3-安全目标）"><a href="#安全性分析（对应-2-2-3-安全目标）" class="headerlink" title="安全性分析（对应 2.2.3 安全目标）"></a>安全性分析（对应 2.2.3 安全目标）</h5><p><strong>单次注册</strong></p>
+<p>描述：每辆车只注册一次，然后信息被发送给其他角色——方便用户</p>
+<p>分析：</p>
+<p>每一个车辆登记时（不登记就无法通信），TA 会为车辆生成假名身份，并把身份信息发送到各方</p>
+<ul>
+<li>将 $\{C_i, D_i, e_i, H_0, q, Z^∗_q , ECCparams,<br>VID_i, PID_i, t_i\}$ 添加进<strong>车辆 OBU</strong></li>
+<li>共识后，将$\{VID_i, PID_i, Vpk_i, sk_i\}$添加到<strong>私链 EPIT</strong></li>
+<li>共识后，将$\{PID_i，Vpk_i\}$添加到<strong>联盟链 EPPKT</strong></li>
+</ul>
+<p>其他车辆可自行或者通过联盟链 EPPKT 查询车辆认证信息，<strong>无需 TA</strong></p>
+<p><strong>消息验证</strong></p>
+<p>描述：RSU 和车辆要验证消息发起者的<strong>身份的有效性</strong>、<strong>消息的及时性</strong>和<strong>完整性</strong>——确保收到的消息可信</p>
+<p>分析：</p>
+<ul>
+<li>身份的有效性：接收方通过从联盟链 EPPKT 根据假名身份获取消息发起者的<strong>公钥</strong>，对消息进行匹配，保证身份有效性</li>
+<li>消息的及时性：接收方使用<strong>时间戳</strong>$T_i$验证消息的及时性</li>
+<li>消息的完整性（是否被修改）：使用公式$θ_i · P= R_i + α_i· Vpk_i$检查消息的有效性。$ α_i =H_2(PID_i ∥ R_i ∥ M_i ∥ T_i) $</li>
+</ul>
+<p>由于哈希函数的抗冲突性和 ECDLP（通过哈希函数将消息映射到椭圆曲线上的一个点，并且从点的坐标中无法轻易地推导出消息中的原始数据）。RSU 或其他车辆将能够检测到消息的任何变化。因此，DBCPA 保证了消息的完整性。</p>
+<p><strong>隐私保护</strong></p>
+<p>描述：RSU 和其他车辆不能看到车辆的<strong>真实身份</strong>，且即使恶意方通过拦截文本并分析，也无法获得真实身份</p>
+<p>分析：</p>
+<p>TA 通过车辆真实身份、车辆私钥、系统公钥生成假名身份：$PID_i =VID_i ⊕ H_1(sk_i · P_{pub})$，该方法保证了没有实体可以通过假名身份获取真实身份</p>
+<p><strong>可追溯性</strong></p>
+<p>描述：当恶意行为发生时（如：发送错误消息来误导其他人、篡改安全消息），TA 应该能高效<strong>追踪恶意</strong>车辆的真实身份</p>
+<p>分析：$PID_i =VID_i ⊕ H_1(sk_i · P_{pub})$表示假名身份由车辆真实身份、车辆私钥、系统公钥组成，说明只有私链节点和该车辆才能根据假名身份获取真实身份，因此当恶意行为发生获得假名身份时，私链节点可以根据私链上的数据快速追踪该车辆真实身份</p>
+<p><strong>不可连接性</strong></p>
+<p>描述：不能将来自同一辆车的两条信息联系起来，以防止车辆的行驶路线被恶意攻击者追踪或攻击</p>
+<p>分析：车辆使用假名身份且假名身份定期更新，因此消息接受者无法获取发送者真实信息或将两个信息连接到单个实体</p>
+<p><strong>无在线注册中心</strong></p>
+<p>描述：减轻中心注册与认证开销</p>
+<p>分析：RSU 或车辆都通过智能合约获取所需信息，而智能合约在区块链上自动执行。所以 TA 不参与整个认证过程。</p>
+<p><strong>抵御离线密码猜测攻击</strong></p>
+<p>攻击描述：攻击者通过窃听通信网络获取到加密的数据，离线猜测密码以破解数据</p>
+<p>分析：在这些截获的消息中没有关于密码字符串的信息，对手无法知道他对密码的猜测是否正确。因此不受离线密码猜测攻击的影响。</p>
+<p><strong>抵御重放攻击</strong></p>
+<p>攻击描述：攻击者再现并发送先前捕获的通信数据包，使得系统错误地接受重复的请求或执行同一操作多次</p>
+<p>描述：</p>
+<p>车辆发送的消息：$\{PID_i，M_i，R_i，T_i，θ_i\}$</p>
+<ul>
+<li>时间戳$T_i$保证了消息的及时性</li>
+<li>假名身份定期更换，之前是这个假名，攻击者进行重放攻击时，原发送者应该已经更换了假名。</li>
+<li>随机数$r_i$求得$R_i$和哈希计算，使得攻击者难以再现通信数据包</li>
+</ul>
+<p><strong>抵御车辆冒充攻击</strong></p>
+<p>攻击描述：攻击者通过假冒合法用户的身份来欺骗系统或其他用户，以获取未授权的访问权限或执行恶意操作</p>
+<p>分析：</p>
+<ul>
+<li>因为使用 ECC 进行加密，没有对手可以创建有效的登录请求</li>
+<li>攻击者不能冒充其他合法车辆在网络中广播消息，因为只有由 OBU 中预安装的密钥 ski 签名的广播消息才是有效消息</li>
+</ul>
+<p><strong>抵御 DDos 攻击</strong></p>
+<p>攻击描述：攻击者通常利用多个计算机（被称为“僵尸”）来同时向目标系统发送大量请求流量，从而导致系统过载或崩溃，使合法用户无法访问服务。</p>
+<p>描述：</p>
+<ul>
+<li>在区块链中，任何想要修改事务记录或智能合约的非法行为都会被组织，并且每个非法事务都不会在区块链上记录</li>
+<li>即使大量请求导致区块链网络某个点阻塞，智能合约的 ABI 都会自动在区块链中查找车辆公钥，</li>
+</ul>
+<h5 id="安全性证明"><a href="#安全性证明" class="headerlink" title="安全性证明"></a>安全性证明</h5><p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/HW5ibDpyqoS3dKxdsJcchuFNnIe.png" alt></p>
+<p><strong>证明</strong>：在随机预言机模式下，对 DBCPA 方案进行自适应选择消息攻击的安全性</p>
+<p><strong>ECDLP 定义 1</strong>：对于 ECDLP，群 G 由生成元 P 生成，满足 T = t · P ∈ G，且$t ∈ Z^*_q$。在这种情况下，给定 T = t · P，不可能解出 t——给定公钥，不可能解出私钥</p>
+<p><strong>模拟角色</strong>：攻击者 A 、挑战者 B（B 生成系统的私钥和参数，并将系统参数发送给 A，B 维护哈希集合）</p>
+<p><strong>证明目标</strong>：攻击者 A 不能破解 DBCPA 方案。</p>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>设置预言机：挑战者 B 生成系统私钥和系统参数，然后将<strong>系统参数</strong>发送给攻击者 A。</li>
+<li>h1-Oracle 和 h2-Oracle：挑战者 B 为 A 进行哈希查询提供随机数，并将它们插入哈希集合 Lh1 和 Lh2 中 <info,随机数>。这些随机数用于生成哈希值。</info,随机数></li>
+<li>提取预言机：B 检查是否在 Lh1 中找到与 PIDi 对应的元组，在则向 A 提供$<PID_i,sk_i>$</PID_i,sk_i></li>
+<li>签名预言机：当 A 在签名预言机查询中使用消息$M_i$时，B 向 A 提供$⟨M_i, R_i, θ_i⟩$——B 选择随机数，并根据查询结果计算 Ri 和 θi 并返回给 A</li>
+</ol>
+<p>存在性伪造和概率：安全性证明讨论了攻击者 A 如何在自适应选择消息攻击中进行存在性伪造，概率为 ϱ，并在时限 T 内进行。攻击者 A 的目标是构造有效的登录请求消息。</p>
+<p>定理 1：如果攻击者 A 能够破解 DBCPA 方案（即能够成功地进行自适应选定消息攻击，并以概率 ϱ 在时间限制 T 内产生有效的登录请求消息：产生两个有效签名），那么挑战者 B 可以在一定的概率和时间段内破解 ECDLP 问题（求得 ski），该时间段估计小于一个特定的值，基于分叉引理（Forking Lemma）。</p>
+<p>为什么一旦 A 能够产生两个有效的签名，B 就能计算出私钥？</p>
+<ol>
+<li>攻击者调用一次签名预言机查询，获得$⟨M_i, R_i, θ_i⟩$，其中$θ_i = H_2r_i + sk_i\ mod\ q$。ri 是 A 随机选择的值</li>
+<li>攻击者再调用一次签名预言机查询，获得$⟨M_i, R’_i, θ’_i⟩$，其中$θ’_i = H’_2r_i+sk_i mod q$。</li>
+</ol>
+<p>Ri 和 R′i 是由 B 随机选择的两个不同的随机数，H2 和 H′2 是由 B 在进行 h2-Oracle 查询时生成的两个不同的随机数。而 ski 是 B 的私钥，它是一个固定的秘密值。</p>
+<p>这段密码学安全性证明逻辑说明了如果 A 能够打败 DBCPA 方案，则 B 可以在时间限制内解决 ECDLP 问题，然而根据定义 1 和 Forking Lemma 的推导，这是不可能的，因此得出了 DBCPA 方案的安全性结论。</p>
+<h4 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h4><p>本文方案与其他方案进行对比分析：</p>
+<ul>
+<li>He 等人[1]：原始的基于 ECC 的条件隐私保护认证方案</li>
+<li>Ali 等人[13]和 Sutrala 等人[14]：改进的基于 ECC 的条件隐私保护<strong>认证签名</strong>方案</li>
+</ul>
+<h5 id="计算开销分析"><a href="#计算开销分析" class="headerlink" title="计算开销分析"></a>计算开销分析</h5><ul>
+<li>实验<ul>
+<li>使用 <strong>C/C++ 加密库</strong>来测量加密操作</li>
+<li>在 Ubuntu 18.04.6 操作系统、英特尔 ® 酷睿 ™ i5-4590 CPU（3.30 GHz）和 4GB RAM 的笔记本电脑上进行性能评估。每一项操作所用时间（ECC 点添加操作、ECC 标量乘法运算、ECC 整数乘法运算、哈希操作）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/PLdTbUJv2oJsXoxQOhScULpknMf.png" alt></p>
+<ul>
+<li><p>测量三个过程：</p>
+<ul>
+<li>假名身份生成过程 $PROC_{PID−generate}$</li>
+<li>消息签名过程(包括签名和密钥生成） $PROC_{M−sign}$</li>
+<li>消息验证过程 $PROC_{M−verify}$</li>
+</ul>
+</li>
+<li><p>对比的方案：</p>
+<ul>
+<li>He[1]：共 2.25206ms<ul>
+<li>$PROC_{PID−generate}$：2sm-ecc+1h，0.74838 ms</li>
+<li>$PROC_{M−sign}$：1sm-ecc+2h，0.37554 ms</li>
+<li>$PROC_{M−verify}$：3sm-ecc+2pa-ecc+2h，1.12814ms</li>
+</ul>
+</li>
+<li>Ali[13]：共 2.24936 ms<ul>
+<li>$PROC_{PID−generate}$：1sm-ecc，0.37374 ms</li>
+<li>$PROC_{M−sign}$：3sm-ecc+1pa-ecc+1h，1.12468 ms</li>
+<li>$PROC_{M−verify}$：2sm-ecc+1pa-ecc+1h，0.75094 ms</li>
+</ul>
+</li>
+<li>Sutrala[14]：共 2.99954ms<ul>
+<li>$PROC_{PID−generate}$：4sm-ecc+2h，1.49676 ms</li>
+<li>$PROC_{M−sign}$：1sm-ecc+1h，0.37464 ms</li>
+<li>$PROC_{M−verify}$：3sm-ecc+2pa-ecc+2h，1.12814 ms</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>本文提出的方案：1.87652 ms.</p>
+<ul>
+<li>TA 在整个过程是离线的，主要计算车端计算开销</li>
+<li>假名身份生成过程 $PROC_{PID−generate}$：<ul>
+<li>第一次的假名身份生成（注册的时候）是 TA 计算预加载进 OBU，再加载到私链中的，车端计算开销为 0ms</li>
+<li>后续的假名身份生成（更新的时候）：私链可信 RSU 节点通过消息签名将新假名发送给车辆，车辆在验证过程后更新假名身份。车端计算开销为：0.7~ms</li>
+</ul>
+</li>
+<li>消息验证过程 $PROC_{M−verify}$：2sm-ecc+1pa-ecc+1h，0.75094 ms</li>
+<li>消息签名过程 $PROC_{M−sign}$：1sm-ecc+1h，0.37464 ms</li>
+</ul>
+</li>
+<li>比较结果：</li>
+</ul>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/OVfPbYu8co3jCyx5eVxcXxJTnXb.png" alt></p>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/ZpYobx4XSo0FnLxAscrc9zPYnle.png" alt></p>
+<h5 id="通信或存储开销分析"><a href="#通信或存储开销分析" class="headerlink" title="通信或存储开销分析"></a>通信或存储开销分析</h5><ul>
+<li><p>为了分析加密操作的通信开销，进行设置：</p>
+<ul>
+<li>为了达到 <strong>80 位</strong>的安全级别，使用加性群 G（G 由非奇异椭圆曲线$y^2 = x^3 + ax + b\  mod\ p$上的 q 阶点 P 生成，其中 p 和 q 是两个素数，并且（q，a，b）∈ Fp）。</li>
+<li>使用上述设置时，交通紧急通知的大小限制为 <strong>160 位</strong>。如果要求交通紧急消息的大小大于 160 比特，则可以选择阶数较大的椭圆曲线。</li>
+</ul>
+<blockquote>
+<p>例如，可以选择支持 256 位消息的曲线 P-256 或支持 384 位消息的曲线 P-384。</p>
+</blockquote>
+</li>
+<li><p>方案比较：</p>
+<ul>
+<li>He[1]：车辆广播$\{PID_i = (PID^1_i , PID^2_i ),m_i, T_i, σ_i, R_i\}$，通信开销 144 bytes——(320 + 160 +<br>160+32+160+32)/8</li>
+<li>Ali[13]：车辆广播$\{m_i, AID_i, pk_i, Θ_i, t_i\}$，通信开销 124 bytes——(160 +320 + 320 + 160 + 32)/8</li>
+<li>Sutrala[14]：车辆广播$\{PID_i =(PID^1_i , PID^2_i , T_i),m_i, δ_i = (f_i, g_i), B_i,K_i, R_i, T_i\}$，通信开销 244 bytes——(320 + 160 + 32 + 160 + 160 + 160 + 320 + 320 + 320)/8</li>
+<li>DBCPA:车辆广播$\{PID_i,M_i, R_i, T_i, θ_i\}$，通信开销 124 bytes——(320+160+32+320+160)/8<br><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/I7uLbqXxEoeKefxt12FcV2yCnJb.png" alt></li>
+</ul>
+</li>
+<li><p>为什么最少：</p>
+<ul>
+<li>将椭圆曲线与区块链结合使用</li>
+<li>在不牺牲安全强度的前提下，DBCPA 最大限度减少了传输成本的假身份和签名</li>
+</ul>
+</li>
+</ul>
+<h5 id="区块链现实可行性分析"><a href="#区块链现实可行性分析" class="headerlink" title="区块链现实可行性分析"></a>区块链现实可行性分析</h5><ul>
+<li>实验环境：以太坊测试网络 Rinkeby，Remix 开发智能合约，MetaMask 插件连接 Chrome 中的 Remix 3 和 Rinkeby</li>
+</ul>
+<ol>
+<li>创建账户：使用 MetaMask 创建两个账户（TA 和 RSU），切换到 TA 账户，向 Rinkeby 请求 3 Ethers 从而可以调用智能合约</li>
+</ol>
+<blockquote>
+<p>（如：将车辆离线注册的相关隐私信息加载到私链、添加、删除、更新、搜索车辆隐私信息）</p>
+</blockquote>
+<ol>
+<li><p>部署智能合约：以 TA 身份执行 Remix：</p>
+<ol>
+<li>将智能合约部署到 Rinkeby，并获取智能合约地址</li>
+<li>调用车辆注销阈值设置算法，设置阈值</li>
+</ol>
+</li>
+<li><p>模拟动态注销恶意车辆：</p>
+<ol>
+<li>制造恶意车辆：模拟私链 RSU 节点在 Rinkeby 中添加被举报车辆的相关信息（举报者的假名身份、被举报人、举报数量）。</li>
+<li>举报恶意车辆：切换到 RSU 账户，调用投诉算法，将共识被举报的车辆信息更新到私链。</li>
+<li>注销恶意车辆：调用智能合约调用阈值判断算法，如果被投诉车辆达到了阈值次数，则智能合约中记录的当前状态将被终止。并通过 removeEPIT（PIDi）的 ABI 注销车辆——删除双区块链中的相关元组，并向其他节点广播车辆注销消息</li>
+</ol>
+</li>
+<li><p>事务调用成本：</p>
+<ol>
+<li>部署智能合约：成本约为 6.47583 美元，成本最高，但只执行一次。</li>
+<li>其他操作的成本：低于 1.79 美元，即使这些操作被频繁地重复调用，这也是一个可以接受的成本。</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/UKKNbFhNPo7prIxscR6cUUdBndb.png" alt></p>
+<h4 id="取得了什么效果？"><a href="#取得了什么效果？" class="headerlink" title="取得了什么效果？"></a>取得了什么效果？</h4><p>双区块链辅助下的 VANETS 方案</p>
+<ul>
+<li>安全性分析：该方案满足 VANETs 的各项安全目标。</li>
+<li>安全性证明：提出的 DBCPA 方案在随机预言机模型的自适应选择消息攻击下是安全的</li>
+<li>性能分析：将本文方案同其他三个方案对比，分析计算开销、通信开销，展示实验数据证明本文方案性能更高；进行区块链测试网络模拟证明区块链的可行性。</li>
+</ul>
+<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><ol>
+<li>椭圆曲线加密机制，实现加密计算消耗小、安全性高</li>
+<li>区块链用于存储车辆身份信息（私链存储所有车辆私有身份信息，联盟链存储所有车辆的假名身份和相应的公钥）使得处在不同区块链网络中的不同节点具有不同的权限，以控制车辆的操作。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/" title="DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议">http://example.com/2023/09/14/DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91/" rel="tag"><i class="fa fa-tag"></i> 区块链物联网</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91-%E7%A7%91%E7%A0%94%E5%BC%80%E5%A7%8B/" rel="prev" title="区块链物联网-科研开始">
+      <i class="fa fa-chevron-left"></i> 区块链物联网-科研开始
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/" rel="next" title="智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案">
+      智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Learn"><span class="nav-number">1.</span> <span class="nav-text">Learn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%8A%A8%E6%80%81%E6%B3%A8%E9%94%80%E8%BF%9D%E6%B3%95%E8%BD%A6%E8%BE%86"><span class="nav-number">1.1.</span> <span class="nav-text">分布式动态注销违法车辆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%EF%BC%88VANETs%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">车载自组织网络（VANETs）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%BA%BF%E4%BC%AA%E5%90%8D%E4%B8%8E%E7%BE%A4%E7%AD%BE%E5%90%8D"><span class="nav-number">1.3.</span> <span class="nav-text">基线伪名与群签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6-ECC"><span class="nav-number">1.4.</span> <span class="nav-text">椭圆曲线密码体制 ECC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E6%B3%95%E8%A7%84%E5%88%99"><span class="nav-number">1.4.1.</span> <span class="nav-text">椭圆曲线加法规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ECC-%E6%B6%88%E6%81%AF%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">ECC 消息加密解密过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%9C%A8%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">1.4.3.</span> <span class="nav-text">椭圆曲线在有限域上的计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98-ECDLP"><span class="nav-number">1.4.4.</span> <span class="nav-text">椭圆曲线离散对数问题 ECDLP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">2.</span> <span class="nav-text">Why?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">3.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How"><span class="nav-number">4.</span> <span class="nav-text">How?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.1.</span> <span class="nav-text">相关工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">方案模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.1.</span> <span class="nav-text">网络模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.2.</span> <span class="nav-text">双区块链模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A8%81%E8%83%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.3.</span> <span class="nav-text">威胁模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link"><span class="nav-number">4.2.3.1.</span> <span class="nav-text"> </span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="nav-number">4.3.</span> <span class="nav-text">智能合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6%EF%BC%88PBFT%EF%BC%89"><span class="nav-number">4.4.</span> <span class="nav-text">共识机制（PBFT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E7%BB%86%E8%8A%82"><span class="nav-number">4.5.</span> <span class="nav-text">方案细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">4.5.1.</span> <span class="nav-text">系统初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2"><span class="nav-number">4.5.2.</span> <span class="nav-text">智能合约部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%A6%E8%BE%86%E6%B3%A8%E5%86%8C"><span class="nav-number">4.5.3.</span> <span class="nav-text">车辆注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E4%BB%A5%E5%8F%8A-PBFT-%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81"><span class="nav-number">4.5.4.</span> <span class="nav-text">登录以及 PBFT 消息认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%87%E5%90%8D%E8%BA%AB%E4%BB%BD%E6%9B%B4%E6%96%B0"><span class="nav-number">4.5.5.</span> <span class="nav-text">假名身份更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%A6%E8%BE%86%E6%B3%A8%E9%94%80"><span class="nav-number">4.5.6.</span> <span class="nav-text">车辆注销</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E6%9B%B4%E6%94%B9"><span class="nav-number">4.5.7.</span> <span class="nav-text">密码更改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="nav-number">4.6.</span> <span class="nav-text">方案结果分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E5%88%86%E6%9E%90%E5%92%8C%E5%AE%89%E5%85%A8%E6%80%A7%E8%AF%81%E6%98%8E"><span class="nav-number">4.6.1.</span> <span class="nav-text">安全性分析和安全性证明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E5%88%86%E6%9E%90%EF%BC%88%E5%AF%B9%E5%BA%94-2-2-3-%E5%AE%89%E5%85%A8%E7%9B%AE%E6%A0%87%EF%BC%89"><span class="nav-number">4.6.1.1.</span> <span class="nav-text">安全性分析（对应 2.2.3 安全目标）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E8%AF%81%E6%98%8E"><span class="nav-number">4.6.1.2.</span> <span class="nav-text">安全性证明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="nav-number">4.6.2.</span> <span class="nav-text">性能分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%BC%80%E9%94%80%E5%88%86%E6%9E%90"><span class="nav-number">4.6.2.1.</span> <span class="nav-text">计算开销分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E6%88%96%E5%AD%98%E5%82%A8%E5%BC%80%E9%94%80%E5%88%86%E6%9E%90"><span class="nav-number">4.6.2.2.</span> <span class="nav-text">通信或存储开销分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8C%BA%E5%9D%97%E9%93%BE%E7%8E%B0%E5%AE%9E%E5%8F%AF%E8%A1%8C%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">4.6.2.3.</span> <span class="nav-text">区块链现实可行性分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E4%BA%86%E4%BB%80%E4%B9%88%E6%95%88%E6%9E%9C%EF%BC%9F"><span class="nav-number">4.6.3.</span> <span class="nav-text">取得了什么效果？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E8%8E%B7"><span class="nav-number">5.</span> <span class="nav-text">收获</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

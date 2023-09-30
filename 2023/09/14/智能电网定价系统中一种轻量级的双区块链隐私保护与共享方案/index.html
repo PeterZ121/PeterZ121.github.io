@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Learn智能电网智能电网（Smart Grid）是一种现代化的电力系统，它利用先进的通信、控制、监测和信息技术来优化电力生产、传输、分配和消费。智能电网旨在提高电力系统的效率、可靠性、可持续性和安全性，同时还能更好地集成可再生能源、电动车辆和能源储存等新兴技术。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案">
+<meta property="og:url" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="Learn智能电网智能电网（Smart Grid）是一种现代化的电力系统，它利用先进的通信、控制、监测和信息技术来优化电力生产、传输、分配和消费。智能电网旨在提高电力系统的效率、可靠性、可持续性和安全性，同时还能更好地集成可再生能源、电动车辆和能源储存等新兴技术。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/Pi7YbKluJoAHkWxlQvRckFJvnOb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/QuiGbcAwwoWukXxfzBNcDEE8nPh.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/Pz3GbVucao0X4DxmVGHcQGULn8e.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/POChbOaIpoab55xs0S8cho3pnQv.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/JCAfb1SdkoN7G0xsrjQcUq7SnEc.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/JWhjbc4IdohUfXxXJ5FcNJownvb.png">
+<meta property="og:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/ZSx4bVTcIoc2kSxQmCgc4jwvnce.png">
+<meta property="article:published_time" content="2023-09-14T11:22:52.000Z">
+<meta property="article:modified_time" content="2023-09-14T11:26:52.000Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="区块链物联网">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/Pi7YbKluJoAHkWxlQvRckFJvnOb.png">
+
+<link rel="canonical" href="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-14 19:22:52 / 修改时间：19:26:52" itemprop="dateCreated datePublished" datetime="2023-09-14T19:22:52+08:00">2023-09-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Learn"><a href="#Learn" class="headerlink" title="Learn"></a>Learn</h2><h3 id="智能电网"><a href="#智能电网" class="headerlink" title="智能电网"></a>智能电网</h3><p>智能电网（Smart Grid）是一种现代化的电力系统，它利用先进的通信、控制、监测和信息技术来优化<strong>电力生产、传输、分配和消费</strong>。智能电网旨在提高电力系统的效率、可靠性、可持续性和安全性，同时还能更好地集成可再生能源、电动车辆和能源储存等新兴技术。</p>
+<span id="more"></span>
+<p>传统的电力系统是单向的，即电力从发电厂经过输电线路传输到用户，而智能电网引入了双向的能量和信息流动。以下是智能电网的一些关键特点：</p>
+<ol>
+<li>通信与信息技术: 智能电网依赖于高度发达的通信和信息技术，使各个部件能够实时交换信息。这包括用于监测电力设备状态、故障检测、优化电力流动以及响应用户需求的各种传感器、智能计量设备和数据通信系统。</li>
+<li>分布式能源资源: 智能电网可以更好地集成分布式能源资源，如太阳能板、风力发电机和微型水电站等。这些资源通常分布在用户附近，有助于降低能量损耗和提高能源的可再生比例。</li>
+<li>可再生能源管理: 智能电网能够更精确地预测和管理可再生能源的变化，以确保电力系统的稳定性。例如，根据天气预报调整能源调度，以便更好地利用太阳能和风能。</li>
+<li>需求响应: 用户可以更积极地参与电力系统，通过智能电表和能源管理系统调整他们的用电行为。在高峰期，系统可以与用户合作，暂时减少能耗，以平衡电力需求。</li>
+<li>电动车和储能系统: 智能电网能够更好地集成电动车充电设施和能源储存系统。电动车可以被视为能量存储装置，在需要时释放能量到电网中，从而帮助平衡供需。</li>
+<li>故障检测与恢复: 智能电网具有自动故障检测和定位功能，能够更快地发现并隔离电力系统中的问题，从而减少停电时间。</li>
+</ol>
+<p>总之，智能电网通过将信息技术和能源系统相结合，提供了更灵活、高效和可持续的电力系统运营方式，以适应不断变化的能源环境和用户需求。</p>
+<h3 id="智能定价"><a href="#智能定价" class="headerlink" title="智能定价"></a>智能定价</h3><p>通过对电网中<strong>各类设备的实时监控</strong>、<strong>电力供需信息的实时采集</strong>，可以对用户的用电量进行定价，从而保证电网的稳定运行</p>
+<h3 id="基于身份的代理重加密算法"><a href="#基于身份的代理重加密算法" class="headerlink" title="基于身份的代理重加密算法"></a>基于身份的代理重加密算法</h3><p><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/Pi7YbKluJoAHkWxlQvRckFJvnOb.png" alt></p>
+<p><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/QuiGbcAwwoWukXxfzBNcDEE8nPh.png" alt></p>
+<ul>
+<li>由 A 公钥加密后的密文，原本需要 A 的私钥解密，但代理重加密实现了——B 用自己的私钥也可以解密 A 的密文</li>
+<li>代理商也完全无法解密密文，只能提供密文的转化服务</li>
+<li>该算法用于执行共享过程中的<strong>加密</strong>和<strong>解密</strong>操作</li>
+</ul>
+<ol>
+<li>设置：<strong>授权中心</strong>生成系统参数$params = ( G , G_T , H, g, P = g^s )$和主密钥 msk = s</li>
+</ol>
+<blockquote>
+<ul>
+<li>$G G_T$：具有素数阶 p 的两个群</li>
+<li>$e : G × G → G_T$：双线性映射</li>
+<li>$H : \{ 0 , 1 \}^∗ → G$是一个独立的全局哈希函数</li>
+<li>随机数生成元$g ∈ G$</li>
+<li>基点 P：其中 $s ∈ Z ^∗_<br>p$</li>
+</ul>
+</blockquote>
+<ol>
+<li><p><code>KeyGen(params,msk,id)</code>：标准密钥生成，会生成该身份的一个公钥、一个私钥</p>
+<ul>
+<li>输入：系统参数 params、主密钥 s、身份$id ∈ \{ 0，1 \}^* $</li>
+<li>输出：该身份的<strong>公钥</strong>$pk_{id}=H(id)$，<strong>私钥</strong>$sk_{id}=H(id)^s$</li>
+</ul>
+</li>
+<li><p><code>Encrypt (params, id, m )</code>：加密明文 m 生成密文</p>
+<ul>
+<li>输入：系统参数 params、身份$id ∈ \{ 0，1 \}^* $、明文 m</li>
+<li>输出：该身份的<strong>密文</strong>$c_{id} = ( g ^r , m · e ( g ^s , H(id)^ r ) )$，r 为一个随机数</li>
+</ul>
+</li>
+<li><p>$PKGen(params，sk^{ −1}_{ id _1}，id _2)$：转化密钥生成，id1 使用该算法，输入自己的私钥，生成转化密钥，代理商使用该转化密钥将 id1 加密且只能由 id1 的私钥解密的密文转化为可以由 id2 的私钥解密的密文</p>
+<ul>
+<li>输入：系统参数 params，A 的私钥，B 的身份</li>
+<li>输出<strong>重新加密密钥（转化密钥）</strong>$rk_{ id _1 → id_ 2} = (R1,R2, sk^{ −1}_{ id _1} · H(x))$（其中随机数$x ∈ G _T$，$c_{id_2}=( R _1 , R_ 2 ) =<br>E ncrypt ( params , id _2 , x )$）</li>
+</ul>
+</li>
+<li><p>$Reencrypt (params, rk_{ id _1 → id_ 2}<br>, c _{id_ 1})<br>$：重新加密。将使用 id1 私钥才能解密的密文重新加密为 id2 私钥能解密的密文</p>
+<ul>
+<li>输入：系统参数 params、重新加密密钥$rk_{ id _1 → id_ 2} =（R _1，R _2，R _3）$、id1 密文$c _{id_ 1} =（c _1，c _2)$、</li>
+<li>输出：id2 密文$c _{id_ 2} = ( c _1 , c _2 · e ( c_ 1 , R_ 3 ) , R_ 1 , R _2 )$</li>
+</ul>
+</li>
+<li><p>$Decrypt(params，sk_{ id}，c _{id})$：解密</p>
+<ul>
+<li>输入：系统参数 params，B 的私钥，可用 B 解密的密文$c _{id} =（c _1，c _2)$</li>
+<li>输出：使用密钥$sk_{id}$解密密文$c_{id}$：$m = \frac{c_2· e(c_1，R_3)}{e(g^r，H(x))}$</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>细节：<ul>
+<li>每个密文包含 <strong>2 个</strong>元素，$c_i = (g^{ r_i},e( g ^s,H( SN_{ SM_ i}或ID_{U_i})^{ r_i})·d_i) = (c_{i,1}，c_{i,2})$</li>
+<li>允许对<strong>任意数量</strong>的密文进行<strong>重加密</strong></li>
+<li>每次重加密都有 <strong>2 个</strong>密文<strong>扩展</strong>元素，$c _{id_ 2} = ( c _1 , c _2 · e ( c_ 1 , R_ 3 ) , R_ 1 , R _2 )$可见 R1\R2 就是扩展元素</li>
+<li>在解密之前$x = \frac{R _2}{ e (R_ 1，sk_{ id_ 2})}$，具体计算见第 5 节定理 2</li>
+<li>本文使用<strong>用户的公钥</strong>进行<strong>加密</strong>，<strong>控制中心</strong>使用<strong>主密钥解密</strong></li>
+<li>共享阶段、加密操作之间的区别在于——<strong>转换密钥是否在加密之后生成</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="Why？"><a href="#Why？" class="headerlink" title="Why？"></a>Why？</h2><p><strong>背景：</strong>大量的电网业务数据产生于电网边缘，需要通过网络传输到数据中心。而<strong>智能电表</strong>的使用可以实时采集电力用户的用电信息，为智能电网定价功能提供准确的用电需求。</p>
+<p><strong>安全问题</strong>：<strong>智能电表的用电数据采集</strong>给用户带来了隐私暴露的风险。</p>
+<ul>
+<li>恶意方可以根据用电量数据分析用户的生活习惯，侵犯用户隐私和财产安全</li>
+<li>篡改的电力数据会破坏智能电网的稳定性</li>
+</ul>
+<p><strong>挑战</strong>：</p>
+<ul>
+<li>假名与真实身份的关联管理——私链</li>
+<li>轻量级签名认证：边缘设备计算/存储资源受限，要求签名认证轻量化——聚合签名</li>
+<li>安全高效的数据传输与共享：现有的数据传输方案都是<strong>将大量本地数据加密传输到控制中心</strong>，这消耗了大量的通信资源和成本，并且没有考虑与系统外的参与者共享。</li>
+</ul>
+<h2 id="What？"><a href="#What？" class="headerlink" title="What？"></a>What？</h2><p>基于双区块链的轻量级分布式云存储架构：</p>
+<ul>
+<li>云存储架构——存储加密数据，而返回加密数据地址，从而保护数据隐私</li>
+<li>公链用于控制中心和经销商之间的数据共享——用于数据的透明共享，降低成本、确保安全性、按需访问资源</li>
+<li>私链用于用户的真实身份与虚拟身份（智能电表序列号）的映射——用于用户身份的管理</li>
+</ul>
+<p>目的：将用户的用电数据<strong>高效、安全</strong>传输到调度中心，以方便定价中心进行动态定价</p>
+<ul>
+<li><p><strong>高效</strong>：</p>
+<ul>
+<li>基于双线性映射的签名验证方案——聚合签名，让签名认证轻量化</li>
+<li>基于同态加密方案——用户的数据在本地出去之前将被加密，在聚合器高效聚合，发送到控制中心</li>
+</ul>
+</li>
+<li><p><strong>安全</strong>：</p>
+<ul>
+<li>云存储架构——存储加密数据，而返回加密数据地址，从而保护数据隐私</li>
+<li>基于双区块链的智能电网数据架构——可信区块链保证<strong>用户间</strong>的安全管理和匿名性，共享区块链实现<strong>与外部参与者</strong>的安全交互</li>
+<li>基于身份的代理重加密——实现用户用电数据的安全共享</li>
+</ul>
+</li>
+</ul>
+<h2 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h2><h3 id="系统模型"><a href="#系统模型" class="headerlink" title="系统模型"></a>系统模型</h3><p><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/Pz3GbVucao0X4DxmVGHcQGULn8e.png" alt></p>
+<ul>
+<li><strong>智能电表</strong>和<strong>聚合器</strong>是控制中心的子控制单元</li>
+<li><p>每个用户都有一个<strong>智能电表</strong>和一个<strong>电力账户</strong></p>
+<ul>
+<li><strong>电力账户：</strong>主要存储用户身份、智能电表序列号、账户余额</li>
+<li><strong>智能电表</strong>：由制造商生成，供应商购买并安装在用户端。其序列号不可更改（是出厂时嵌入的芯片信息）</li>
+</ul>
+</li>
+<li>传感器和通信模块是嵌入式的</li>
+<li><p><strong>智能卡</strong></p>
+<ul>
+<li>用来产生和上传<strong>电力数据</strong></li>
+<li>是资源有限的边缘设备</li>
+<li>具有特定的计算、存储能力</li>
+</ul>
+</li>
+<li>聚合器属于中继节点，用于判断签名是否合法、进行聚合操作。</li>
+<li><p><strong>控制中心</strong></p>
+<ul>
+<li>根据智能电表的用电信息<strong>计算</strong>出用户的电费，完成计价</li>
+<li>使用私有链管理匿名性和身份之间的关联</li>
+</ul>
+</li>
+<li><p>可与第三方（如销售人员-本文使用其作为代表第三方）交互用户信息</p>
+<ul>
+<li>销售员需要访问个人数据来确认某用户是否是潜在客户</li>
+<li>警方人员可能需要访问个人数据，已确认潜在嫌疑人是否在家</li>
+</ul>
+</li>
+<li><p>双链</p>
+<ul>
+<li>公链用于控制中心和经销商之间的数据共享——用于数据的透明共享</li>
+<li>私链用于用户的真实身份与虚拟身份（智能电表序列号）的映射——用于用户身份的管理</li>
+</ul>
+</li>
+</ul>
+<p>完整过程：</p>
+<ol>
+<li>每个用户的智能卡产生其电力数据，并上传到聚合器</li>
+<li>聚合器聚合多个用户的电力数据，将聚合后的数据上传到<strong>私有云</strong>进行存储，然后将存储地址发送到<strong>控制中心</strong></li>
+<li>控制中心读取并解密私有云中的数据，然后计算价格</li>
+</ol>
+<h3 id="安全目标"><a href="#安全目标" class="headerlink" title="安全目标"></a>安全目标</h3><p><strong>安全和隐私：</strong></p>
+<ul>
+<li>例如机密性、身份验证、完整性、隐私保护</li>
+<li>要求控制中心和聚合器能够识别攻击者的非法操作，并收集可靠完整的数据</li>
+<li>要求没有其他用户或聚合器可以读取用户数据，只有控制中心和有访问权的销售人员可以获得数据</li>
+</ul>
+<p><strong>效率：</strong></p>
+<ul>
+<li>由于智能电网中的终端（如智能电表）资源有限，因此需要轻量化——降低加密和认证操作的计算复杂度、通信负载</li>
+</ul>
+<h3 id="攻击模型"><a href="#攻击模型" class="headerlink" title="攻击模型"></a>攻击模型</h3><ul>
+<li>用户、聚合器、销售员是诚实但 curious</li>
+<li><p>用户、聚合器、销售员之间可能产生共谋攻击</p>
+<ul>
+<li>用户不能获取其他用户数据</li>
+<li>聚合器无法获取用户身份和原始数据</li>
+<li>销售员无法获取用户身份</li>
+</ul>
+</li>
+<li><p>位于从用户到控制中心的通信通道中的潜在恶意攻击者可能会发起主动攻击或注入无用数据，破坏数据完整性</p>
+<ul>
+<li>有定义-决策双线性 DiffieHellman 假设：设$G、G_T$是两个素数阶 p 的乘法循环群，g 是群 G 的随机生成元 DBDH 问题描述如下：对于随机数$a，b，c ∈ Z_p$和$X ∈ G_T$，给定$(g，g^a，g^b，g^c，X)$，很难判定$X = e（g，g）^{abc} $</li>
+</ul>
+</li>
+</ul>
+<h3 id="方案细节"><a href="#方案细节" class="headerlink" title="方案细节"></a>方案细节</h3><p>方案细节：</p>
+<ul>
+<li>本文的加密、代理重加密、签名认证对每个参与者只使用了一组公钥和私钥——显著降低存储管理的成本</li>
+<li>本文使用<strong>智能电表的序列号</strong>作为<strong>用户的假名</strong>——实现用户匿名化</li>
+</ul>
+<p>方案目标：</p>
+<ul>
+<li>将用户的用电数据安全高效地传输到控制中心，方便控制中心动态定价</li>
+<li>与第三方用户共享用户用电数据</li>
+<li>保护用户隐私</li>
+</ul>
+<h4 id="系统初始化"><a href="#系统初始化" class="headerlink" title="系统初始化"></a>系统初始化</h4><p><strong>系统角色</strong></p>
+<ul>
+<li>有 n 个用户 $U =<br>\{ U _1 , U _2 , . . . , U _n \}$，对应身份$I D _U = \{I D _{U_ 1}，I D _{U_ 2}，…，I D _{U _n}\}$。用户只有读取数据的权限，没有更改数据的权限</li>
+<li>每个用户都拥有一个智能电表，$SM = \{ SM _1，SM_ 2，…，SM_ n \}$，每个智能电表有<strong>序列号标识符（也作为用户的假名）</strong>$SN _{SM} = \{SN_{ SM_ 1}、SN_{ SM_ 2}、…、SN_{ SM_ n}\}$</li>
+<li>有 m 个聚合器$A = \{A_1，A_2，…，A_m\}$，对应身份$ID_A = \{ID_{A_1}，ID_{A_2}，…，ID_{A_m}\}$</li>
+<li>有 w 个推销员$S = \{S_1，S_2，…，S_w\}$，对应身份$ID_S = \{ID_{ S_1}、ID_{ S_2}、…，ID_{ S_w}\}$，对应权限$Policy_S=\{Policy_{ S_1},Policy_{ S_2}, … Policy_{ S_w}\}$</li>
+<li><p>私有区块链 PB 包含两种类型事务：</p>
+<ul>
+<li>ADDTransaction：添加事务，当参与者注册进入系统时发生</li>
+<li>AlterTransaction：更改事务，在事务处理期间更改参与者的状态（三种状态变化：暂停、延续、删除）</li>
+</ul>
+</li>
+<li><p>共享区块链 SB 包含两种类型事务：</p>
+<ul>
+<li>$Pol icyTract ion =（ID，Pol icy，T）$：授权事务，用于管理销售员的$Policy_{S_w}$访问权限——添加、修改</li>
+<li>$ShareTraction =（ID，Policy，T）$：共享事务，用于与销售员共享信息</li>
+</ul>
+</li>
+</ul>
+<p><strong>用户</strong>$U_i$<strong>注册过程</strong></p>
+<p>是离线过程</p>
+<ol>
+<li>该用户需携带相关身份证明材料、智能卡，到 <strong>TA</strong> 开户完成初始化操作。</li>
+<li><p>TA</p>
+<ol>
+<li>为用户生成签名的公钥私钥对$(pk_{U_i},sk_{U_i})$，并将公私钥对与账户余额一起存储在智能卡中</li>
+<li>向控制中心发送$Registration_{U_i} = (ID_{U_i}，SN_{ SM_ i}，Account_{U_i}，pk_{U_i})$</li>
+</ol>
+<blockquote>
+<p>用户身份，智能卡序列号（用户假名），账户余额、用户公钥</p>
+</blockquote>
+</li>
+<li>控制中心使用<strong>私有区块链 PB</strong> 的<strong>添加事务</strong>操作$ADDTransaction_{U_ i}(ID_{U_ i}，SN_{SM_i}，Account_{U_ i}，pk_{U_ i}，Ad d，T)$生成私链 PB 新区块，并上链（T 表示当前时间，用于抵抗潜在的重放攻击）（创世区块的事务信息为空，并且每个后续事务信息对应一个块）</li>
+</ol>
+<p><strong>销售员</strong>$S_w$<strong>注册过程</strong></p>
+<p>销售员注册，是为了访问用户用电数据，以提供产品推销：</p>
+<ol>
+<li>销售员携带相关身份证件，到 TA 开户完成初始化操作</li>
+<li><p>TA</p>
+<ol>
+<li>生成解密的私钥$sk _{S _w}= H ( ID_{ S_ w} ) ^s$</li>
+<li>生成默认权限$Policy_{S_w}$，通过<strong>安全信道</strong>发送给销售员</li>
+<li>发送$Registration_{S_w} = (ID_{S_w}，Policy_{S_w})$给控制中心</li>
+</ol>
+</li>
+<li>控制中心使用<strong>共享区块链 SB</strong> 的<strong>授权事务</strong>操作$Pol icyTract ion =（ID_{S_w}，Pol icy_{S_w}，T）$生成 SB 新区块，并上链（T 表示当前时间，用于抵抗潜在的重放攻击）（创世区块的事务信息为空，并且每个后续事务信息对应一个块）</li>
+</ol>
+<h4 id="用电数据的产生与聚合"><a href="#用电数据的产生与聚合" class="headerlink" title="用电数据的产生与聚合"></a>用电数据的产生与聚合</h4><p>本文使用<strong>用户的公钥</strong>进行<strong>加密</strong>，<strong>控制中心</strong>使用<strong>主密钥解密</strong></p>
+<ol>
+<li>数据生成（智能电表）：智能电表$SM_i$在$T_i$（通常为 15 分钟）生成的用电量数据为$d_i$</li>
+<li><p>数据加密、签名、上传到聚合器（智能电表）：</p>
+<ol>
+<li><p>对用电量数据$d_i$进行<strong>加密</strong>：</p>
+<ol>
+<li>智能电表选择随机数$r _i ∈ Z ^∗_p$</li>
+<li>生成密文$c_i = E ncrypt( params，SN_{ SM_ i}，d_i)$，算法函数中的具体计算为$c_i = (g^{ r_i},e( g ^s,H( SN_{ SM_ i})^{ r_i})·d_i) = (c_{i,1}，c_{i,2})$。</li>
+</ol>
+<blockquote>
+<p>$c_{i,1}=g^{ r_i}$，生成元 g 自称 ri 次的结果，用于验证或解密</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>$c_{i,2}=e( g ^s,H( SN_{ SM_ i})^{ r_i})·d_i$，密文的主要内容</p>
+<ol>
+<li>对密文进行<strong>签名</strong>：加密完成后，</li>
+<li>智能电表选择随机数$h _i ∈ G$，</li>
+<li>计算$k_i = e(h_i，g)^{r_i}$，后面签名要用——引入随机性</li>
+<li>计算签名<strong>私钥</strong>$sk _i = H (SN_{ SM_ i})^ s$</li>
+<li><strong>用其私钥生成签名</strong> $σ_{SM_ i} =(v_i，u_i)= (H(c_i，k_i)，sk^{ v_i}_ i · h^{ r_i}_ i)<br>$</li>
+<li><script type="math/tex; mode=display">
+M _{SM _i} = SN_{ SM_ i}|| c_i|| T_i|| σ_{SM_ i}</script></li>
+</ol>
+<blockquote>
+<p>用户假名 || 密文 || 时间戳 || 智能电表签名</p>
+</blockquote>
+<ol>
+<li>将$M _{SM _i}$发送到聚合器$A _j$</li>
+</ol>
+</blockquote>
+<ol>
+<li><p>数据验证（聚合器）：聚合器$A_j$在$T_l$时间内接收到$l$个来自不同用户智能电表$\{SN_{SM_1}、SN_{SM_2}、…、SN_{SM_i}…、SN_{SM_l}\}$的加密用电数据$M _{SM _i}$</p>
+<ol>
+<li>检查<strong>时间戳</strong>，</li>
+<li>计算$k_i’ = e(u_i,g)·e(H(SN_{SM_i}),P)^{-v_i}$，</li>
+<li>验证<strong>签名</strong>$σ_{SM_l}$是否有效（验证方法：比较$v_i==H(c_i,k_i’)?$）。<br>为了<strong>提高签名验证效率</strong>，进行<strong>签名聚合</strong>验证而非分开验证，即$∏^l_{i=1}v_i==∏^l_{i=1}H(c_i,k_i’)?$</li>
+</ol>
+</li>
+<li><p>数据聚合（聚合器）：如果数据验证通过，</p>
+<ol>
+<li>聚合数据并存储到私有云：<strong>聚合</strong>数据$C = ∏^n_{i=1}c_i$，将 C 存储到<strong>私有云</strong>，获得数据在私有云中的存储地址$L_i$（<strong>一个用户密文对应一个存储地址</strong>）。最终获得聚合数据的所有云存储地址$L=(L_1,L_2,..)$<br><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/POChbOaIpoab55xs0S8cho3pnQv.png" alt></li>
+</ol>
+<blockquote>
+<p>数据存储匿名化而非上传用户真实身份，这样可以确保——即使用户数据被盗，用户身份信息也无法得知</p>
+</blockquote>
+<ol>
+<li><p>对云存储地址数据进行签名，再发送给控制中心：</p>
+<ol>
+<li>求聚合器$A_j$的公钥：$pk_{A_j}=H(ID_{A_j})$，私钥：$sk_{A_j}=H(ID_{A_j})^s$</li>
+<li>聚合器$A_j$用其私钥对地址数据 L 进行<strong>签名</strong>$σ_{A_j}=(v_{A_j’},u_{A_j})=(H(L,k_{A_j}),sk_{A_j}^{v_{A_j}}·h_{A_j}^{r_{A_j}})$，签名方法同智能电表对加密用电数据的签名</li>
+<li>计算$W_{A_ j}=e(h_{A_j}，g)^{r_{A_j}}$</li>
+<li>计算$M _{A_ j}=ID_ {A_ j}|| L|| T_j||σ_{A_j}$</li>
+</ol>
+<blockquote>
+<p>聚合器身份 || 地址数据 || 时间戳 || 聚合器签名</p>
+</blockquote>
+<ol>
+<li>发送给控制中心</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>控制中心 CC：收到聚合器提交的$M_{A_ j}$后</p>
+<ol>
+<li>检查时间戳、聚合器身份$ID_{A_j}$</li>
+<li>计算$W_{A_j}’= e(u_{A_j}, g)·e(H(ID_{A_j}, P)^{−v_{A_j}}$</li>
+<li>验证签名$σ_{A_j}$（验证方法：$v_{a_j}=H(L，k_i’)$）</li>
+<li>获取每个聚合器$A_j$提交的<strong>数据云地址</strong>，得到云中的聚合密文 C，用主密钥 S 解密出用电数据 d（控制中心可以通过主密钥 S <strong>获得所有用户的私钥——因为每个用户注册时生成的私钥是用主密钥 s 生成的</strong>，从而解密对应密文）：$d =∑^l_{i = l} d _i = c_{i,2} / e(sk_{U_i},c_{i,1})$<br><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/JCAfb1SdkoN7G0xsrjQcUq7SnEc.png" alt><br><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/JWhjbc4IdohUfXxXJ5FcNJownvb.png" alt></li>
+<li>控制中心根据解密后的用电数据，进行电费计费等操作。</li>
+</ol>
+<blockquote>
+<p>有关数据聚合部分的伪代码，请参见算法 1</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/ZSx4bVTcIoc2kSxQmCgc4jwvnce.png" alt></p>
+<h4 id="共享"><a href="#共享" class="headerlink" title="共享"></a>共享</h4><p>假设一个推销员$S_w$想要访问私有云的数据$d^{T_i}_{U_i}$（用户 U 在时间 T 产生的用电数据）</p>
+<ol>
+<li>$S_w$向控制中心 CC 提交审核请求$Audit request _ S_w ( ID_{ S_ w}, Policy_{S_ w}, U_ i , T_ i )$</li>
+<li>CC 审核$S_w$访问权限$Policy_{S_w}$</li>
+<li>CC 从私有云获得$d^{T_i}_{U_i}$的密文$c_{CC}$</li>
+</ol>
+<blockquote>
+<script type="math/tex; mode=display">
+c_{CC} = Encrypt(params，ID_{U_ i}，d^{T_i}_{U_i}) = (c_{CC,1} ← g^{r_i}，c_{ CC,2} ← d^{T_i}_{U_i}  ·e(g^s，H(ID_{U_i})^{r_i}))</script></blockquote>
+<ol>
+<li><p>CC 计算重加密密钥</p>
+<ol>
+<li>选择随机数$x_{S_w}$</li>
+<li>计算拓展元素 $(R_{CC,1}，R_{CC,2})=<br>E ncrypt ( params , id _{S_w} , x _{S_w})$</li>
+<li>计算重加密密钥$rk_{CC → S_w} = (R_{CC,1}，R_{CC,2}，R_{CC,3} ← sk^{−1}_{ID_{U_i}} · H(x_{S_w})$</li>
+</ol>
+</li>
+<li>CC 计算$M_{CC} = c_{CC}|| rk_{C C → S_ w}$</li>
+<li>TA 重加密：计算$c _{S_ w} = Reencrypt(rk_{ C C → S_ w}，c_{ CC})= (c_ {CC，1}，c_{ CC，2} · e(C_{ CC，1}，R_{ CC，3}),Encrypt(params,ID_{S_ k}，x_{ S_ w})$</li>
+<li>CC 生成共享交易$ShareTraction(ID_{U_i}，c_{S_w}，ID_{S_w}，T_i)$共享链上一个区块的哈希值被填充到新区块中，并发布新区块提醒</li>
+<li>推销员$S_w$接收到新区块提醒，检查标识符$ID_{S_w}$和时间戳是否一致，一致则第一次计算 $x_{S_w}<br>= R_{CC,2} /e ( R_{CC,1} , sk_{S_w}) = x_{S_w} · e ( g ^s , H _1 ( ID_{S_w} ) )^{ r_ w}/e ( c_{CC, 1} , sk_{S_w}<br>)$</li>
+</ol>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>评估结果表明，该方案具有低时延、低响应时间、小存储开销等优点，能够满足智能电网日益增长的全业务数据安全通信需求。</p>
+<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><ol>
+<li><p>双链：</p>
+<ul>
+<li><strong>公链</strong>用于控制中心、第三方之间数据共享——用于数据的透明共享，降低成本、确保安全性、按需访问资源</li>
+<li><strong>私链</strong>用于用户的真实身份与虚拟身份（智能电表序列号）的映射——用于用户身份的管理</li>
+</ul>
+</li>
+<li>代理重加密技术，实现私有云存储加密信息，而被分享方可使用自己的私钥解密</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/09/14/%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91%E5%AE%9A%E4%BB%B7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E7%A7%8D%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E4%B8%8E%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88/" title="智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案">http://example.com/2023/09/14/智能电网定价系统中一种轻量级的双区块链隐私保护与共享方案/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%89%A9%E8%81%94%E7%BD%91/" rel="tag"><i class="fa fa-tag"></i> 区块链物联网</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/14/DBCPA%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BD%A6%E8%BD%BD%E8%87%AA%E7%BB%84%E7%BB%87%E7%BD%91%E7%BB%9C%20VANETs%20%E7%9A%84%E5%8F%8C%E5%8C%BA%E5%9D%97%E9%93%BE%E8%BE%85%E5%8A%A9%E6%9D%A1%E4%BB%B6%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E8%AE%AE/" rel="prev" title="DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议">
+      <i class="fa fa-chevron-left"></i> DBCPA：面向车载自组织网络 VANETs 的双区块链辅助条件隐私保护认证框架与协议
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/30/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Learn"><span class="nav-number">1.</span> <span class="nav-text">Learn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E7%94%B5%E7%BD%91"><span class="nav-number">1.1.</span> <span class="nav-text">智能电网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E5%AE%9A%E4%BB%B7"><span class="nav-number">1.2.</span> <span class="nav-text">智能定价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%BA%AB%E4%BB%BD%E7%9A%84%E4%BB%A3%E7%90%86%E9%87%8D%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">基于身份的代理重加密算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">Why？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">What？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">How？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">系统模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%9B%AE%E6%A0%87"><span class="nav-number">4.2.</span> <span class="nav-text">安全目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.3.</span> <span class="nav-text">攻击模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E7%BB%86%E8%8A%82"><span class="nav-number">4.4.</span> <span class="nav-text">方案细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">4.4.1.</span> <span class="nav-text">系统初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E7%94%B5%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BA%A7%E7%94%9F%E4%B8%8E%E8%81%9A%E5%90%88"><span class="nav-number">4.4.2.</span> <span class="nav-text">用电数据的产生与聚合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB"><span class="nav-number">4.4.3.</span> <span class="nav-text">共享</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">4.5.</span> <span class="nav-text">效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E8%8E%B7"><span class="nav-number">5.</span> <span class="nav-text">收获</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

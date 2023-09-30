@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="分治算法基本思想​    “分而治之”,把一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题的解的合并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五大常用算法">
+<meta property="og:url" content="http://example.com/2022/03/09/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="分治算法基本思想​    “分而治之”,把一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题的解的合并">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/03/08/pkhnawYDqVi3ct6.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/09/Mjsyp2YSFoEhKt3.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/14/yG2geZ4nsAfwC1p.png">
+<meta property="article:published_time" content="2022-03-09T11:21:37.000Z">
+<meta property="article:modified_time" content="2022-09-04T07:09:12.000Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/08/pkhnawYDqVi3ct6.png">
+
+<link rel="canonical" href="http://example.com/2022/03/09/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>五大常用算法 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/09/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          五大常用算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-09 19:21:37" itemprop="dateCreated datePublished" datetime="2022-03-09T19:21:37+08:00">2022-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-04 15:09:12" itemprop="dateModified" datetime="2022-09-04T15:09:12+08:00">2022-09-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h2><h4 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h4><p>​    “分而治之”,把一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题的解的合并</p>
+<span id="more"></span>
+<h4 id="经典问题"><a href="#经典问题" class="headerlink" title="经典问题"></a>经典问题</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">二分搜索</span><br><span class="line">大整数乘法</span><br><span class="line">棋盘覆盖</span><br><span class="line">合并排序</span><br><span class="line">快速排序</span><br><span class="line">线性时间选择</span><br><span class="line">最接近点对问题</span><br><span class="line">循环赛日程表</span><br><span class="line">汉诺塔</span><br></pre></td></tr></table></figure>
+<h4 id="基本步骤"><a href="#基本步骤" class="headerlink" title="基本步骤"></a>基本步骤</h4><ol>
+<li>分解：将原问题分解为若干个规模较小，相互独立，与原问题形式相同的子问题</li>
+<li>解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题</li>
+<li>合并：将各个子问题的解合并为原问题的解。</li>
+</ol>
+<h4 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h4><p>汉诺塔问题源自印度一个古老的传说，印度教的“创造之神”梵天创造世界时做了 3 根金刚石柱，其中的一根柱子上按照从小到大的顺序摞着 64 个黄金圆盘。梵天命令一个叫婆罗门的门徒将所有的圆盘移动到另一个柱子上，移动过程中必须遵守以下规则：</p>
+<ul>
+<li>每次只能移动柱子最顶端的一个圆盘；</li>
+<li>每个柱子上，小圆盘永远要位于大圆盘之上；</li>
+</ul>
+<p><img src="https://s2.loli.net/2022/03/08/pkhnawYDqVi3ct6.png" alt="QQ截图20220308184846.png"></p>
+<p>汉诺塔游戏的演示和思路分析:    </p>
+<ol>
+<li><p>如果是有一个盘， 起始柱-&gt;最终柱</p>
+</li>
+<li><p>如果我们有 n &gt;= 2 情况，我们总是可以看做是两个盘 1.最下边的盘 2. 上面的盘</p>
+<ul>
+<li>先把上面的所有盘 起始柱-&gt;过渡柱</li>
+<li>把最下边的盘 起始柱-&gt;最终柱</li>
+<li>把B塔的所有盘 过渡柱-&gt;最终柱   </li>
+</ul>
+</li>
+<li>分解的原子问题：两个盘<ul>
+<li>小盘：起始柱-&gt;过渡柱</li>
+<li>大盘：起始柱-&gt;最终柱</li>
+<li>小盘：过渡柱-&gt;最终柱</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UseHannuota</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> temp=<span class="number">0</span>;<span class="comment">//执行次数</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		hannuota(<span class="number">6</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>);</span><br><span class="line">		System.out.println(temp);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//汉诺塔的移动方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">hannuota</span><span class="params">(<span class="keyword">int</span> num,<span class="keyword">char</span> start,<span class="keyword">char</span> tran,<span class="keyword">char</span> end)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//如果只有一个盘</span></span><br><span class="line">		<span class="keyword">if</span>(num == <span class="number">1</span>) &#123;</span><br><span class="line">			move(num,start,end);</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;<span class="comment">//如果有两个以上的盘，总看成两个盘：1. 最下边的一个 2. 上边的所有盘</span></span><br><span class="line">			<span class="comment">//1. 先把上面的所有盘A-&gt;B(起始柱移到过渡柱)</span></span><br><span class="line">			hannuota(num-<span class="number">1</span>,start,end,tran);<span class="comment">//不断递归分解直至原子问题num=1</span></span><br><span class="line">			<span class="comment">//2. 把最下边的盘（分解问题中的最下边盘)移至C柱(最终柱)</span></span><br><span class="line">			move(num,start,end);</span><br><span class="line">			<span class="comment">//3.把过渡柱的所有盘移动到最终柱</span></span><br><span class="line">			hannuota(num-<span class="number">1</span>,tran,start,end);</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> num,<span class="keyword">char</span> from,<span class="keyword">char</span> to)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;第&quot;</span>+num+<span class="string">&quot;个盘从&quot;</span>+from+<span class="string">&quot;-&gt;&quot;</span>+to);</span><br><span class="line">		temp+=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>由此可知：</strong></p>
+<p>​    <strong>设盘数为n，则汉诺塔执行次数为2^n^-1.</strong></p>
+<h2 id="动态规划算法"><a href="#动态规划算法" class="headerlink" title="动态规划算法"></a>动态规划算法</h2><h3 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h3><p>​    与分治算法类似：将求解问题分解为若干子问题。但不同的是：<strong>动态规划划分的子问题不是互相独立的</strong>-&gt;下一个子阶段的求解建立在上一个子阶段的解的基础上，进一步求解</p>
+<p>​    通过<strong>填表</strong>的方式逐步推进，得到<strong>最优解</strong></p>
+<h3 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h3><h4 id="一、01背包问题：装入物品不能重复"><a href="#一、01背包问题：装入物品不能重复" class="headerlink" title="一、01背包问题：装入物品不能重复"></a>一、01背包问题：装入物品不能重复</h4><p><img src="https://s2.loli.net/2022/03/09/Mjsyp2YSFoEhKt3.png" alt="QQ截图20220309165121.png"></p>
+<h5 id="思路分析和图解"><a href="#思路分析和图解" class="headerlink" title="思路分析和图解"></a>思路分析和图解</h5><p>​    每次遍历到的第i个物品，根据w[ i ]和v[ i ]来确定是否需要将该物品放入背包中。即对于给定的n个物品，设v[ i ]、w[ i ]分别为第i个物品的价值和重量，C为背包的容量。再令value[ i ] [ j ]表示在<strong>前i个物品中能够装入容量为j的背包中的最大价值</strong>。则我们有下面的结果：</p>
+<ol>
+<li><p>value[ i ] [ 0 ]=0（背包容量为0时，装入价值为0）；value[ 0 ] [ j ]=0（0个物品装入背包价值为0）;     </p>
+</li>
+<li><p>当w[i]&gt; j 时 <strong>不能装入第i个物品</strong>：value[ i ] [ j ]=value[ i-1 ] [ j ] ； 当准备加入新增的商品的容量大于当前背包的容量时，说明无法装入该背包，就直接使用上一个单元格（ i - 1 ）的装入策略</p>
+</li>
+<li><p>当w[i]&lt;=j时 <strong>能装入第i个物品 考虑应不应该放该物品</strong> ：<strong>value[ i ] [ j ]=max{value[ i - 1 ] [ j ], v[ i ] + value[ i - 1 ] [ j - w [ i ] ]}</strong>  ；当准备加入新增的商品的容量小于等于当前背包容量时（说明可以尝试装入背包），比较两个装入模式：</p>
+<ul>
+<li>上一个单元格的装入策略的价值      value[ i - 1 ] [ j ]</li>
+<li>当前商品价值+装入当前商品后剩余空间的装入策略的价值（之前的最优解）  v[ i ] + value[ i - 1 ] [ j - w [ i ] ]</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>即是：某容量背包==不装入该物品==的价值和==在装入该物品且剩余空间实行之前最优解==的价值的比较</p>
+<p> 最后，二维数组的最后一个元素即为最优解</p>
+</li>
+</ul>
+<p>初始时</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th style="text-align:left">0磅</th>
+<th>1磅</th>
+<th>2磅</th>
+<th>3磅</th>
+<th>4磅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td style="text-align:left">0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>吉他 1,1500</td>
+<td style="text-align:left">0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>音箱 4,3000</td>
+<td style="text-align:left">0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>电脑 3,2000</td>
+<td style="text-align:left">0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>对于第一行(i=1), 目前只有吉他可以选择，所以</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th style="text-align:left">0磅</th>
+<th>1磅</th>
+<th>2磅</th>
+<th>3磅</th>
+<th>4磅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td style="text-align:left">0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>吉他 1,1500</td>
+<td style="text-align:left">0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>音箱 4,3000</td>
+<td style="text-align:left">0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>电脑 3,2000</td>
+<td style="text-align:left">0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>对于第二行(i=2),目前存在吉他和音响可以选择,所以</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>0磅</th>
+<th>1磅</th>
+<th>2磅</th>
+<th>3磅</th>
+<th>4磅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>吉他 1,1500</td>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>音箱 4,3000</td>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>电脑 3,2000</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>对于第三行(i=3),目前存在吉他和音响、电脑可以选择,所以</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>0磅</th>
+<th>1磅</th>
+<th>2磅</th>
+<th>3磅</th>
+<th>4磅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>吉他 1,1500</td>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>音箱 4,3000</td>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>1500</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>电脑 3,2000</td>
+<td>0</td>
+<td>1500</td>
+<td>1500</td>
+<td>2000</td>
+<td>3500</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoldBag</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> num,weight;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">		Scanner s=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		<span class="comment">//物体数目</span></span><br><span class="line">		num=s.nextInt();<span class="comment">//nextInt遇到空格停止读取</span></span><br><span class="line">		<span class="comment">// 背包容量</span></span><br><span class="line">		weight=s.nextInt();</span><br><span class="line">		<span class="keyword">int</span>[] v= <span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">int</span>[] w= <span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>];<span class="comment">//为数组分配内存后，系统自动初始化各值为0</span></span><br><span class="line">		<span class="comment">//因为后面遍历表时，是以i=1开始的(i=0时价值为0)，所以这里也将i=0时值设为0，使得对应</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;num+<span class="number">1</span>;i++) &#123;</span><br><span class="line">			v[i]=s.nextInt();</span><br><span class="line">			w[i]=s.nextInt();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//v数组存储各物体的价值，w数组存储各物体的重量</span></span><br><span class="line">		System.out.println(Arrays.toString(v));</span><br><span class="line">		System.out.println(Arrays.toString(w));</span><br><span class="line">		</span><br><span class="line">		System.out.println(holding(w,v));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">holding</span><span class="params">(<span class="keyword">int</span>[] w,<span class="keyword">int</span>[] v)</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[][] value=<span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>][weight+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;num+<span class="number">1</span>;i++) &#123;</span><br><span class="line">			value[i][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//value表的第一列值均为0：容量为0的背包</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;weight+<span class="number">1</span>;j++) &#123;</span><br><span class="line">			value[<span class="number">0</span>][j]=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//value表的第一行值均为0：没有物品可装</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//在不断遍历表填表的过程中,逐步获得最优解</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;num+<span class="number">1</span>;i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;weight+<span class="number">1</span>;j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(w[i]&gt;j) &#123;</span><br><span class="line">					value[i][j]=value[i-<span class="number">1</span>][j];</span><br><span class="line">					<span class="comment">//当准备加入新增的商品的容量大于当前背包的容量时，</span></span><br><span class="line">                    <span class="comment">//说明无法装入该背包，就直接使用上一个单元格（ i - 1 ）的装入策略</span></span><br><span class="line">				&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">					value[i][j]=Math.max(value[i-<span class="number">1</span>][j],v[i]+value[i-<span class="number">1</span>][j-w[i]]);</span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> value[num][weight];<span class="comment">//输出最优解</span></span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二、非01背包问题：装入物品可重复"><a href="#二、非01背包问题：装入物品可重复" class="headerlink" title="二、非01背包问题：装入物品可重复"></a>二、非01背包问题：装入物品可重复</h4><p><img src="https://s2.loli.net/2022/03/14/yG2geZ4nsAfwC1p.png" alt="QQ截图20220314202153.png"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>重量</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h5><ul>
+<li><p>与01背包问题总体思路相同，区别点在：</p>
+<ul>
+<li>value[ i ] [ j ]表示在<strong>前i==种==物品中能够装入容量为j的背包中的最大价值</strong></li>
+<li>若能放入某种物品，还要多考虑：==放多少个才能实现装入的最大价值==</li>
+</ul>
+</li>
+<li><p>有以下结果：</p>
+<ul>
+<li><p>value[ i ] [ 0 ]=0（背包容量为0时，装入价值为0）；value[ 0 ] [ j ]=0（0个物品装入背包价值为0）;     </p>
+</li>
+<li><p>当w[i]&gt; j 时 <strong>不能装入第i种物品</strong>：value[ i ] [ j ]=value[ i-1 ] [ j ] ； 当准备加入新增的商品的容量大于当前背包的容量时，说明无法装入该背包，就直接使用上一个单元格（ i - 1 ）的装入策略</p>
+</li>
+<li><p>当w[i]&lt;=j时 <strong>可装入第i种物品，并且最多可以放j/w[i]个</strong> 考虑应该放多少个以实现最大价值：</p>
+<ul>
+<li><p>放0个：x0 = value[ i - 1 ] [ j ]</p>
+</li>
+<li><p>放1个：x1 = v[ i ] + value[ i - 1 ] [ j - w[ i ] ]</p>
+</li>
+<li><p>放2个：x2 = 2v[ i ] + value[ i - 1 ] [ j - 2w[ i ] ]</p>
+</li>
+<li><p>…………</p>
+</li>
+<li><p>放n个（n &lt;= j / w[ i ]）：xn = n <em> v[ i ] + value[ i - 1 ] [ j - n </em> w[ i ] ]</p>
+</li>
+<li><p>最后value[ i ] [ j ] = max(x0, x1, …………, xn)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>最后，二维数组的最后一个元素即为最优解
+</code></pre><h4 id="过程图解"><a href="#过程图解" class="headerlink" title="过程图解"></a>过程图解</h4><ol>
+<li>背包容量为0 或没有物品装入，其价值均为0</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品\背包容量</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol>
+<li>装入第1种物品</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物品\背包容量</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0（重量，价值）</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1（2,1）</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2（3,3）</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>6</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3（4,5）</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4（5,6）</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.IntStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoldBag</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> num,weight;</span><br><span class="line">	<span class="comment">//         物品种类数，书包最大容量</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		Scanner s=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		num = s.nextInt();</span><br><span class="line">		weight = s.nextInt();</span><br><span class="line">		<span class="keyword">int</span>[] v=<span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">int</span>[] w=<span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>];</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;num+<span class="number">1</span>;i++) &#123;</span><br><span class="line">			w[i]=s.nextInt();</span><br><span class="line">			v[i]=s.nextInt();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.println(Arrays.toString(v));</span><br><span class="line">		System.out.println(Arrays.toString(w));</span><br><span class="line">		</span><br><span class="line">		System.out.println(holding(v,w));</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">holding</span><span class="params">(<span class="keyword">int</span>[] v,<span class="keyword">int</span>[] w)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[][] value=<span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>][weight+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;num+<span class="number">1</span>;i++) &#123;</span><br><span class="line">			value[i][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//value表的第一列值均为0：容量为0的背包</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;weight+<span class="number">1</span>;j++) &#123;</span><br><span class="line">			value[<span class="number">0</span>][j]=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//value表的第一行值均为0：没有物品可装</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;num+<span class="number">1</span>;i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;weight+<span class="number">1</span>;j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(w[i]&gt;j) &#123;</span><br><span class="line">					value[i][j]=value[i-<span class="number">1</span>][j];</span><br><span class="line">				&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">int</span> max=j/w[i];<span class="comment">//max为该容量下的包最多能装几个第i种物品</span></span><br><span class="line">					<span class="keyword">int</span>[] temp=<span class="keyword">new</span> <span class="keyword">int</span>[max+<span class="number">1</span>];<span class="comment">//将放0个、放1个、放Max个所得的价值放在temp数组中</span></span><br><span class="line">					<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span> ;k &lt;= max;k++) &#123;</span><br><span class="line">						temp[k]=k * v[i] + value[i-<span class="number">1</span>][j-k*w[i]];</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">//求temp数组的最大值</span></span><br><span class="line">					IntStream is =Arrays.stream(temp);</span><br><span class="line">					value[i][j]= is.max().getAsInt();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> value[num][weight];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>贪婪算法(贪心算法)是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法</p>
+<p>贪婪算法所得到的结果不一定是最优的结果(有时候会是最优解)，但是都是相对近似(接近)最优解的结果</p>
+<p>与动态规划不同点在于：动态规划每一次最优解都基于上一步的最优解，环环相扣；而贪婪算法每一步，则是在该步骤中的所有选择中找到最优解并执行，是独立的</p>
+<h3 id="经典题目——集合覆盖"><a href="#经典题目——集合覆盖" class="headerlink" title="经典题目——集合覆盖"></a>经典题目——集合覆盖</h3><p>假设存在如下表的需要付费的广播台，以及广播台信号可以覆盖的地区。 如何选择最少的广播台，让所有的地区都可以接收到信号</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>广播台</th>
+<th>覆盖地区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1</td>
+<td>“北京”, “上海”, “天津”</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>“广州”, “北京”, “深圳”</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>“成都”, “上海”, “杭州”</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>“上海”, “天津”</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>“杭州”, “大连”</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h4><p>​    目前并没有算法可以快速计算得到准备的值， 使用贪婪算法，则可以得到非常接近的解，并且效率高。选择策略上，因为需要覆盖全部地区的最小集合:</p>
+<ul>
+<li>遍历所有的广播电台, 找到一个覆盖了最多未覆盖的地区的电台(此电台可能包含一些已覆盖的地区，但没有关系） </li>
+<li>将这个电台加入到一个集合中(比如ArrayList)(select), 想办法把该电台覆盖的地区在下次比较时去掉。</li>
+<li>重复第1步直到覆盖了全部的地区</li>
+</ul>
+<h4 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Greedy</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="comment">//创建广播电台，放入到Map中</span></span><br><span class="line">		HashMap&lt;String,HashSet&lt;String&gt;&gt; broadcasts= <span class="keyword">new</span> HashMap&lt;String,HashSet&lt;String&gt;&gt;();</span><br><span class="line">		<span class="comment">//将各电台放入broadcasts中</span></span><br><span class="line">		HashSet&lt;String&gt; set1= <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		set1.add(<span class="string">&quot;北京&quot;</span>);</span><br><span class="line">		set1.add(<span class="string">&quot;上海&quot;</span>);</span><br><span class="line">		set1.add(<span class="string">&quot;天津&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		HashSet&lt;String&gt; set2= <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		set2.add(<span class="string">&quot;北京&quot;</span>);</span><br><span class="line">		set2.add(<span class="string">&quot;广州&quot;</span>);</span><br><span class="line">		set2.add(<span class="string">&quot;深圳&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		HashSet&lt;String&gt; set3= <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		set3.add(<span class="string">&quot;成都&quot;</span>);</span><br><span class="line">		set3.add(<span class="string">&quot;上海&quot;</span>);</span><br><span class="line">		set3.add(<span class="string">&quot;杭州&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		HashSet&lt;String&gt; set4= <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		set4.add(<span class="string">&quot;上海&quot;</span>);</span><br><span class="line">		set4.add(<span class="string">&quot;天津&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		HashSet&lt;String&gt; set5= <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		set5.add(<span class="string">&quot;杭州&quot;</span>);</span><br><span class="line">		set5.add(<span class="string">&quot;大连&quot;</span>);</span><br><span class="line">	</span><br><span class="line">		broadcasts.put(<span class="string">&quot;k1&quot;</span>,set1);</span><br><span class="line">		broadcasts.put(<span class="string">&quot;k2&quot;</span>,set2);</span><br><span class="line">		broadcasts.put(<span class="string">&quot;k3&quot;</span>,set3);</span><br><span class="line">		broadcasts.put(<span class="string">&quot;k4&quot;</span>,set4);</span><br><span class="line">		broadcasts.put(<span class="string">&quot;k5&quot;</span>,set5);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//AllAreas存放所有地区</span></span><br><span class="line">		HashSet&lt;String&gt; allAreas = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">		allAreas.add(<span class="string">&quot;北京&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;上海&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;天津&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;广州&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;深圳&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;成都&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;杭州&quot;</span>);</span><br><span class="line">		allAreas.add(<span class="string">&quot;大连&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//存放贪婪后的选择过程</span></span><br><span class="line">		ArrayList&lt;String&gt; selects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		</span><br><span class="line">		String maxKey;<span class="comment">//找到能覆盖最多未覆盖地区的电台</span></span><br><span class="line">		<span class="keyword">while</span>(!allAreas.isEmpty()) &#123;</span><br><span class="line">			maxKey=<span class="keyword">null</span>;</span><br><span class="line">			HashSet&lt;String&gt; maxSet =<span class="keyword">null</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//遍历一次broadcasts找到maxKey</span></span><br><span class="line">			<span class="keyword">for</span>(String key:broadcasts.keySet()) &#123;</span><br><span class="line">				<span class="comment">//设定一个中间值存放遍历到的set，因为后续会对其进行修改</span></span><br><span class="line">				HashSet&lt;String&gt; tempHashSet=broadcasts.get(key);</span><br><span class="line">				<span class="comment">//allAreas剩余地区和某电台能包含地区的交集</span></span><br><span class="line">				tempHashSet.retainAll(allAreas);</span><br><span class="line">				System.out.println(tempHashSet);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//如果当前这个集合包含的未覆盖地区的数量比maxSet的集合还多，则重置maxKey</span></span><br><span class="line">				<span class="keyword">if</span>((tempHashSet.size()&gt;<span class="number">0</span>)&amp;&amp; (maxKey==<span class="keyword">null</span>|| tempHashSet.size() &gt; maxSet.size())) &#123;</span><br><span class="line">					maxKey=key;</span><br><span class="line">					maxSet=tempHashSet;</span><br><span class="line">					System.out.println(maxSet);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//若找到maxKey，就加入selects</span></span><br><span class="line">			<span class="keyword">if</span>(maxKey!=<span class="keyword">null</span>) &#123;</span><br><span class="line">				selects.add(maxKey);</span><br><span class="line">				allAreas.removeAll(broadcasts.get(maxKey));</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(allAreas);</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(selects);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/03/09/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" title="五大常用算法">http://example.com/2022/03/09/五大常用算法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/" rel="prev" title="C语言复习">
+      <i class="fa fa-chevron-left"></i> C语言复习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/09/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" rel="next" title="排序算法">
+      排序算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">分治算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">1.0.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98"><span class="nav-number">1.0.2.</span> <span class="nav-text">经典问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.0.3.</span> <span class="nav-text">基本步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%89%E8%AF%BA%E5%A1%94"><span class="nav-number">1.0.4.</span> <span class="nav-text">汉诺塔</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">动态规划算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3-1"><span class="nav-number">2.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">背包问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%8101%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%EF%BC%9A%E8%A3%85%E5%85%A5%E7%89%A9%E5%93%81%E4%B8%8D%E8%83%BD%E9%87%8D%E5%A4%8D"><span class="nav-number">2.2.1.</span> <span class="nav-text">一、01背包问题：装入物品不能重复</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90%E5%92%8C%E5%9B%BE%E8%A7%A3"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">思路分析和图解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%9D%9E01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%EF%BC%9A%E8%A3%85%E5%85%A5%E7%89%A9%E5%93%81%E5%8F%AF%E9%87%8D%E5%A4%8D"><span class="nav-number">2.2.2.</span> <span class="nav-text">二、非01背包问题：装入物品可重复</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">算法思路</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E5%9B%BE%E8%A7%A3"><span class="nav-number">2.2.3.</span> <span class="nav-text">过程图解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">2.2.4.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">贪心算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E9%9B%86%E5%90%88%E8%A6%86%E7%9B%96"><span class="nav-number">3.1.</span> <span class="nav-text">经典题目——集合覆盖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-number">3.1.1.</span> <span class="nav-text">思路分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="nav-number">3.1.2.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

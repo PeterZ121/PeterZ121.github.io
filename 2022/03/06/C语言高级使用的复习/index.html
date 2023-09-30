@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon1.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、命令行参数章节：13.7 使C程序能够接受命令行参数： 123int main(int argc,char* argv[])&amp;#123;    ...&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言复习">
+<meta property="og:url" content="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="南浔">
+<meta property="og:description" content="一、命令行参数章节：13.7 使C程序能够接受命令行参数： 123int main(int argc,char* argv[])&amp;#123;    ...&amp;#125;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/03/25/3dFsIV9cNu7evRf.png">
+<meta property="og:image" content="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/ImgForTypora/QQ截图20220407180819-1649326156662.png">
+<meta property="og:image" content="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/ImgForTypora/QQ截图20220402163805.png">
+<meta property="og:image" content="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/ImgForTypora/QQ截图20220402163822.png">
+<meta property="og:image" content="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/image-20220712105056168.png">
+<meta property="article:published_time" content="2022-03-06T07:55:49.000Z">
+<meta property="article:modified_time" content="2023-09-30T06:49:07.985Z">
+<meta property="article:author" content="南浔">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/25/3dFsIV9cNu7evRf.png">
+
+<link rel="canonical" href="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C语言复习 | 南浔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">南浔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/peterz121" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="南浔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="南浔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-06 15:55:49" itemprop="dateCreated datePublished" datetime="2022-03-06T15:55:49+08:00">2022-03-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-30 14:49:07" itemprop="dateModified" datetime="2023-09-30T14:49:07+08:00">2023-09-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、命令行参数"><a href="#一、命令行参数" class="headerlink" title="一、命令行参数"></a>一、命令行参数</h2><p>章节：13.7</p>
+<p>使C程序能够接受命令行参数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span>* argv[])</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<ul>
+<li>argc：命令行参数的数量</li>
+<li>argv：指向命令行参数的<strong>指针数组</strong>（数组元素为指针，指向一些字符串）。argv[0]指向程序名，argv[1~n-1]指向各参数。argv[argc]始终为空指针。最大的反对法</li>
+</ul>
+<h4 id="1-getopt函数"><a href="#1-getopt函数" class="headerlink" title="1) getopt函数"></a>1) getopt函数</h4><ul>
+<li><p>在Linux中，用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=命令行&amp;spm=1001.2101.3001.7020">命令行</a>执行可执行文件时可能会涉及到给其加入<strong>不同的参数</strong>的问题———》用<strong>getopt()函数+switch语句</strong>解决</p>
+</li>
+<li><p>```c</p>
+<h1 id="include"><a href="#include" class="headerlink" title="include "></a>include <unistd.h></unistd.h></h1><p>int getopt(int argc,char <em>const argv[],const char </em>optstring);</p>
+<p>extern char *optarg;<br>extern int optind, opterr, optopt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 参数：</span><br><span class="line">  - argc 、argv[]是从main传递来的参数</span><br><span class="line">  - optstring：一个包含正确的参数选项字符串，用于参数的解析。例如 “`abc:`”，其中 -a，-b 就表示两个普通选项，-c 表示一个**必须有参数**的选项，因为它后面有一个冒号</span><br><span class="line"></span><br><span class="line">- 返回值：</span><br><span class="line"></span><br><span class="line">  - 选项成功找到：返回选项字母</span><br><span class="line">  - 所有选项解析完毕：返回-1</span><br><span class="line">  - 选项不在optstring中：返回`?`</span><br><span class="line">  - 如果遇到丢失参数，那么返回值依赖于 optstring 中第一个字符，如果第一个字符是 &#x27;:&#x27; 则返回&#x27;:&#x27;，否则返回&#x27;?&#x27;并提示出错误信息。</span><br><span class="line"></span><br><span class="line">- 外部变量说明：</span><br><span class="line"></span><br><span class="line">  - optarg：如果某个选项有参数，这包含当前选项的参数字符串</span><br><span class="line">  - optind：argv 的当前索引值</span><br><span class="line">  - opterr：正常运行状态下为 0。非零时表示存在无效选项或者缺少选项参数，并输出其错误信息</span><br><span class="line">  - optopt：当发现无效选项字符时，即 getopt() 方法返回 ? 字符，optopt 中包含的就是发现的无效选项字符</span><br><span class="line"></span><br><span class="line">- 实例代码：</span><br><span class="line"></span><br><span class="line">  ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;unistd.h&gt;</span><br><span class="line">   </span><br><span class="line">  int main(int argc, char *argv[]) &#123;</span><br><span class="line">      int o;</span><br><span class="line">      const char *optstring = &quot;abc:&quot;; // 有三个选项-abc，其中c选项后有冒号，所以后面必须有参数</span><br><span class="line">      while ((o = getopt(argc, argv, optstring)) != -1) &#123;</span><br><span class="line">          switch (o) &#123;</span><br><span class="line">              case &#x27;a&#x27;:</span><br><span class="line">                  printf(&quot;opt is a, oprarg is: %s\n&quot;, optarg);</span><br><span class="line">                  break;</span><br><span class="line">              case &#x27;b&#x27;:</span><br><span class="line">                  printf(&quot;opt is b, oprarg is: %s\n&quot;, optarg);</span><br><span class="line">                  break;</span><br><span class="line">              case &#x27;c&#x27;:</span><br><span class="line">                  printf(&quot;opt is c, oprarg is: %s\n&quot;, optarg);</span><br><span class="line">                  break;</span><br><span class="line">              case &#x27;?&#x27;:</span><br><span class="line">                  printf(&quot;error optopt: %c\n&quot;, optopt);</span><br><span class="line">                  printf(&quot;error opterr: %d\n&quot;, opterr);</span><br><span class="line">                  break;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="二、代码编译、程序组建"><a href="#二、代码编译、程序组建" class="headerlink" title="二、代码编译、程序组建"></a>二、代码编译、程序组建</h2><p>章节：15</p>
+<ul>
+<li>源文件：<code>.c</code> ；</li>
+<li>头文件：<code>.h</code>；存放宏定义、类型定义、函数、变量申明</li>
+<li>编译：<strong>编译器</strong>对每个源文件进行编译生成<strong>机器指令</strong>（编译包含头文件的源文件时，会自动编译头文件）——》目标文件：<code>.o</code>或<code>.obj</code>。<strong>每个源文件对应一个目标文件（很多个目标模块）</strong></li>
+<li>链接：<strong>链接器</strong>把编译器生成的目标代码和依赖的任何其他代码（函数调用中调用的库函数）整合起来（连接各个模块），最终生成<strong>可执行文件</strong></li>
+</ul>
+<p><img src="https://s2.loli.net/2022/03/25/3dFsIV9cNu7evRf.png" alt="QQ截图20220325105915.png"></p>
+<p><img src="/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/ImgForTypora/QQ截图20220407180819-1649326156662.png" alt="QQ截图20220407180819"></p>
+<p>GCC编译器一步构建：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o 可执行文件名 justify.c line.c word.c</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>为了易于构建大型程序，产生了<strong>makefile</strong>的概念</p>
+<ul>
+<li><p>makefile不但列出属于程序的文件，而且描述文件间的依赖关系</p>
+</li>
+<li><p>```<br>justify： justify.o word.o line.o</p>
+<pre><code>gcc -o justify justify.o word.o line.o
+</code></pre><p>justify.o： justify.c word.h line.h</p>
+<pre><code>gcc -c justify.c
+</code></pre><p>word.o： word.c word.h</p>
+<pre><code>gcc -c word.c
+</code></pre><p>line.o： line.c line.h</p>
+<pre><code>gcc -c line.c
+</code></pre><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 有4组代码行，每组为一条**规则**，每条规则冒号前给出**目标文件名**，冒号后面给出该文件所**依赖的文件**，第二行是**待执行的命令**</span><br><span class="line"></span><br><span class="line">- 一旦我们为一个程序创建了生成文件, 我们就能使用 make 构建程序。</span><br><span class="line"></span><br><span class="line">- 通过检查每个文件的时间和日期，make 能够确定哪些文件已经过时。于是调用必要的命令再造程序。</span><br><span class="line"></span><br><span class="line">- 生成文件中的每一个命令的前面必须是一个**制表符**，不是一系列空格。</span><br><span class="line"></span><br><span class="line">- 生成文件通常名为Makefile (或 makefile)。</span><br><span class="line"></span><br><span class="line">- 当使用 make 时，它自动地在当前路径中检查具有这样的名字的文件。</span><br><span class="line"></span><br><span class="line">- 要调用 make, 使用命令：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>make 目标</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    ​	目标是列在makefile文件中的目标文件。</span><br><span class="line"></span><br><span class="line">    如果调用make时没有指定目标，它将构建第一个规则的目标。</span><br><span class="line">    除了第一个规则的这个特性， makefile里的其他规则的顺序是任意的。</span><br><span class="line"></span><br><span class="line">    makefile文件的替代物包括某些集成开发环境支持的工程文件。</span><br><span class="line"></span><br><span class="line">## 三、结构与联合</span><br><span class="line"></span><br><span class="line">章节：16.1~16.4</span><br><span class="line"></span><br><span class="line">- 对结构可进行**复制操作**</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">struct part&#123;</span><br><span class="line">    int number;</span><br><span class="line">    char name[NAME_LEN+1];</span><br><span class="line">    int on_hand</span><br><span class="line">&#125;part1=&#123;528,&quot;Disk driver&quot;,10&#125;;</span><br><span class="line"></span><br><span class="line">struct part part2=part1;</span><br><span class="line">//part2获得par1的所有内容的副本，两者拥有不同的内存空间</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>结构的每一个成员单独占用空间，且采取<strong>内存对齐</strong></p>
+</li>
+<li><p>联合：编译器<strong>只为其中最大的成员分配内存空间</strong>，其他成员共享。能极大的节省内存空间。</p>
+</li>
+</ul>
+<h2 id="四、动态内存分配-malloc"><a href="#四、动态内存分配-malloc" class="headerlink" title="四、动态内存分配-malloc"></a>四、动态内存分配-malloc</h2><p>章节：17.1~17.4</p>
+<ul>
+<li>malloc返回的类型是void *通用指针，将通用指针赋给其他变量时，会自动转化为对应类型</li>
+<li>在堆中占用内存结束后，要free(p);</li>
+</ul>
+<h3 id="1-动态分配字符串"><a href="#1-动态分配字符串" class="headerlink" title="1.动态分配字符串"></a>1.动态分配字符串</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>* p=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(n+<span class="number">1</span>);<span class="comment">//最后一个空间留给空指针</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-动态分配数组"><a href="#2-动态分配数组" class="headerlink" title="2. 动态分配数组"></a>2. 动态分配数组</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* a =<span class="built_in">malloc</span>(n*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="五、函数指针"><a href="#五、函数指针" class="headerlink" title="五、函数指针"></a>五、函数指针</h2><ol>
+<li><p><strong>1、函数指针定义格式：类型名</strong> (<strong>*函数名)</strong>(<strong>函数参数列表</strong>);</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> (*pfun)(<span class="built_in">int</span>, <span class="built_in">int</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设一个数组a[10]，a[2]表示对该数组第三个元素的调用，a表示指向该数组首址的指针。类似的：定义一个函数指针<code>int (*f)(int a,int b)</code>，f(1,2)是对函数的调用，而f就是一个指向函数的指针：函数指针</p>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="keyword">void</span> (*pfun)(<span class="keyword">int</span> data);<span class="comment">//定义函数指针,变量名可省略，只保留形参类型</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myfun</span><span class="params">(<span class="keyword">int</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;get data:%d\n&quot;</span>,data);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	pfun = myfun;<span class="comment">//将函数指针指向Myfun函数的内存空间</span></span><br><span class="line">	(*pfun)(<span class="number">100</span>);<span class="comment">//=myfun(100)=pfun(100);</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">从这个例子可以看到，我们首先定义了一个函数指针pfun ,这个函数指针的返回值为<span class="keyword">void</span>型,然后我们给函数指针赋值，赋值为myfun,也就是myfun函数的首地址，在C99中myfun函数名就是myfun函数的首地址，此时pfun获得了myfun的地址，pfun的地址等于myfun的地址，所以最终调用pfun();也就相当于调用了myfun();</span><br><span class="line"></span><br><span class="line">第二种用法：<span class="keyword">typedef</span> 原变量类型 别名</span><br><span class="line">也可以用<span class="keyword">typedef</span>来定义一个指针函数这样使在大型代码中更加简洁</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*pfun)</span><span class="params">(<span class="keyword">int</span> data)</span> pfun</span>;</span><br><span class="line"><span class="comment">/*typedef的功能是定义新的类型。第一句就是定义了一种pfun的类型，并定义这种类型为指向某种函数的指针，这种函数以一个int为参数并返回void类型。*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myfun</span><span class="params">(<span class="keyword">int</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;get data:%d\n&quot;</span>,data);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	pfun p= myfun;      <span class="comment">//函数指针指向执行函数的地址</span></span><br><span class="line">	p(<span class="number">100</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">这里面的pfun代表的是函数的类型，通过pfun来代表<span class="keyword">void</span> (*)(<span class="keyword">int</span>)函数类型即pfun是指针函数的别名，pfun p相当于定义了一个</span><br><span class="line"><span class="keyword">void</span> (*p)(<span class="keyword">int</span>)函数指针。p = myfun可以理解为将函数指针p指向myfun函数的地址，p(<span class="number">100</span>);相当于执行myfun(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">第三种用结构体函数指针的方法</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">gfun</span>&#123;</span></span><br><span class="line">	<span class="keyword">void</span> (*pfun)(<span class="keyword">int</span>);	</span><br><span class="line">&#125;gfun;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myfun</span><span class="params">(<span class="keyword">int</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;get data:%d\n&quot;</span>,data);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	gfun gcode=&#123;</span><br><span class="line">		.pfun = myfun,   <span class="comment">//将函数指针指向要调用函数的地址</span></span><br><span class="line">	&#125;;</span><br><span class="line">	gcode.pfun(<span class="number">100</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">//三种方法运行结果一样</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>举例：qsort函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">qsort</span><span class="params">(<span class="keyword">void</span> *base,<span class="keyword">size_t</span> nmemb,<span class="keyword">size_t</span> size,</span></span></span><br><span class="line"><span class="params"><span class="function">          <span class="keyword">int</span> (*compar)(<span class="keyword">const</span> <span class="keyword">void</span> *,<span class="keyword">const</span> <span class="keyword">void</span> *))</span></span>;</span><br><span class="line"><span class="comment">//compare是指向比较函数的指针</span></span><br><span class="line"><span class="comment">//对该函数的调用</span></span><br><span class="line">qsort(inventory,nm_parts,<span class="keyword">sizeof</span>(struct part),compare_parts);<span class="comment">//compare_parts是函数名称</span></span><br></pre></td></tr></table></figure>
+<font color="red">compare_parts函数就是一个回调函数</font>
+
+</li>
+</ol>
+<h2 id="六、复杂声明与相关的类型定义"><a href="#六、复杂声明与相关的类型定义" class="headerlink" title="六、复杂声明与相关的类型定义"></a>六、复杂声明与相关的类型定义</h2><ol>
+<li>C语言允许在函数声明中省略形式参数的名字，如上的函数指针定义</li>
+<li>如何解释复杂声明<ul>
+<li>从内往外读声明符</li>
+<li>在做选择时，始终使[]和()优先于*</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">如：<span class="keyword">int</span> *(*x[<span class="number">10</span>])(<span class="keyword">void</span>);</span><br><span class="line"><span class="comment">//x[]是一个指针数组，取x[10]指针指向的数据——一个不带实际参数，返回值为int指针的函数</span></span><br></pre></td></tr></table></figure>
+<p>详见书p468</p>
+<ol>
+<li><p>使用类型定义简化声明</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">对于<span class="keyword">int</span> *(*x[<span class="number">10</span>])(<span class="keyword">void</span>);</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="keyword">int</span> *<span class="title">func</span><span class="params">(<span class="keyword">void</span>)</span></span>;<span class="comment">//表示func是int *(void)的别名,则func变为不带实际参数，返回值为int指针的函数</span></span><br><span class="line"><span class="keyword">typedef</span> func *func_ptr;<span class="comment">//表示func_ptr是指向func的指针</span></span><br><span class="line"><span class="keyword">typedef</span> func_ptr fcn_ptr_array[<span class="number">10</span>];<span class="comment">//表示fcn_ptr_array是func_ptr[10]的别名</span></span><br><span class="line">fcn_ptr_array x;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="七、错误处理"><a href="#七、错误处理" class="headerlink" title="七、错误处理"></a>七、错误处理</h2><h2 id="八、二进制操作"><a href="#八、二进制操作" class="headerlink" title="八、二进制操作"></a>八、二进制操作</h2><font color="red">对数进行二进制的操作时，尽量使用无符号数，有符号数最高位为`0正1负`，不便操作</font>
+
+<h3 id="1-按位或-逻辑或"><a href="#1-按位或-逻辑或" class="headerlink" title="1. 按位或| 逻辑或||"></a>1. 按位或| 逻辑或||</h3><h3 id="2-按位与-amp"><a href="#2-按位与-amp" class="headerlink" title="2. 按位与&amp;"></a>2. 按位与&amp;</h3><h3 id="3-按位异或"><a href="#3-按位异或" class="headerlink" title="3. 按位异或^"></a>3. 按位异或^</h3><h3 id="4-按位左移-lt-lt-按位右移-gt-gt"><a href="#4-按位左移-lt-lt-按位右移-gt-gt" class="headerlink" title="4. 按位左移&lt;&lt; 按位右移&gt;&gt;"></a>4. 按位左移&lt;&lt; 按位右移&gt;&gt;</h3><p>冗余丢弃，空位补0</p>
+<h3 id="5-按位取反"><a href="#5-按位取反" class="headerlink" title="5. 按位取反~"></a>5. 按位取反~</h3><h3 id="6-按位（或、与、、）与逻辑（或、与、、）的区别"><a href="#6-按位（或、与、、）与逻辑（或、与、、）的区别" class="headerlink" title="6. 按位（或、与、、）与逻辑（或、与、、）的区别"></a>6. 按位（或、与、、）与逻辑（或、与、、）的区别</h3><ul>
+<li><p>按位是对二进制每一位的运算</p>
+</li>
+<li><p>逻辑是判断逻辑上的真假</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1&amp;&amp;2=1  1&amp;2=0</span><br><span class="line">1||2=1  1|2=3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="九、C语言的格式化输出"><a href="#九、C语言的格式化输出" class="headerlink" title="九、C语言的格式化输出"></a>九、C语言的格式化输出</h3><p><img src="/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/ImgForTypora/QQ截图20220402163805.png" alt="QQ截图20220402163805"></p>
+<p><img src="/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/ImgForTypora/QQ截图20220402163822.png" alt="QQ截图20220402163822"></p>
+<h3 id="十、字符串转Int"><a href="#十、字符串转Int" class="headerlink" title="十、字符串转Int"></a>十、字符串转Int</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int i=atoi(string);</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sunjiaoya/article/details/122172596?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164889705916782089352605%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&amp;request_id=164889705916782089352605&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-3-122172596.142^v5^pc_search_insert_es_download,157^v4^control&amp;utm_term=fget&amp;spm=1018.2226.3001.4187">https://blog.csdn.net/sunjiaoya/article/details/122172596?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164889705916782089352605%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&amp;request_id=164889705916782089352605&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-3-122172596.142^v5^pc_search_insert_es_download,157^v4^control&amp;utm_term=fget&amp;spm=1018.2226.3001.4187</a></p>
+<h2 id="十一、sizeof易错点"><a href="#十一、sizeof易错点" class="headerlink" title="十一、sizeof易错点"></a>十一、sizeof易错点</h2><ul>
+<li>sizeof(数组变量)=数组大小</li>
+<li>sizeof(指针变量)=指针大小（依操作系统而定）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> arr=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">char</span> str[]=<span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="keyword">int</span> len_a = <span class="keyword">sizeof</span>(a);<span class="comment">//4</span></span><br><span class="line"><span class="keyword">int</span> len_arr = <span class="keyword">sizeof</span>(arr);<span class="comment">//12</span></span><br><span class="line"><span class="keyword">int</span> len_str = <span class="keyword">sizeof</span>(str);<span class="comment">//6,最后有一个空字符</span></span><br><span class="line"><span class="keyword">int</span> strlen_str=<span class="built_in">strlen</span>(str);<span class="comment">//5,不计空字符</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;len_a=%d,len_arr=%d,len_str=%d\n&quot;</span>,len_a,len_arr,len_str)</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/image-20220712105056168.png" alt="image-20220712105056168"></p>
+<h2 id="十二、常用！！memset和memcpy"><a href="#十二、常用！！memset和memcpy" class="headerlink" title="十二、常用！！memset和memcpy"></a>十二、常用！！memset和memcpy</h2><h3 id="1-memcpy"><a href="#1-memcpy" class="headerlink" title="1. memcpy"></a>1. memcpy</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">memcpy</span><span class="params">(<span class="keyword">void</span> *destin, <span class="keyword">void</span> *source, <span class="keyword">unsigned</span> n)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>以source指向的地址为起点，将连续的n个字节数据，复制到以destin指向的地址为起点的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=内存&amp;spm=1001.2101.3001.7020">内存</a>中。</li>
+<li>常用于字符串数组中字符的修改</li>
+<li>eg：memcpy(buf+4, &amp;len_n, 4);</li>
+</ul>
+<h3 id="2-memset"><a href="#2-memset" class="headerlink" title="2. memset"></a>2. memset</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">memset</span><span class="params">(<span class="keyword">void</span> *s, <span class="keyword">int</span> c, <span class="keyword">size_t</span> n)</span></span>; </span><br></pre></td></tr></table></figure>
+<ul>
+<li>初始化函数，作用是将某一块<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=内存&amp;spm=1001.2101.3001.7020">内存</a>中的全部设置为指定的值</li>
+<li>eg：memset(buf,0,sizeof(buf));</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>南浔
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/03/06/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%8D%E4%B9%A0/" title="C语言复习">http://example.com/2022/03/06/C语言高级使用的复习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+     
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/06/Ubuntu%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84SSH%E9%85%8D%E7%BD%AE/" rel="prev" title="Ubuntu服务器的SSH配置">
+      <i class="fa fa-chevron-left"></i> Ubuntu服务器的SSH配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/09/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" rel="next" title="五大常用算法">
+      五大常用算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">一、命令行参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-getopt%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.1.</span> <span class="nav-text">1) getopt函数</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#include"><span class="nav-number"></span> <span class="nav-text">include </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E3%80%81%E7%A8%8B%E5%BA%8F%E7%BB%84%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">二、代码编译、程序组建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-malloc"><span class="nav-number">2.</span> <span class="nav-text">四、动态内存分配-malloc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.1.</span> <span class="nav-text">1.动态分配字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E6%95%B0%E7%BB%84"><span class="nav-number">2.2.</span> <span class="nav-text">2. 动态分配数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="nav-number">3.</span> <span class="nav-text">五、函数指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%A4%8D%E6%9D%82%E5%A3%B0%E6%98%8E%E4%B8%8E%E7%9B%B8%E5%85%B3%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="nav-number">4.</span> <span class="nav-text">六、复杂声明与相关的类型定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">七、错误处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">八、二进制操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%8C%89%E4%BD%8D%E6%88%96-%E9%80%BB%E8%BE%91%E6%88%96"><span class="nav-number">6.1.</span> <span class="nav-text">1. 按位或| 逻辑或||</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%8C%89%E4%BD%8D%E4%B8%8E-amp"><span class="nav-number">6.2.</span> <span class="nav-text">2. 按位与&amp;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%8C%89%E4%BD%8D%E5%BC%82%E6%88%96"><span class="nav-number">6.3.</span> <span class="nav-text">3. 按位异或^</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%8C%89%E4%BD%8D%E5%B7%A6%E7%A7%BB-lt-lt-%E6%8C%89%E4%BD%8D%E5%8F%B3%E7%A7%BB-gt-gt"><span class="nav-number">6.4.</span> <span class="nav-text">4. 按位左移&lt;&lt; 按位右移&gt;&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%8C%89%E4%BD%8D%E5%8F%96%E5%8F%8D"><span class="nav-number">6.5.</span> <span class="nav-text">5. 按位取反~</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%8C%89%E4%BD%8D%EF%BC%88%E6%88%96%E3%80%81%E4%B8%8E%E3%80%81%E3%80%81%EF%BC%89%E4%B8%8E%E9%80%BB%E8%BE%91%EF%BC%88%E6%88%96%E3%80%81%E4%B8%8E%E3%80%81%E3%80%81%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.6.</span> <span class="nav-text">6. 按位（或、与、、）与逻辑（或、与、、）的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%9D%E3%80%81C%E8%AF%AD%E8%A8%80%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="nav-number">6.7.</span> <span class="nav-text">九、C语言的格式化输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%ACInt"><span class="nav-number">6.8.</span> <span class="nav-text">十、字符串转Int</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81sizeof%E6%98%93%E9%94%99%E7%82%B9"><span class="nav-number">7.</span> <span class="nav-text">十一、sizeof易错点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%B8%B8%E7%94%A8%EF%BC%81%EF%BC%81memset%E5%92%8Cmemcpy"><span class="nav-number">8.</span> <span class="nav-text">十二、常用！！memset和memcpy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-memcpy"><span class="nav-number">8.1.</span> <span class="nav-text">1. memcpy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-memset"><span class="nav-number">8.2.</span> <span class="nav-text">2. memset</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="南浔"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">南浔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">南浔</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
